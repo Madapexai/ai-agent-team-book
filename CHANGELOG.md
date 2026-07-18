@@ -1,5 +1,22 @@
 # Changelog
 
+## [v1.1.3] - 2026-07-18
+
+### Fixed (content editorial review — see REVIEW.md)
+- **Terminology unified**: all `Subagents` / `Subagent` / `sub-Agent` / `SubAgent` variants across `zh/*.md` and `en/*.md` normalized to `Sub-Agent` / `Sub-Agents`
+- **ch01**: resolved Boris Cherny event date contradiction (was "June 2026" vs "same month May 20"); both events now May 2026
+- **ch03**: unified the two cost diagrams' inference-model price to `$0.15–$0.90/M tokens` (was 10× off) and moved the second diagram into the body
+- **ch12**: softened "models never changed" → "model family / routing strategy never changed" (reconciles with ch13 multi-model routing); aligned Skill-promotion threshold (3→5) and dream-trigger time (midnight→2 a.m.) with the rest of the book
+- **ch13**: clarified the `$847` cost breakdown is the post-incident baseline (the `$312.44` qclaw loop is one-off, not in the breakdown); clarified 43% (monthly) vs 62% (weekly) budget-remaining; fixed a bash loop bug (`kai kai_cost rex rex_cost max max_cost` → `kai rex max`); noted Rex's `$5` vs `$15` daily cap
+- **ch15**: fixed a reversed core thesis in the English edition ("Spend time, not money" → "Spend money, not time"); aligned human-cost figure to ¥3,200 (≈$444) and the ROI printout with the comparison table
+- **ch16**: aligned the chapter summary with the body's actual fix (strict System Prompt isolation, not "Inspector + honeypot")
+- **ch17 / ch20**: fixed chapter summaries that contradicted the body (protocol layers; evolution bottlenecks)
+- **ch21**: corrected "5 main + 5 sub" → "4 main + 6 sub" to match the YAML; aligned `total_monthly_cap` to 1500 with a clarifying comment; fixed Boris Cherny title (CEO→Chief Product Officer), the "Chapter 17"→"Chapter 20" cross-reference, the single-Agent cost range ($50–$500), and filled the empty closing summary
+- **ch08 / ch09**: fixed handoff status `merged`→`committed` (not in the enum); made the check-in scan `grep`/`date` commands cross-platform and case-consistent
+- **ch10**: renamed the Inspector's self-name `Monitor`→`Inspector` to avoid colliding with ch21's Monitor agent
+- **Preface**: "Old K / Mini M" → `Kai` / `Max`
+- **Corrupted image alt text** in `zh/02, 04, 06, 07, 08, 12, 16, 20, 21` rewritten (placeholder commas, `addCriterion` template residue, truncated text)
+
 ## [v1.1.2] - 2026-07-18
 
 ### Fixed

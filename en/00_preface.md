@@ -10,7 +10,7 @@ It started with a bold idea — "Why not build an AI Agent team?" — and ran th
 
 What this book wants to do is tell that story in a way you can actually follow.
 
-I wrote it with a humanized, story-driven style. You'll meet "Old K" — the Agent who's always overconfident; you'll get to know "Mini M" — the Agent with a phenomenal memory that occasionally mixes things up. You'll see how they learn to collaborate under the Inspector's watchful eye, how they find their place in a goal-oriented framework, and how they repair themselves after a crash. The names are fictional, but the governance logic, the management methods, and the pitfalls behind the stories are all real.
+I wrote it with a humanized, story-driven style. You'll meet "Kai" — the Agent who's always overconfident; you'll get to know "Max" — the Agent with a phenomenal memory that occasionally mixes things up. You'll see how they learn to collaborate under the Inspector's watchful eye, how they find their place in a goal-oriented framework, and how they repair themselves after a crash. The names are fictional, but the governance logic, the management methods, and the pitfalls behind the stories are all real.
 
 The value of an Agent team isn't in how many people it replaces — it's in the new possibilities it opens up for you. When your Agent team truly works, you'll find yourself shifting from doer to commander. Your time gets freed up to spend on the things that genuinely require human judgment.
 

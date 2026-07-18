@@ -13,7 +13,7 @@
   <text x="225" y="130" fill="#1f3a5f" font-size="17" font-weight="700" text-anchor="middle">API / Token 单价</text>
   <text x="60" y="170" fill="#475569" font-size="15">推理模型 (Claude/GPT)</text>
   <line x1="270" y1="165" x2="300" y2="165" stroke="#4a90d9" stroke-width="2" marker-end="url(#arrowCost)"/>
-  <text x="308" y="170" fill="#1f3a5f" font-size="15" font-weight="700">$0.15–0.90/M</text>
+  <text x="308" y="170" fill="#1f3a5f" font-size="15" font-weight="700">$0.15–$0.90/M</text>
   <text x="60" y="210" fill="#475569" font-size="15">快速模型 (Haiku/4o-mini)</text>
   <line x1="270" y1="205" x2="300" y2="205" stroke="#4a90d9" stroke-width="2" marker-end="url(#arrowCost)"/>
   <text x="308" y="210" fill="#1f3a5f" font-size="15" font-weight="700">$0.03–0.15/M</text>

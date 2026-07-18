@@ -9,7 +9,7 @@
   <rect x="40" y="128" width="370" height="16" fill="#4a90d9"/>
   <text x="225" y="129" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">API / Token Spend</text>
   <text x="60" y="180" fill="#475569" font-size="15">• Inference (Claude/GPT)</text>
-  <text x="60" y="202" fill="#1f3a5f" font-size="15" font-weight="700">   $0.15 – 9.0 / M tokens</text>
+  <text x="60" y="202" fill="#1f3a5f" font-size="15" font-weight="700">   $0.15 – $0.90 / M tokens</text>
   <text x="60" y="240" fill="#475569" font-size="15">• Fast (Haiku/4o-mini)</text>
   <text x="60" y="262" fill="#1f3a5f" font-size="15" font-weight="700">   $0.03 – 0.15 / M</text>
   <text x="60" y="300" fill="#475569" font-size="15">• Embedding / vector</text>
