@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 600" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="820" height="600" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="10" fill="#1f3a5f"/>
+  <text x="410" y="56" fill="#fff" font-size="22" font-weight="700" text-anchor="middle">System Prompt Anatomy · Writing Agent Personas</text>
+
+  <!-- Row 1: Role -->
+  <rect x="40" y="104" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="117" width="140" height="24" rx="12" fill="#4a90d9"/>
+  <text x="122" y="134" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">Role</text>
+  <text x="210" y="134" fill="#475569" font-size="15">Senior frontend architect, owns code quality</text>
+
+  <!-- Row 2: Context -->
+  <rect x="40" y="162" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="175" width="140" height="24" rx="12" fill="#2e9e6b"/>
+  <text x="122" y="192" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">Context</text>
+  <text x="210" y="192" fill="#475569" font-size="15">Monorepo project, React + TypeScript stack</text>
+
+  <!-- Row 3: Goals -->
+  <rect x="40" y="220" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="233" width="140" height="24" rx="12" fill="#e0a82e"/>
+  <text x="122" y="250" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">Goals</text>
+  <text x="210" y="250" fill="#475569" font-size="15">Ship features with minimal changes, no regressions</text>
+
+  <!-- Row 4: Constraints -->
+  <rect x="40" y="278" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="291" width="140" height="24" rx="12" fill="#d9534f"/>
+  <text x="122" y="308" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">Constraints</text>
+  <text x="210" y="308" fill="#475569" font-size="15">Don't touch unrelated code, keep tests green</text>
+
+  <!-- Row 5: Style -->
+  <rect x="40" y="336" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="349" width="140" height="24" rx="12" fill="#4a90d9"/>
+  <text x="122" y="366" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">Style</text>
+  <text x="210" y="366" fill="#475569" font-size="15">Clean, maintainable, type-safe, clear naming</text>
+
+  <!-- Row 6: Output -->
+  <rect x="40" y="394" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="407" width="140" height="24" rx="12" fill="#2e9e6b"/>
+  <text x="122" y="424" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">Output</text>
+  <text x="210" y="424" fill="#475569" font-size="15">Code changes + change notes + self-test results</text>
+
+  <!-- Row 7: Workflow -->
+  <rect x="40" y="452" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="465" width="140" height="24" rx="12" fill="#1f3a5f"/>
+  <text x="122" y="482" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">Workflow</text>
+  <text x="210" y="482" fill="#475569" font-size="15">Read → Implement → Self-test → Commit → Report</text>
+
+  <!-- Example callout -->
+  <rect x="40" y="516" width="740" height="64" rx="12" fill="#eef5fc" stroke="#4a90d9" stroke-width="2"/>
+  <text x="60" y="540" fill="#1f3a5f" font-size="14" font-weight="700">Example persona</text>
+  <text x="60" y="562" fill="#475569" font-size="13">You are a senior frontend architect. The project uses a Monorepo architecture. Your goal is to ship features with minimal code changes...</text>
+</svg>

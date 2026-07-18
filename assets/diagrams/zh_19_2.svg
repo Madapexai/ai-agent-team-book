@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 560" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="820" height="560" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="55" fill="#ffffff" font-size="22" font-weight="700" text-anchor="middle">MCP 集成小结 · 数据流</text>
+
+  <!-- arrows -->
+  <line x1="160" y1="300" x2="178" y2="300" stroke="#94a3b8" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="320" y1="300" x2="338" y2="300" stroke="#94a3b8" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="480" y1="300" x2="498" y2="300" stroke="#94a3b8" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="640" y1="300" x2="658" y2="300" stroke="#94a3b8" stroke-width="3" marker-end="url(#arr)"/>
+
+  <!-- 1 Tools -->
+  <rect x="20" y="220" width="140" height="160" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="20" y="220" width="140" height="34" rx="12" fill="#4a90d9"/>
+  <rect x="20" y="238" width="140" height="16" fill="#4a90d9"/>
+  <text x="90" y="242" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">工具 Tools</text>
+  <text x="90" y="288" fill="#475569" font-size="12" text-anchor="middle">GitHub</text>
+  <text x="90" y="310" fill="#475569" font-size="12" text-anchor="middle">数据库</text>
+  <text x="90" y="332" fill="#475569" font-size="12" text-anchor="middle">云服务</text>
+  <text x="90" y="354" fill="#475569" font-size="12" text-anchor="middle">向量库…</text>
+
+  <!-- 2 MCP Server -->
+  <rect x="180" y="220" width="140" height="160" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="180" y="220" width="140" height="34" rx="12" fill="#2e9e6b"/>
+  <rect x="180" y="238" width="140" height="16" fill="#2e9e6b"/>
+  <text x="250" y="242" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">MCP Server</text>
+  <text x="250" y="288" fill="#475569" font-size="12" text-anchor="middle">注册 register</text>
+  <text x="250" y="310" fill="#475569" font-size="12" text-anchor="middle">鉴权 auth</text>
+  <text x="250" y="332" fill="#475569" font-size="12" text-anchor="middle">限流 · 日志</text>
+
+  <!-- 3 MCP Protocol (highlight) -->
+  <rect x="340" y="210" width="140" height="180" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="252" fill="#ffffff" font-size="15" font-weight="700" text-anchor="middle">MCP 协议层</text>
+  <text x="410" y="276" fill="#ffffff" font-size="12" text-anchor="middle">Protocol Layer</text>
+  <text x="410" y="312" fill="#cbd5e1" font-size="12" text-anchor="middle">统一语言</text>
+  <text x="410" y="334" fill="#cbd5e1" font-size="12" text-anchor="middle">连接一切</text>
+  <text x="410" y="360" fill="#cbd5e1" font-size="11" text-anchor="middle">one standard</text>
+
+  <!-- 4 Agent Runtime -->
+  <rect x="500" y="220" width="140" height="160" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="500" y="220" width="140" height="34" rx="12" fill="#4a90d9"/>
+  <rect x="500" y="238" width="140" height="16" fill="#4a90d9"/>
+  <text x="570" y="242" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">Agent Runtime</text>
+  <text x="570" y="288" fill="#475569" font-size="12" text-anchor="middle">发现 discover</text>
+  <text x="570" y="310" fill="#475569" font-size="12" text-anchor="middle">调用 call</text>
+  <text x="570" y="332" fill="#475569" font-size="12" text-anchor="middle">解析 parse</text>
+
+  <!-- 5 Agents -->
+  <rect x="660" y="220" width="140" height="160" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="660" y="220" width="140" height="34" rx="12" fill="#e0a82e"/>
+  <rect x="660" y="238" width="140" height="16" fill="#e0a82e"/>
+  <text x="730" y="242" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">Agents</text>
+  <text x="730" y="288" fill="#475569" font-size="12" text-anchor="middle">Coding</text>
+  <text x="730" y="310" fill="#475569" font-size="12" text-anchor="middle">Review</text>
+  <text x="730" y="332" fill="#475569" font-size="12" text-anchor="middle">Testing…</text>
+
+  <text x="410" y="450" fill="#475569" font-size="13" text-anchor="middle">一个统一标准，让 Agent 高效连接并协作所有外部工具</text>
+  <text x="410" y="478" fill="#475569" font-size="12" text-anchor="middle">one standard interface — efficient connection &amp; collaboration with every tool</text>
+</svg>

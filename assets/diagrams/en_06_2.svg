@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 560" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="820" height="560" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="10" fill="#1f3a5f"/>
+  <text x="410" y="56" fill="#fff" font-size="22" font-weight="700" text-anchor="middle">Agent Role System · Scope &amp; Boundaries</text>
+
+  <!-- Coding Agent -->
+  <rect x="40" y="96" width="233" height="376" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="40" y="96" width="233" height="48" rx="12" fill="#4a90d9"/>
+  <rect x="40" y="132" width="233" height="12" fill="#4a90d9"/>
+  <text x="156" y="128" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">Coding Agent</text>
+  <text x="60" y="170" fill="#1f3a5f" font-size="14" font-weight="700">Scope</text>
+  <circle cx="62" cy="194" r="4" fill="#4a90d9"/>
+  <text x="76" y="199" fill="#475569" font-size="13">Implements code</text>
+  <circle cx="62" cy="218" r="4" fill="#4a90d9"/>
+  <text x="76" y="223" fill="#475569" font-size="13">Writes &amp; runs tests</text>
+  <circle cx="62" cy="242" r="4" fill="#4a90d9"/>
+  <text x="76" y="247" fill="#475569" font-size="13">Commits to repo</text>
+  <circle cx="62" cy="266" r="4" fill="#4a90d9"/>
+  <text x="76" y="271" fill="#475569" font-size="13">Acts on review notes</text>
+  <rect x="56" y="300" width="201" height="150" rx="10" fill="#fdeceb" stroke="#d9534f" stroke-width="2"/>
+  <text x="156" y="328" fill="#d9534f" font-size="14" font-weight="700" text-anchor="middle">Boundary</text>
+  <text x="156" y="360" fill="#475569" font-size="13" text-anchor="middle">Doesn't review</text>
+  <text x="156" y="388" fill="#475569" font-size="13" text-anchor="middle">its own code</text>
+  <text x="156" y="416" fill="#475569" font-size="13" text-anchor="middle">hands off to Review</text>
+
+  <!-- Review Agent -->
+  <rect x="293" y="96" width="233" height="376" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="293" y="96" width="233" height="48" rx="12" fill="#2e9e6b"/>
+  <rect x="293" y="132" width="233" height="12" fill="#2e9e6b"/>
+  <text x="409" y="128" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">Review Agent</text>
+  <text x="313" y="170" fill="#1f3a5f" font-size="14" font-weight="700">Scope</text>
+  <circle cx="315" cy="194" r="4" fill="#2e9e6b"/>
+  <text x="329" y="199" fill="#475569" font-size="13">Reviews code quality</text>
+  <circle cx="315" cy="218" r="4" fill="#2e9e6b"/>
+  <text x="329" y="223" fill="#475569" font-size="13">Suggests improvements</text>
+  <circle cx="315" cy="242" r="4" fill="#2e9e6b"/>
+  <text x="329" y="247" fill="#475569" font-size="13">Flags risks</text>
+  <circle cx="315" cy="266" r="4" fill="#2e9e6b"/>
+  <text x="329" y="271" fill="#475569" font-size="13">Checks conventions</text>
+  <rect x="309" y="300" width="201" height="150" rx="10" fill="#fdeceb" stroke="#d9534f" stroke-width="2"/>
+  <text x="409" y="328" fill="#d9534f" font-size="14" font-weight="700" text-anchor="middle">Boundary</text>
+  <text x="409" y="360" fill="#475569" font-size="13" text-anchor="middle">Never touches code</text>
+  <text x="409" y="388" fill="#475569" font-size="13" text-anchor="middle">only suggests</text>
+  <text x="409" y="416" fill="#475569" font-size="13" text-anchor="middle">no edits for Coding</text>
+
+  <!-- Testing Agent -->
+  <rect x="546" y="96" width="233" height="376" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="546" y="96" width="233" height="48" rx="12" fill="#e0a82e"/>
+  <rect x="546" y="132" width="233" height="12" fill="#e0a82e"/>
+  <text x="662" y="128" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">Testing Agent</text>
+  <text x="566" y="170" fill="#1f3a5f" font-size="14" font-weight="700">Scope</text>
+  <circle cx="568" cy="194" r="4" fill="#e0a82e"/>
+  <text x="582" y="199" fill="#475569" font-size="13">Automates test pipeline</text>
+  <circle cx="568" cy="218" r="4" fill="#e0a82e"/>
+  <text x="582" y="223" fill="#475569" font-size="13">Generates reports</text>
+  <circle cx="568" cy="242" r="4" fill="#e0a82e"/>
+  <text x="582" y="247" fill="#475569" font-size="13">Blocks regressions</text>
+  <circle cx="568" cy="266" r="4" fill="#e0a82e"/>
+  <text x="582" y="271" fill="#475569" font-size="13">Reports coverage</text>
+  <rect x="562" y="300" width="201" height="150" rx="10" fill="#fdeceb" stroke="#d9534f" stroke-width="2"/>
+  <text x="662" y="328" fill="#d9534f" font-size="14" font-weight="700" text-anchor="middle">Boundary</text>
+  <text x="662" y="360" fill="#475569" font-size="13" text-anchor="middle">Doesn't decide</text>
+  <text x="662" y="388" fill="#475569" font-size="13" text-anchor="middle">test strategy</text>
+  <text x="662" y="416" fill="#475569" font-size="13" text-anchor="middle">no production code</text>
+
+  <!-- Footer banner -->
+  <rect x="40" y="488" width="739" height="56" rx="10" fill="#1f3a5f"/>
+  <text x="410" y="512" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">Clear boundaries = a team that doesn't step on landmines</text>
+  <text x="410" y="532" fill="#cbd5e1" font-size="13" text-anchor="middle">(the lesson of Ops Agent Rex editing Kai's code)</text>
+</svg>

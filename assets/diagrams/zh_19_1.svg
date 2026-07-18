@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 580" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="820" height="580" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="55" fill="#ffffff" font-size="22" font-weight="700" text-anchor="middle">MCP 集成架构 MCP Integration</text>
+
+  <!-- left: tool categories -->
+  <text x="40" y="100" fill="#475569" font-size="14" font-weight="700">工具类别 Tool categories</text>
+  <g>
+    <rect x="40" y="110" width="210" height="44" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <circle cx="62" cy="132" r="6" fill="#4a90d9"/><text x="80" y="137" fill="#1f3a5f" font-size="14" font-weight="700">GitHub 代码仓库</text>
+  </g>
+  <g>
+    <rect x="40" y="162" width="210" height="44" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <circle cx="62" cy="184" r="6" fill="#2e9e6b"/><text x="80" y="189" fill="#1f3a5f" font-size="14" font-weight="700">数据库 Database</text>
+  </g>
+  <g>
+    <rect x="40" y="214" width="210" height="44" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <circle cx="62" cy="236" r="6" fill="#e0a82e"/><text x="80" y="241" fill="#1f3a5f" font-size="14" font-weight="700">云服务 Cloud</text>
+  </g>
+  <g>
+    <rect x="40" y="266" width="210" height="44" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <circle cx="62" cy="288" r="6" fill="#d9534f"/><text x="80" y="293" fill="#1f3a5f" font-size="14" font-weight="700">项目管理 PM</text>
+  </g>
+  <g>
+    <rect x="40" y="318" width="210" height="44" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <circle cx="62" cy="340" r="6" fill="#4a90d9"/><text x="80" y="345" fill="#1f3a5f" font-size="14" font-weight="700">通信 Comms</text>
+  </g>
+  <g>
+    <rect x="40" y="370" width="210" height="44" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <circle cx="62" cy="392" r="6" fill="#2e9e6b"/><text x="80" y="397" fill="#1f3a5f" font-size="14" font-weight="700">向量库 Vector DB</text>
+  </g>
+
+  <!-- connecting lines to center -->
+  <line x1="250" y1="132" x2="300" y2="285" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="250" y1="184" x2="300" y2="285" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="250" y1="236" x2="300" y2="285" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="250" y1="288" x2="300" y2="285" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="250" y1="340" x2="300" y2="285" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="250" y1="392" x2="300" y2="285" stroke="#cbd5e1" stroke-width="2"/>
+
+  <!-- center MCP layer -->
+  <rect x="300" y="210" width="220" height="150" rx="14" fill="#1f3a5f"/>
+  <text x="410" y="260" fill="#ffffff" font-size="18" font-weight="700" text-anchor="middle">MCP 协议层</text>
+  <text x="410" y="288" fill="#ffffff" font-size="15" text-anchor="middle">MCP Protocol Layer</text>
+  <text x="410" y="320" fill="#cbd5e1" font-size="13" text-anchor="middle">统一语言 · 连接一切</text>
+  <text x="410" y="340" fill="#cbd5e1" font-size="12" text-anchor="middle">unified language</text>
+
+  <!-- right: Agent Runtime -->
+  <line x1="520" y1="285" x2="570" y2="180" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="570" y="130" width="220" height="110" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="570" y="130" width="220" height="36" rx="12" fill="#4a90d9"/>
+  <rect x="570" y="150" width="220" height="16" fill="#4a90d9"/>
+  <text x="680" y="154" fill="#ffffff" font-size="15" font-weight="700" text-anchor="middle">Agent Runtime 运行时</text>
+  <text x="680" y="190" fill="#475569" font-size="13" text-anchor="middle">工具发现 discover</text>
+  <text x="680" y="212" fill="#475569" font-size="13" text-anchor="middle">调用 call · 结果解析 parse</text>
+
+  <!-- right: MCP Server -->
+  <line x1="520" y1="285" x2="570" y2="350" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="570" y="300" width="220" height="110" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="570" y="300" width="220" height="36" rx="12" fill="#2e9e6b"/>
+  <rect x="570" y="320" width="220" height="16" fill="#2e9e6b"/>
+  <text x="680" y="324" fill="#ffffff" font-size="15" font-weight="700" text-anchor="middle">MCP Server 服务端</text>
+  <text x="680" y="360" fill="#475569" font-size="13" text-anchor="middle">注册 register · 鉴权 auth</text>
+  <text x="680" y="382" fill="#475569" font-size="13" text-anchor="middle">限流 rate-limit · 日志 log</text>
+
+  <text x="410" y="520" fill="#475569" font-size="13" text-anchor="middle">MCP 是所有 Agent 与外部世界对话的统一语言，连接一切工具</text>
+  <text x="410" y="548" fill="#475569" font-size="12" text-anchor="middle">MCP is the unified language for all Agents to talk to the outside world</text>
+</svg>

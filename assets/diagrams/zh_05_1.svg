@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 600" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="820" height="600" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="10" fill="#1f3a5f"/>
+  <text x="410" y="56" fill="#fff" font-size="22" font-weight="700" text-anchor="middle">系统 Prompt 解剖 · 给 Agent 写人设</text>
+
+  <!-- Row 1: Role -->
+  <rect x="40" y="104" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="117" width="120" height="24" rx="12" fill="#4a90d9"/>
+  <text x="112" y="134" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">角色 Role</text>
+  <text x="190" y="134" fill="#475569" font-size="15">资深前端架构师，对代码质量负责</text>
+
+  <!-- Row 2: Context -->
+  <rect x="40" y="162" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="175" width="120" height="24" rx="12" fill="#2e9e6b"/>
+  <text x="112" y="192" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">上下文 Context</text>
+  <text x="190" y="192" fill="#475569" font-size="15">项目使用 Monorepo 架构，技术栈 React + TS</text>
+
+  <!-- Row 3: Goals -->
+  <rect x="40" y="220" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="233" width="120" height="24" rx="12" fill="#e0a82e"/>
+  <text x="112" y="250" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">目标 Goals</text>
+  <text x="190" y="250" fill="#475569" font-size="15">用最少代码改动实现功能，不引入回归</text>
+
+  <!-- Row 4: Constraints -->
+  <rect x="40" y="278" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="291" width="120" height="24" rx="12" fill="#d9534f"/>
+  <text x="112" y="308" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">约束 Constraints</text>
+  <text x="190" y="308" fill="#475569" font-size="15">不改动无关代码，不破坏现有测试</text>
+
+  <!-- Row 5: Style -->
+  <rect x="40" y="336" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="349" width="120" height="24" rx="12" fill="#4a90d9"/>
+  <text x="112" y="366" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">风格 Style</text>
+  <text x="190" y="366" fill="#475569" font-size="15">简洁、可维护、类型安全、命名清晰</text>
+
+  <!-- Row 6: Output -->
+  <rect x="40" y="394" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="407" width="120" height="24" rx="12" fill="#2e9e6b"/>
+  <text x="112" y="424" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">输出 Output</text>
+  <text x="190" y="424" fill="#475569" font-size="15">代码改动 + 变更说明 + 自测结果</text>
+
+  <!-- Row 7: Workflow -->
+  <rect x="40" y="452" width="740" height="50" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="52" y="465" width="120" height="24" rx="12" fill="#1f3a5f"/>
+  <text x="112" y="482" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">流程 Workflow</text>
+  <text x="190" y="482" fill="#475569" font-size="15">读需求 → 实现 → 自测 → 提交 → 汇报</text>
+
+  <!-- Example callout -->
+  <rect x="40" y="516" width="740" height="64" rx="12" fill="#eef5fc" stroke="#4a90d9" stroke-width="2"/>
+  <text x="60" y="540" fill="#1f3a5f" font-size="14" font-weight="700">示例人设</text>
+  <text x="60" y="562" fill="#475569" font-size="13">你是一名资深前端架构师，项目使用 Monorepo 架构，目标是用最少代码改动实现功能……</text>
+</svg>

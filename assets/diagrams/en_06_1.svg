@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 560" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="820" height="560" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="10" fill="#1f3a5f"/>
+  <text x="410" y="56" fill="#fff" font-size="22" font-weight="700" text-anchor="middle">The Art of Division · Agent Role System</text>
+
+  <!-- Coding Agent -->
+  <rect x="40" y="100" width="233" height="420" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="40" y="100" width="233" height="48" rx="12" fill="#4a90d9"/>
+  <rect x="40" y="136" width="233" height="12" fill="#4a90d9"/>
+  <text x="156" y="132" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">Coding Agent</text>
+  <text x="60" y="178" fill="#1f3a5f" font-size="14" font-weight="700">Responsibilities</text>
+  <circle cx="62" cy="202" r="4" fill="#4a90d9"/>
+  <text x="76" y="207" fill="#475569" font-size="14">Implements code</text>
+  <circle cx="62" cy="228" r="4" fill="#4a90d9"/>
+  <text x="76" y="233" fill="#475569" font-size="14">Writes &amp; runs tests</text>
+  <circle cx="62" cy="254" r="4" fill="#4a90d9"/>
+  <text x="76" y="259" fill="#475569" font-size="14">Commits to repo</text>
+  <rect x="56" y="300" width="201" height="150" rx="10" fill="#fdeceb" stroke="#d9534f" stroke-width="2"/>
+  <text x="156" y="328" fill="#d9534f" font-size="14" font-weight="700" text-anchor="middle">Boundary</text>
+  <text x="156" y="360" fill="#475569" font-size="14" text-anchor="middle">Doesn't review</text>
+  <text x="156" y="388" fill="#475569" font-size="14" text-anchor="middle">its own code</text>
+
+  <!-- Review Agent -->
+  <rect x="293" y="100" width="233" height="420" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="293" y="100" width="233" height="48" rx="12" fill="#2e9e6b"/>
+  <rect x="293" y="136" width="233" height="12" fill="#2e9e6b"/>
+  <text x="409" y="132" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">Review Agent</text>
+  <text x="313" y="178" fill="#1f3a5f" font-size="14" font-weight="700">Responsibilities</text>
+  <circle cx="315" cy="202" r="4" fill="#2e9e6b"/>
+  <text x="329" y="207" fill="#475569" font-size="14">Reviews code quality</text>
+  <circle cx="315" cy="228" r="4" fill="#2e9e6b"/>
+  <text x="329" y="233" fill="#475569" font-size="14">Suggests improvements</text>
+  <circle cx="315" cy="254" r="4" fill="#2e9e6b"/>
+  <text x="329" y="259" fill="#475569" font-size="14">Flags risks</text>
+  <rect x="309" y="300" width="201" height="150" rx="10" fill="#fdeceb" stroke="#d9534f" stroke-width="2"/>
+  <text x="409" y="328" fill="#d9534f" font-size="14" font-weight="700" text-anchor="middle">Boundary</text>
+  <text x="409" y="360" fill="#475569" font-size="14" text-anchor="middle">Never touches code</text>
+  <text x="409" y="388" fill="#475569" font-size="14" text-anchor="middle">only suggests</text>
+
+  <!-- Testing Agent -->
+  <rect x="546" y="100" width="233" height="420" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="546" y="100" width="233" height="48" rx="12" fill="#e0a82e"/>
+  <rect x="546" y="136" width="233" height="12" fill="#e0a82e"/>
+  <text x="662" y="132" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">Testing Agent</text>
+  <text x="566" y="178" fill="#1f3a5f" font-size="14" font-weight="700">Responsibilities</text>
+  <circle cx="568" cy="202" r="4" fill="#e0a82e"/>
+  <text x="582" y="207" fill="#475569" font-size="14">Automates test pipeline</text>
+  <circle cx="568" cy="228" r="4" fill="#e0a82e"/>
+  <text x="582" y="233" fill="#475569" font-size="14">Generates reports</text>
+  <circle cx="568" cy="254" r="4" fill="#e0a82e"/>
+  <text x="582" y="259" fill="#475569" font-size="14">Blocks regressions</text>
+  <rect x="562" y="300" width="201" height="150" rx="10" fill="#fdeceb" stroke="#d9534f" stroke-width="2"/>
+  <text x="662" y="328" fill="#d9534f" font-size="14" font-weight="700" text-anchor="middle">Boundary</text>
+  <text x="662" y="360" fill="#475569" font-size="14" text-anchor="middle">Doesn't decide</text>
+  <text x="662" y="388" fill="#475569" font-size="14" text-anchor="middle">test strategy</text>
+</svg>

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 560" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="820" height="560" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="10" fill="#1f3a5f"/>
+  <text x="410" y="56" fill="#fff" font-size="22" font-weight="700" text-anchor="middle">系统 Prompt 的 7 个组成部分</text>
+
+  <!-- Container -->
+  <rect x="40" y="100" width="740" height="420" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="60" y="132" fill="#1f3a5f" font-size="16" font-weight="700">System Prompt = 角色 + 上下文 + 目标 + 约束 + 风格 + 输出 + 流程</text>
+
+  <!-- Tile 1 -->
+  <rect x="60" y="150" width="166" height="120" rx="10" fill="#eef5fc" stroke="#4a90d9" stroke-width="2"/>
+  <rect x="60" y="150" width="166" height="34" rx="10" fill="#4a90d9"/>
+  <rect x="60" y="170" width="166" height="14" fill="#4a90d9"/>
+  <text x="143" y="173" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">角色</text>
+  <text x="143" y="212" fill="#475569" font-size="13" text-anchor="middle">是谁</text>
+  <text x="143" y="234" fill="#475569" font-size="13" text-anchor="middle">资深架构师</text>
+
+  <!-- Tile 2 -->
+  <rect x="238" y="150" width="166" height="120" rx="10" fill="#eafaf1" stroke="#2e9e6b" stroke-width="2"/>
+  <rect x="238" y="150" width="166" height="34" rx="10" fill="#2e9e6b"/>
+  <rect x="238" y="170" width="166" height="14" fill="#2e9e6b"/>
+  <text x="321" y="173" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">上下文</text>
+  <text x="321" y="212" fill="#475569" font-size="13" text-anchor="middle">背景与环境</text>
+  <text x="321" y="234" fill="#475569" font-size="13" text-anchor="middle">Monorepo</text>
+
+  <!-- Tile 3 -->
+  <rect x="416" y="150" width="166" height="120" rx="10" fill="#fdf6e7" stroke="#e0a82e" stroke-width="2"/>
+  <rect x="416" y="150" width="166" height="34" rx="10" fill="#e0a82e"/>
+  <rect x="416" y="170" width="166" height="14" fill="#e0a82e"/>
+  <text x="499" y="173" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">目标</text>
+  <text x="499" y="212" fill="#475569" font-size="13" text-anchor="middle">要达成什么</text>
+  <text x="499" y="234" fill="#475569" font-size="13" text-anchor="middle">最小改动</text>
+
+  <!-- Tile 4 -->
+  <rect x="594" y="150" width="166" height="120" rx="10" fill="#fdeceb" stroke="#d9534f" stroke-width="2"/>
+  <rect x="594" y="150" width="166" height="34" rx="10" fill="#d9534f"/>
+  <rect x="594" y="170" width="166" height="14" fill="#d9534f"/>
+  <text x="677" y="173" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">约束</text>
+  <text x="677" y="212" fill="#475569" font-size="13" text-anchor="middle">不能做什么</text>
+  <text x="677" y="234" fill="#475569" font-size="13" text-anchor="middle">不破坏测试</text>
+
+  <!-- Tile 5 -->
+  <rect x="60" y="290" width="166" height="120" rx="10" fill="#eef5fc" stroke="#4a90d9" stroke-width="2"/>
+  <rect x="60" y="290" width="166" height="34" rx="10" fill="#4a90d9"/>
+  <rect x="60" y="310" width="166" height="14" fill="#4a90d9"/>
+  <text x="143" y="313" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">风格</text>
+  <text x="143" y="352" fill="#475569" font-size="13" text-anchor="middle">怎么说</text>
+  <text x="143" y="374" fill="#475569" font-size="13" text-anchor="middle">简洁可维护</text>
+
+  <!-- Tile 6 -->
+  <rect x="238" y="290" width="166" height="120" rx="10" fill="#eafaf1" stroke="#2e9e6b" stroke-width="2"/>
+  <rect x="238" y="290" width="166" height="34" rx="10" fill="#2e9e6b"/>
+  <rect x="238" y="310" width="166" height="14" fill="#2e9e6b"/>
+  <text x="321" y="313" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">输出</text>
+  <text x="321" y="352" fill="#475569" font-size="13" text-anchor="middle">交付什么</text>
+  <text x="321" y="374" fill="#475569" font-size="13" text-anchor="middle">代码+说明</text>
+
+  <!-- Tile 7 -->
+  <rect x="416" y="290" width="166" height="120" rx="10" fill="#eef2f7" stroke="#1f3a5f" stroke-width="2"/>
+  <rect x="416" y="290" width="166" height="34" rx="10" fill="#1f3a5f"/>
+  <rect x="416" y="310" width="166" height="14" fill="#1f3a5f"/>
+  <text x="499" y="313" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">流程</text>
+  <text x="499" y="352" fill="#475569" font-size="13" text-anchor="middle">怎么做</text>
+  <text x="499" y="374" fill="#475569" font-size="13" text-anchor="middle">读→做→测→交</text>
+
+  <!-- Summary -->
+  <rect x="594" y="290" width="166" height="120" rx="10" fill="#1f3a5f"/>
+  <text x="677" y="338" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">七者齐全</text>
+  <text x="677" y="362" fill="#fff" font-size="13" text-anchor="middle">Agent 才</text>
+  <text x="677" y="384" fill="#fff" font-size="13" text-anchor="middle">真正"懂"任务</text>
+</svg>

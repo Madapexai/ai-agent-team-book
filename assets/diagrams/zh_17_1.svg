@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 560" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="820" height="560" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="55" fill="#ffffff" font-size="22" font-weight="700" text-anchor="middle">多Agent协作协议栈</text>
+
+  <!-- Layer 1: Emergency -->
+  <rect x="170" y="104" width="480" height="64" rx="12" fill="#d9534f"/>
+  <text x="410" y="132" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">紧急协议 Emergency</text>
+  <text x="410" y="152" fill="#ffffff" font-size="12" text-anchor="middle">处理无法处理的异常 · Handle unhandled exceptions</text>
+
+  <line x1="410" y1="170" x2="410" y2="190" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 2: Negotiation -->
+  <rect x="170" y="192" width="480" height="64" rx="12" fill="#e0a82e"/>
+  <text x="410" y="220" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">协商协议 Negotiation</text>
+  <text x="410" y="240" fill="#ffffff" font-size="12" text-anchor="middle">Agent 间的协商与沟通 · Agent-to-Agent negotiation</text>
+
+  <line x1="410" y1="258" x2="410" y2="278" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 3: State -->
+  <rect x="170" y="280" width="480" height="64" rx="12" fill="#4a90d9"/>
+  <text x="410" y="308" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">状态协议 State</text>
+  <text x="410" y="328" fill="#ffffff" font-size="12" text-anchor="middle">每个 Agent 广播自身状态 · Broadcast status</text>
+
+  <line x1="410" y1="346" x2="410" y2="366" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 4: Communication -->
+  <rect x="170" y="368" width="480" height="64" rx="12" fill="#2e9e6b"/>
+  <text x="410" y="396" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">通信协议 Communication</text>
+  <text x="410" y="416" fill="#ffffff" font-size="12" text-anchor="middle">消息传递的底层规范 · Message-passing spec</text>
+
+  <line x1="410" y1="434" x2="410" y2="454" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 5: Task -->
+  <rect x="170" y="456" width="480" height="64" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="484" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">任务协议 Task</text>
+  <text x="410" y="504" fill="#ffffff" font-size="12" text-anchor="middle">任务创建/分配/执行/完成 · Task lifecycle</text>
+
+  <text x="410" y="544" fill="#475569" font-size="13" text-anchor="middle">上层依赖下层 · 借鉴 Claude Code Agent Teams 架构</text>
+</svg>

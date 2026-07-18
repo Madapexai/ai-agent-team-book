@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 540" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrowCost" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#4a90d9"/>
+    </marker>
+  </defs>
+  <rect width="820" height="540" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="10" fill="#1f3a5f"/>
+  <text x="410" y="56" fill="#fff" font-size="22" font-weight="700" text-anchor="middle">搭建 Agent 团队 · 成本拆解</text>
+
+  <!-- API / Token -->
+  <rect x="40" y="100" width="370" height="220" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="225" y="130" fill="#1f3a5f" font-size="17" font-weight="700" text-anchor="middle">API / Token 单价</text>
+  <text x="60" y="170" fill="#475569" font-size="15">推理模型 (Claude/GPT)</text>
+  <line x1="270" y1="165" x2="300" y2="165" stroke="#4a90d9" stroke-width="2" marker-end="url(#arrowCost)"/>
+  <text x="308" y="170" fill="#1f3a5f" font-size="15" font-weight="700">$0.15–0.90/M</text>
+  <text x="60" y="210" fill="#475569" font-size="15">快速模型 (Haiku/4o-mini)</text>
+  <line x1="270" y1="205" x2="300" y2="205" stroke="#4a90d9" stroke-width="2" marker-end="url(#arrowCost)"/>
+  <text x="308" y="210" fill="#1f3a5f" font-size="15" font-weight="700">$0.03–0.15/M</text>
+  <text x="60" y="250" fill="#475569" font-size="15">Embedding / 向量</text>
+  <line x1="240" y1="245" x2="270" y2="245" stroke="#4a90d9" stroke-width="2" marker-end="url(#arrowCost)"/>
+  <text x="278" y="250" fill="#1f3a5f" font-size="15" font-weight="700">$0.02/M</text>
+  <text x="60" y="295" fill="#475569" font-size="14">按用量计费，推理模型是大头</text>
+
+  <!-- Infrastructure + other -->
+  <rect x="430" y="100" width="350" height="220" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="605" y="130" fill="#1f3a5f" font-size="17" font-weight="700" text-anchor="middle">基础设施 / 其他成本</text>
+  <text x="450" y="170" fill="#475569" font-size="15">向量数据库 / 存储</text>
+  <line x1="610" y1="165" x2="640" y2="165" stroke="#4a90d9" stroke-width="2" marker-end="url(#arrowCost)"/>
+  <text x="648" y="170" fill="#1f3a5f" font-size="15" font-weight="700">$20–200/月</text>
+  <text x="450" y="210" fill="#475569" font-size="15">CI/CD / 部署</text>
+  <line x1="580" y1="205" x2="610" y2="205" stroke="#4a90d9" stroke-width="2" marker-end="url(#arrowCost)"/>
+  <text x="618" y="210" fill="#1f3a5f" font-size="15" font-weight="700">$10–50/月</text>
+  <text x="450" y="250" fill="#475569" font-size="15">• 机会成本（试错窗口）</text>
+  <text x="450" y="285" fill="#475569" font-size="15">• 隐性成本（学习曲线）</text>
+  <text x="450" y="315" fill="#475569" font-size="15">• 试错成本（早期踩坑）</text>
+
+  <!-- Time investment -->
+  <rect x="40" y="340" width="740" height="170" rx="12" fill="#fff" stroke="#2e9e6b" stroke-width="2"/>
+  <text x="410" y="370" fill="#2e9e6b" font-size="17" font-weight="700" text-anchor="middle">时间投入</text>
+  <text x="70" y="410" fill="#475569" font-size="15">搭建期：2 – 4 周</text>
+  <text x="70" y="445" fill="#475569" font-size="15">前孵化期：1 – 2 月</text>
+  <text x="70" y="480" fill="#475569" font-size="15">后续孵化：每周 2 – 4 小时</text>
+  <text x="430" y="410" fill="#475569" font-size="15">时间是最贵的成本</text>
+  <text x="430" y="445" fill="#475569" font-size="15">先小步跑通，再逐步加 Agent</text>
+  <text x="430" y="480" fill="#1f3a5f" font-size="15" font-weight="700">起步总成本约 $200 – 800 / 月</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 480" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="820" height="480" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="10" fill="#1f3a5f"/>
+  <text x="410" y="56" fill="#fff" font-size="22" font-weight="700" text-anchor="middle">搭建 Agent 团队的真实成本</text>
+
+  <!-- Left panel: API / Token -->
+  <rect x="40" y="100" width="370" height="290" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="40" y="100" width="370" height="44" rx="12" fill="#4a90d9"/>
+  <rect x="40" y="128" width="370" height="16" fill="#4a90d9"/>
+  <text x="225" y="129" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">API / Token 消耗</text>
+  <text x="60" y="180" fill="#475569" font-size="15">• 推理模型 (Claude/GPT)</text>
+  <text x="60" y="202" fill="#1f3a5f" font-size="15" font-weight="700">   $0.15 – 9.0 / M tokens</text>
+  <text x="60" y="240" fill="#475569" font-size="15">• 快速模型 (Haiku/4o-mini)</text>
+  <text x="60" y="262" fill="#1f3a5f" font-size="15" font-weight="700">   $0.03 – 0.15 / M</text>
+  <text x="60" y="300" fill="#475569" font-size="15">• Embedding / 向量</text>
+  <text x="60" y="322" fill="#1f3a5f" font-size="15" font-weight="700">   $0.02 / M</text>
+  <text x="60" y="360" fill="#475569" font-size="15">• 向量库/存储 · CI/CD/部署 按量计费</text>
+
+  <!-- Right panel: Time -->
+  <rect x="430" y="100" width="350" height="290" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="430" y="100" width="350" height="44" rx="12" fill="#2e9e6b"/>
+  <rect x="430" y="128" width="350" height="16" fill="#2e9e6b"/>
+  <text x="605" y="129" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">时间投入</text>
+  <text x="450" y="180" fill="#475569" font-size="15">• 搭建期</text>
+  <text x="450" y="202" fill="#1f3a5f" font-size="15" font-weight="700">   2 – 4 周</text>
+  <text x="450" y="240" fill="#475569" font-size="15">• 前孵化期</text>
+  <text x="450" y="262" fill="#1f3a5f" font-size="15" font-weight="700">   1 – 2 月</text>
+  <text x="450" y="300" fill="#475569" font-size="15">• 后续孵化</text>
+  <text x="450" y="322" fill="#1f3a5f" font-size="15" font-weight="700">   每周 2 – 4 小时</text>
+  <text x="450" y="360" fill="#475569" font-size="15">• 持续优化：长期、边际递减</text>
+
+  <!-- Bottom summary -->
+  <rect x="40" y="410" width="740" height="50" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="442" fill="#e0a82e" font-size="22" font-weight="700" text-anchor="middle">典型起步成本：约 $200 – 800 / 月</text>
+</svg>

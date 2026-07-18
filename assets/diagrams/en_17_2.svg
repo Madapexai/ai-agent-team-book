@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 580" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="820" height="580" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="55" fill="#ffffff" font-size="22" font-weight="700" text-anchor="middle">Protocol Stack Summary</text>
+
+  <!-- Layer 1: Emergency -->
+  <rect x="170" y="100" width="480" height="62" rx="12" fill="#d9534f"/>
+  <text x="410" y="127" fill="#ffffff" font-size="16" font-weight="700" text-anchor="middle">Emergency · fallback</text>
+  <text x="410" y="146" fill="#ffffff" font-size="11" text-anchor="middle">Handles exceptions Agents can't resolve alone</text>
+
+  <line x1="410" y1="164" x2="410" y2="182" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 2: Negotiation -->
+  <rect x="170" y="186" width="480" height="62" rx="12" fill="#e0a82e"/>
+  <text x="410" y="213" fill="#ffffff" font-size="16" font-weight="700" text-anchor="middle">Negotiation · coordination</text>
+  <text x="410" y="232" fill="#ffffff" font-size="11" text-anchor="middle">Agents agree on resources &amp; priorities</text>
+
+  <line x1="410" y1="250" x2="410" y2="268" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 3: State -->
+  <rect x="170" y="272" width="480" height="62" rx="12" fill="#4a90d9"/>
+  <text x="410" y="299" fill="#ffffff" font-size="16" font-weight="700" text-anchor="middle">State · visibility</text>
+  <text x="410" y="318" fill="#ffffff" font-size="11" text-anchor="middle">Each Agent broadcasts status, mutually visible</text>
+
+  <line x1="410" y1="336" x2="410" y2="354" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 4: Communication -->
+  <rect x="170" y="358" width="480" height="62" rx="12" fill="#2e9e6b"/>
+  <text x="410" y="385" fill="#ffffff" font-size="16" font-weight="700" text-anchor="middle">Communication · transport</text>
+  <text x="410" y="404" fill="#ffffff" font-size="11" text-anchor="middle">Low-level spec for message format &amp; delivery</text>
+
+  <line x1="410" y1="422" x2="410" y2="440" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 5: Task -->
+  <rect x="170" y="444" width="480" height="62" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="471" fill="#ffffff" font-size="16" font-weight="700" text-anchor="middle">Task · execution</text>
+  <text x="410" y="490" fill="#ffffff" font-size="11" text-anchor="middle">Standard format for task create/assign/run/done</text>
+
+  <rect x="170" y="524" width="480" height="40" rx="10" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="410" y="549" fill="#1f3a5f" font-size="13" font-weight="700" text-anchor="middle">Higher layers = coordination, lower layers = execution</text>
+</svg>
