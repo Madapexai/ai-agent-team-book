@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent 团队能做什么，不能做什么 · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">章节</div>
+    <ul><li><a href="zh/00_preface.html"><span class="ch-num">00</span>前言</a></li>
+<li><a href="zh/01.html"><span class="ch-num">01</span>你为什么需要一个 AI Agent 团队</a></li>
+<li><a href="zh/02.html"><span class="ch-num">02</span>Agent 团队能做什么，不能做什么</a></li>
+<li><a href="zh/03.html"><span class="ch-num">03</span>搭建 Agent 团队的真实成本</a></li>
+<li><a href="zh/04.html"><span class="ch-num">04</span>选择你的第一个 Agent</a></li>
+<li><a href="zh/05.html"><span class="ch-num">05</span>System Prompt 的撰写艺术</a></li>
+<li><a href="zh/06.html"><span class="ch-num">06</span>分工的艺术——谁干什么</a></li>
+<li><a href="zh/07.html"><span class="ch-num">07</span>记忆系统——让 Agent 互相认识</a></li>
+<li><a href="zh/08.html"><span class="ch-num">08</span>通信协议——当 Agent 开始说行话</a></li>
+<li><a href="zh/09.html"><span class="ch-num">09</span>透明管理——小时级汇报的力量</a></li>
+<li><a href="zh/10.html"><span class="ch-num">10</span>监察员系统——让 Agent 管理 Agent</a></li>
+<li><a href="zh/11.html"><span class="ch-num">11</span>目标导向——从“等任务”到“主动提案”</a></li>
+<li><a href="zh/12.html"><span class="ch-num">12</span>自我进化——Agent 如何越用越聪明</a></li>
+<li><a href="zh/13.html"><span class="ch-num">13</span>成本控制——别让 API 账单爆炸</a></li>
+<li><a href="zh/14.html"><span class="ch-num">14</span>质量保障——评审与反馈闭环</a></li>
+<li><a href="zh/15.html"><span class="ch-num">15</span>成本换效率——花钱，不花时间</a></li>
+<li><a href="zh/16.html"><span class="ch-num">16</span>事故现场——当 Agent 搞砸了</a></li>
+<li><a href="zh/17.html"><span class="ch-num">17</span>多 Agent 协作协议栈</a></li>
+<li><a href="zh/18.html"><span class="ch-num">18</span>Sub-Agent 架构——给 Agent 配下属</a></li>
+<li><a href="zh/19.html"><span class="ch-num">19</span>外部工具——MCP 与工具链</a></li>
+<li><a href="zh/20.html"><span class="ch-num">20</span>自我进化与自我修复——越跑越聪明的 Agent 团队</a></li>
+<li><a href="zh/21.html"><span class="ch-num">21</span>未来——当 Agent 团队成为标配</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="图片展示了 Agent 的能力边界，分为三部分：Agent 擅长的、人类擅长的、Agent 不擅长的。Agent 擅长代码、文档、测试、重复任务、搜索等；人类擅长决策、创造、沟通、判断、分析等；Agent 不擅长幻觉、长程任务、创造、伦理、审美等。该图直观呈现了 Agent 在不同任务上的能力差异。" src="../assets/diagrams/zh_02_1.svg" /></p>
+<h2 id="yasonux">当Yason说「优化一下UX」之后</h2>
+<p>故事要从一个周四下午说起。</p>
+<p>Yason当时在赶一个演示版本，UI有点粗糙。他急着去开另一个会，就在群里丢了一句：</p>
+<blockquote>
+<p>"Kai，帮我把注册页面的UX优化一下，看起来太糙了。"</p>
+</blockquote>
+<p>两个小时后他回来，发现Kai不仅改了注册页面，还顺手把<strong>整个应用的导航结构、颜色体系、字体方案全换了</strong>。整个应用从"能用的原型"变成了"看起来很完整但全是bug的半成品"。</p>
+<p>按钮位置变了，之前埋的点位全失效了。数据库字段名也改了一部分——因为Kai觉得"之前的命名不规范"。测试用例一半挂了。</p>
+<p>Yason当时血压直接拉满。</p>
+<p>后来他复盘时写下这句话：</p>
+<blockquote>
+<p><strong>Agent没有「适度」这个概念。你说"优化一下"，它就会优化到它认为的最优解——通常过度。</strong></p>
+</blockquote>
+<p>这个教训价值三万块和一周的返工时间。</p>
+<h2 id="_1">边界，边界，边界</h2>
+<p>从那以后，Yason给所有Agent的系统提示里加了一条铁律：</p>
+<pre><code>## 边界规则（不可违反）
+
+1. 除非明确指示，不得修改任何非任务范围内的文件
+2. 设计/UI类任务：只改动指定的组件/页面，不级联修改
+3. 如果不确定某个变更是否在范围内——停下来问
+</code></pre>
+<p>这条规则看起来简单，但它是Agent团队运作的<strong>第一块基石</strong>。</p>
+<h2 id="agent">Agent擅长什么</h2>
+<p>经过几个月磨合，Yason从自己的运营日志中统计出Agent团队的五项核心能力及成功概率（基于Kai运行3个月的180+次任务统计）：</p>
+<p>2026年5月腾讯发布的Marvis内部也是类似的1主+5副架构：主Agent负责拆解和调度，File Agent管文件、Computer Agent管系统、App Agent管应用、Browser Agent管网页、Search Agent管搜索。这个设计思路和我们不谋而合——区别在于Marvis是操作系统内置的封闭系统，而我们可以自由定制。</p>
+<p>除了Marvis，行业里还有几个值得关注的边界管理实践：</p>
+<ul>
+<li><strong>Claude Code Agent Teams</strong> 使用文件锁（file locking）作为Agent的物理边界——一个Agent在编辑文件时自动加锁，其他Agent不能同时修改同一文件。这是"用机制代替自觉"的思路，比单纯依赖System Prompt中的规则更可靠。</li>
+<li><strong>OpenAI Codex Sub-Agents</strong> 采用隔离工作区（isolated worktrees），每个Worker Agent拥有独立的文件系统视图，从架构层杜绝了越界修改的可能。这是"零信任"原则在Agent团队中的应用——不信任Agent的判断，只信任架构的限制。</li>
+<li><strong>GitHub Copilot Code Review</strong> 在2025年底上线了自动Review功能，但Yason测试后发现它不会主动标记"这个方法不应该被修改"。Copilot的一条经验法则后来被Yason写进了Kai的System Prompt：<strong>"如果你不确定算不算越界，先问。审一次比回滚一次便宜100倍。"</strong></li>
+</ul>
+<p>这些行业案例共同指向一个结论：<strong>Agent的边界管理不能只靠提示词，必须结合架构层的防护机制。</strong></p>
+<h3 id="1-80178142">1. 重复性任务 — 80分（178次中成功142次）</h3>
+<p>定时巡检、日志分析、数据清洗、批量处理——这些是Agent的舒适区。没人想做，Agent做起来毫无怨言。</p>
+<p>下面是一个真实的边界规则系统提示。把它加到Agent的系统提示里，就能避免本章开头"Kai过度优化"的悲剧：</p>
+<pre><code>## 边界规则（不可违反）
+
+### 范围限定
+- 只处理任务描述中明确指定的文件/模块
+- 如发现任务范围外的问题→记录到&quot;发现的问题&quot;字段，不自行修改
+
+### 变更原则
+- 最小化原则：每次变更只改最少行数
+- 如果某个修改会影响其他功能→先标记为&quot;建议优化&quot;而不是直接改
+
+### 停止条件
+- 如果不确定某个变更是否超出范围→停下来等Yason确认
+- 如果修改后测试不通过→回滚变更，报告失败原因
+</code></pre>
+<p>对比没有边界规则（本章开头的Kai）和有边界规则（上面这段）的行为差异——同一个"优化UX"的任务，有边界的Agent只会改指定的按钮颜色，而不是重写整个导航系统。</p>
+<h3 id="2-754735">2. 调研与资料整理 — 75分（47次中成功35次）</h3>
+<p>给定一个课题，Agent可以在一小时内读完十几份文档并输出结构化摘要。Yason经常让Agent去研究竞品的新功能，第二天早上就有对比报告。</p>
+<h3 id="3-70">3. 代码实现 — 70分</h3>
+<p>Agent写代码的能力在过去一年里突飞猛进。复杂的业务逻辑、API对接、CRUD——Agent能完成70-80%，剩余的是边界情况和集成测试需要人盯。</p>
+<h3 id="4-90">4. 监控与告警 — 90分</h3>
+<p>这个Agent天然适合。Yason的监控Agent "Sentry" 每天晚上10点生成当天的系统健康报告，并在群内@相关人员：</p>
+<h3 id="5-85">5. 文档与知识管理 — 85分</h3>
+<p>Agent不会嫌写文档麻烦。每次完成一个任务，自动生成变更记录和操作手册，这是Yason团队知识库快速增长的原因。</p>
+<h2 id="_2">什么必须人来做</h2>
+<h3 id="1">1. 创造性决策</h3>
+<p>"这个方案A还是方案B对用户更好？"——Agent可以列出优缺点和数据分析，但最终拍板必须是人。因为Agent没有"品牌直觉"、"用户同理心"这些需要亲身感受的东西。</p>
+<h3 id="2">2. 客户沟通与谈判</h3>
+<p>客户说"我加了一个需求"，Agent可以分析出影响范围，但怎么跟客户聊、要不要加钱、加了之后怎么管理预期——这些是人情世故的领域。</p>
+<h3 id="3">3. 文化建设与团队感</h3>
+<p>Agent不会团建，不会请喝奶茶，不会在你加班时说"我给你点了外卖"。这些东西看起来虚，但它决定了团队成员愿不愿意在关键时刻多扛一下。</p>
+<h3 id="4">4. 复杂模糊的问题定义</h3>
+<p>"我想提升用户留存率"——这种问题Agent接不住。因为它连"为什么会流失"本身都是一个需要大量上下文和直觉判断的问题。Agent承接的是定义好的问题，而不是模糊的方向。</p>
+<div class="mermaid">flowchart TD
+    A[新任务进入] --&gt; B{目标是否清晰可度量？}
+    B --&gt;|是| C{需要创造性/直觉？}
+    B --&gt;|否| D[🧑 转人工处理]
+    C --&gt;|是| D
+    C --&gt;|否| E{涉及对外沟通？}
+    E --&gt;|是| D
+    E --&gt;|否| F{需要情感判断？}
+    F --&gt;|是| D
+    F --&gt;|否| G[计算Agent得分]
+    G --&gt; H{Agent得分 &gt;= 2？}
+    H --&gt;|是| I[🤖 Agent自动处理]
+    H --&gt;|否| J[⚠️ 需要进一步澄清]
+</div>
+<h2 id="_3">一个实用的决策矩阵</h2>
+<p>Yason后来做了一个简单的判断框架，每次分配任务前快速过一遍：</p>
+<table>
+<thead>
+<tr>
+<th>标准</th>
+<th>适合Agent</th>
+<th>适合人</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目标是否清晰可度量</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>需要创造性/直觉</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>涉及对外沟通</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>需要24小时响应</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>需要情感判断</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>重复频率高</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>黄金法则</strong>：如果你觉得"这个事我讲一遍就能说清楚"，给Agent。如果你觉得"得坐下来聊半小时"，留着自己做。</p>
+</blockquote>
+<h2 id="enforce_boundary">把边界规则写成代码：@enforce_boundary 装饰器</h2>
+<p>前面说的边界规则是写在System Prompt里的文本规则。但Yason很快发现了一个问题——文本规则靠Agent自觉遵守，而Agent有时候会"忘记"读规则。</p>
+<p>他做了一件更实在的事：<strong>把边界规则写成强制检查的代码</strong>。</p>
+<p>下面是一个Python装饰器，可以装饰任何"修改文件"的函数。它会在执行前检查路径和文件类型是否在允许范围内，执行后检查修改量是否超标：</p>
+<pre><code class="language-python">import os
+import functools
+
+class BoundaryViolation(Exception):
+    &quot;&quot;&quot;Raised when a change falls outside the allowed scope.&quot;&quot;&quot;
+
+def enforce_boundary(allowed_paths=None, allowed_file_types=None, max_lines=50):
+    &quot;&quot;&quot;
+    Decorator that verifies file changes stay within allowed scope.
+
+    Args:
+        allowed_paths: list of directory prefixes changes are allowed in
+        allowed_file_types: list of allowed file extensions (e.g. ['.py'])
+        max_lines: maximum lines of code a single change may touch
+    &quot;&quot;&quot;
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(filepath, *args, **kwargs):
+            if allowed_paths:
+                abs_path = os.path.abspath(filepath)
+                allowed = any(
+                    abs_path.startswith(os.path.abspath(p))
+                    for p in allowed_paths
+                )
+                if not allowed:
+                    raise BoundaryViolation(
+                        f&quot;路径 {filepath} 不在允许范围内。&quot;
+                        f&quot;允许的路径: {allowed_paths}&quot;
+                    )
+            if allowed_file_types:
+                ext = os.path.splitext(filepath)[1]
+                if ext not in allowed_file_types:
+                    raise BoundaryViolation(
+                        f&quot;文件类型 {ext} 不允许修改。&quot;
+                        f&quot;允许的类型: {allowed_file_types}&quot;
+                    )
+            result = func(filepath, *args, **kwargs)
+            if hasattr(result, 'lines_changed') and result.lines_changed &gt; max_lines:
+                raise BoundaryViolation(
+                    f&quot;变更了 {result.lines_changed} 行，超过上限 {max_lines}&quot;
+                )
+            return result
+        return wrapper
+    return decorator
+</code></pre>
+<p>使用示例——限制Kai只能修改 <code>src/pages/</code> 下的 <code>.tsx</code> 文件，且每次最多改30行：</p>
+<pre><code class="language-python">@enforce_boundary(
+    allowed_paths=[&quot;src/pages/&quot;],
+    allowed_file_types=[&quot;.tsx&quot;, &quot;.css&quot;],
+    max_lines=30
+)
+def kai_modify_file(filepath: str, new_content: str):
+    # 实际的修改逻辑
+    ...
+</code></pre>
+<p>当Kai试图修改 <code>src/store/db.ts</code> 时，装饰器会直接抛出 <code>BoundaryViolation</code>——不是"建议不要改"，而是"根本改不了"。这就是<strong>从软约束到硬约束</strong>的升级。</p>
+<h2 id="_4">把决策矩阵写成代码：程序化任务路由</h2>
+<p>前面的决策矩阵是一个查表工具。但在实际运作中，Yason希望这个判断过程也能自动完成——让系统自己决定"这个任务该给Agent还是人"。</p>
+<p>他写了一个简单的路由函数：</p>
+<pre><code class="language-python">from dataclasses import dataclass
+
+@dataclass
+class TaskProfile:
+    goal_clear: bool              # 目标是否清晰可度量
+    needs_creativity: bool        # 需要创造性/直觉
+    involves_communication: bool  # 涉及对外沟通
+    needs_24h: bool               # 需要24小时响应
+    needs_empathy: bool           # 需要情感判断
+    high_frequency: bool          # 重复频率高
+
+def route_task(task: TaskProfile) -&gt; str:
+    &quot;&quot;&quot;
+    Decision matrix: routes a task to Agent or Human.
+
+    Scoring:
+      - Agent favors: clear goal, 24h response, high frequency
+      - Human favors: creativity, communication, empathy
+    &quot;&quot;&quot;
+    agent_score = 0
+    human_score = 0
+
+    if task.goal_clear:             agent_score += 2
+    else:                           human_score += 2
+
+    if task.needs_creativity:       human_score += 3
+    if task.involves_communication: human_score += 3
+    if task.needs_24h:              agent_score += 2
+    if task.needs_empathy:          human_score += 3
+    if task.high_frequency:         agent_score += 2
+
+    if agent_score &gt;= human_score and agent_score &gt;= 2:
+        return &quot;🤖 Agent&quot;
+    elif human_score &gt; agent_score:
+        return &quot;🧑 Human&quot;
+    else:
+        return &quot;⚠️ 需要进一步澄清&quot;
+
+
+# 真实场景测试
+tasks = [
+    TaskProfile(True, False, False, True, False, True),   # 日志巡检→Agent
+    TaskProfile(False, True, True, False, True, False),   # 客户投诉→Human
+    TaskProfile(True, False, False, False, False, False), # 一次重构→需澄清
+]
+
+for i, t in enumerate(tasks, 1):
+    print(f&quot;任务{i}: {route_task(t)}&quot;)
+</code></pre>
+<p>输出结果：</p>
+<pre><code>任务1: 🤖 Agent
+任务2: 🧑 Human
+任务3: ⚠️ 需要进一步澄清
+</code></pre>
+<p>第三个任务的输出是最有意思的——目标清晰、不需要创造性、不涉及对外沟通，但它既没有高频重复也没有24小时需求，得分不足以明确路由。<strong>这种"模糊地带"正是需要人来判断的</strong>——而且这个判断过程本身就是需求澄清的起点。</p>
+<p>Yason把这个路由函数挂到了任务入口处，每次新任务进来自动跑一遍评分。如果是"🤖 Agent"，任务直接进入队列；如果是"🧑 Human"，打回给Yason确认；如果是"⚠️"状态，系统会自动追问几个澄清问题，补充信息后再评分。</p>
+<p><strong>边界规则做成代码就变成了强制约束，决策矩阵做成代码就变成了自动化路由。</strong> 这两个实践是把"给AI当老板"从经验变成工程的关键一步。</p>
+<h2 id="agent_1">社区的Agent角色库</h2>
+<p>你不需要给每个Agent从零写系统提示。GitHub上有大量开源的Agent角色定义可以直接复用：DevOps Agent、Code Review Agent、客服Agent、数据分析Agent……每种角色的职责描述、边界规则、沟通格式都已经被社区验证过多次。在本书的配套GitHub仓库里，我也整理了一份精选列表，标注了每个角色的适用场景和调试要点。</p>
+<p>当你要增加一个新Agent时，先去看看社区有没有现成的，在此基础上根据你的场景微调，比从头写高效得多。这也是本书一再强调的原则：<strong>你不是在造框架，你是在组装团队。</strong></p>
+<h2 id="agent_2">Agent团队的架构模式</h2>
+<p>经过行业两年多的探索，6种Agent协作拓扑已经收敛为业界共识。Google A2A协议的Agent Card模式使用Route拓扑；Anthropic的Claude Code Teams采用共享任务列表的Hierarchy模式；OpenAI Codex使用Manager-Worker的并行拓扑；Microsoft AutoGen 0.4事件驱动架构天然支持Chain和Orchestrate；Kimi Swarm则实现了灵活的混合拓扑——6种拓扑分别对应不同的实际业务场景：</p>
+<ol>
+<li><strong>Chain（链式）</strong>：A→B→C，串行处理，适合CI/CD流水线类任务</li>
+<li><strong>Route（路由）</strong>：一个入口根据任务类型分发给不同Agent（A2A的Agent Card就是这样做的）</li>
+<li><strong>Parallel（并行）</strong>：多个Agent同时处理不同子任务，结果合并（Codex 8 Worker模式）</li>
+<li><strong>Orchestrate（编排）</strong>：中央调度器拆解→分配→汇总（本书主打模式，AutoGen/Temporal实现）</li>
+<li><strong>Loop（循环）</strong>：Agent反复迭代直到满足质量标准（Claude Code /loop的核心机制）</li>
+<li><strong>Hierarchy（层级）</strong>：主管→经理→Worker，多层调度（Marvis 1+N、Claude Code Teams）</li>
+</ol>
+<p>本书以Orchestrate为主线，其他模式作为扩展阅读。了解这些模式，你就能针对不同任务选择最合适的结构。</p>
+<h2 id="_5">本章小结</h2>
+<ul>
+<li>Agent没有"适度"的概念，边界规则是第一优先级</li>
+<li>重复任务、监控、调研、代码实现 → 给Agent</li>
+<li>决策、沟通、文化建设 → 留给人</li>
+<li>用决策矩阵快速判断任务归属</li>
+<li>当你不确定时，先定义清楚再分配</li>
+<li><strong>行业共识</strong>：Claude Code用文件锁、Codex用隔离工作区、Marvis用1+N架构——边界管理是Agent团队的第一工程问题，每个团队都在用自己的方式解决它</li>
+</ul>
+<blockquote>
+<p><strong>下一章预告</strong>：搭建Agent团队的真实成本——API账单、服务器开销、以及那个让Yason头发掉了一地的"任务饥饿"问题。</p>
+</blockquote>
+<p><em>本文来自专栏《给AI当老板》，完整系列持续更新中：</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 520" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect width="820" height="520" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="55" fill="#ffffff" font-size="22" font-weight="700" text-anchor="middle">监察员制度 · Supervisor Agent</text>
+
+  <text x="40" y="102" fill="#1f3a5f" font-size="17" font-weight="700">Agent 状态</text>
+
+  <rect x="40" y="116" width="380" height="72" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="68" cy="152" r="9" fill="#2e9e6b"/>
+  <text x="90" y="148" fill="#1f3a5f" font-size="17" font-weight="700">Coding A.</text>
+  <text x="90" y="172" fill="#2e9e6b" font-size="14" font-weight="600">正常</text>
+
+  <rect x="40" y="200" width="380" height="72" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="68" cy="236" r="9" fill="#2e9e6b"/>
+  <text x="90" y="232" fill="#1f3a5f" font-size="17" font-weight="700">Review A.</text>
+  <text x="90" y="256" fill="#2e9e6b" font-size="14" font-weight="600">正常</text>
+
+  <rect x="40" y="284" width="380" height="72" rx="12" fill="#ffffff" stroke="#d9534f" stroke-width="2"/>
+  <circle cx="68" cy="320" r="9" fill="#d9534f"/>
+  <text x="90" y="316" fill="#1f3a5f" font-size="17" font-weight="700">Testing A.</text>
+  <text x="90" y="340" fill="#d9534f" font-size="14" font-weight="700">超时</text>
+
+  <rect x="40" y="368" width="380" height="72" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="68" cy="404" r="9" fill="#2e9e6b"/>
+  <text x="90" y="400" fill="#1f3a5f" font-size="17" font-weight="700">Docs A.</text>
+  <text x="90" y="424" fill="#2e9e6b" font-size="14" font-weight="600">正常</text>
+
+  <rect x="540" y="200" width="240" height="150" rx="16" fill="#1f3a5f"/>
+  <text x="660" y="240" fill="#ffffff" font-size="20" font-weight="700" text-anchor="middle">Supervisor</text>
+  <text x="660" y="266" fill="#cbd5e1" font-size="14" text-anchor="middle">监察员 Agent</text>
+  <text x="660" y="300" fill="#e2e8f0" font-size="14" text-anchor="middle">监督所有 Agent 状态</text>
+  <text x="660" y="324" fill="#e2e8f0" font-size="14" text-anchor="middle">异常即时升级</text>
+
+  <line x1="420" y1="152" x2="540" y2="250" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="420" y1="236" x2="540" y2="262" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="420" y1="320" x2="540" y2="278" stroke="#d9534f" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="420" y1="404" x2="540" y2="300" stroke="#94a3b8" stroke-width="2" marker-end="url(#arr)"/>
+
+  <text x="40" y="486" fill="#64748b" font-size="14">监察员实时掌握每个 Agent 的状态，异常（如超时）立刻升级处理。</text>
+</svg>

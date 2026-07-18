@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>搭建 Agent 团队的真实成本 · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">章节</div>
+    <ul><li><a href="zh/00_preface.html"><span class="ch-num">00</span>前言</a></li>
+<li><a href="zh/01.html"><span class="ch-num">01</span>你为什么需要一个 AI Agent 团队</a></li>
+<li><a href="zh/02.html"><span class="ch-num">02</span>Agent 团队能做什么，不能做什么</a></li>
+<li><a href="zh/03.html"><span class="ch-num">03</span>搭建 Agent 团队的真实成本</a></li>
+<li><a href="zh/04.html"><span class="ch-num">04</span>选择你的第一个 Agent</a></li>
+<li><a href="zh/05.html"><span class="ch-num">05</span>System Prompt 的撰写艺术</a></li>
+<li><a href="zh/06.html"><span class="ch-num">06</span>分工的艺术——谁干什么</a></li>
+<li><a href="zh/07.html"><span class="ch-num">07</span>记忆系统——让 Agent 互相认识</a></li>
+<li><a href="zh/08.html"><span class="ch-num">08</span>通信协议——当 Agent 开始说行话</a></li>
+<li><a href="zh/09.html"><span class="ch-num">09</span>透明管理——小时级汇报的力量</a></li>
+<li><a href="zh/10.html"><span class="ch-num">10</span>监察员系统——让 Agent 管理 Agent</a></li>
+<li><a href="zh/11.html"><span class="ch-num">11</span>目标导向——从“等任务”到“主动提案”</a></li>
+<li><a href="zh/12.html"><span class="ch-num">12</span>自我进化——Agent 如何越用越聪明</a></li>
+<li><a href="zh/13.html"><span class="ch-num">13</span>成本控制——别让 API 账单爆炸</a></li>
+<li><a href="zh/14.html"><span class="ch-num">14</span>质量保障——评审与反馈闭环</a></li>
+<li><a href="zh/15.html"><span class="ch-num">15</span>成本换效率——花钱，不花时间</a></li>
+<li><a href="zh/16.html"><span class="ch-num">16</span>事故现场——当 Agent 搞砸了</a></li>
+<li><a href="zh/17.html"><span class="ch-num">17</span>多 Agent 协作协议栈</a></li>
+<li><a href="zh/18.html"><span class="ch-num">18</span>Sub-Agent 架构——给 Agent 配下属</a></li>
+<li><a href="zh/19.html"><span class="ch-num">19</span>外部工具——MCP 与工具链</a></li>
+<li><a href="zh/20.html"><span class="ch-num">20</span>自我进化与自我修复——越跑越聪明的 Agent 团队</a></li>
+<li><a href="zh/21.html"><span class="ch-num">21</span>未来——当 Agent 团队成为标配</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="图片展示了搭建Agent团队的真实成本。左侧为API/Token消耗，包括推理模型（Claude/GPT）$0.15 – $0.90/M tokens、快速模型（Haiku/GPT - 4o - mini）0.03 - 0.15/M、Embedding / 向量0.02/M，以及向量数据库/存储、CI/CD / 部署的费用。右侧是时间投入，涵盖搭建期（2 - 4周）、前孵化期（1 - 2月）、后续孵化（每周2 - 4h）等阶段。底部有“$200 - 800”字样。该图与上下文紧密相关，直观呈现了搭建Agent团队在成本方面的具体构成。" src="../assets/diagrams/zh_03_1.svg" /></p>
+<h2 id="api-key">当你的API Key「爆」了</h2>
+<p>Yason永远不会忘记那天。</p>
+<p>周末他在外面吃饭，手机突然疯狂震动——Rex服务器上的一个Agent「qclaw」一直在报错。他打开终端一看，<strong>qclaw绑定的API Key余额用完了，但Agent并不知道自己没钱了</strong>。</p>
+<p>它做了什么呢？</p>
+<p>它一直在重试。每30秒一次。每小时120次。从凌晨3点到中午12点——整整9个小时，几千次失败请求。</p>
+<p>更离谱的是，Yason明明在凌晨4点在群里发了消息说"qclaw先停掉"，但Agent没有读到那条消息。因为没有人把它设计成去读群消息。</p>
+<p>等到他发现的时候，账单已经从$50飙到了$230。</p>
+<blockquote>
+<p><strong>隐藏成本1：失败重试不是免费的。Rate limit、超时、认证错误——每次失败都在烧钱。</strong></p>
+</blockquote>
+<p>这个Bug修复起来很简单：加一个熔断机制。下面是Yason事后加上的保护层，如果早一天加上就能省下\$180：</p>
+<div class="mermaid">flowchart TD
+    A[CLOSED&lt;br&gt;熔断器关闭] --&gt;|请求成功| A
+    A --&gt;|连续失败达阈值| B[OPEN&lt;br&gt;熔断器打开]
+    B --&gt;|冷却时间结束| C[HALF_OPEN&lt;br&gt;半开状态]
+    C --&gt;|探针请求成功| A
+    C --&gt;|探针请求失败| B
+</div>
+<pre><code class="language-python">class CircuitBreaker:
+    &quot;&quot;&quot;熔断器：防止Agent在失败时无限重试烧钱&quot;&quot;&quot;
+    def __init__(self, max_retries=3, cooldown=300, budget_limit=50):
+        self.max_retries = max_retries
+        self.cooldown = cooldown       # 冷却时间（秒）
+        self.budget_limit = budget_limit  # 单次任务预算上限（美元）
+        self.failures = 0
+        self.open = False
+
+    def call(self, func, *args, **kwargs):
+        if self.open:
+            raise Exception(&quot;⛔ 熔断器已打开：请稍后重试&quot;)
+
+        for attempt in range(self.max_retries):
+            try:
+                result = func(*args, **kwargs)
+                self.failures = 0  # 成功后重置
+                return result
+            except (APIError, RateLimitError) as e:
+                self.failures += 1
+                if self.failures &gt;= self.max_retries:
+                    self.open = True
+                    threading.Thread(target=self._cooldown).start()
+                    raise Exception(f&quot;熔断！连续失败{self.failures}次，等待{self.cooldown}秒&quot;)
+                time.sleep(2 ** attempt)  # 指数退避
+
+    def _cooldown(self):
+        time.sleep(self.cooldown)
+        self.open = False
+        self.failures = 0
+
+# 使用：breaker = CircuitBreaker(max_retries=3, budget_limit=50)
+# result = breaker.call(api.chat.completions.create, ...)
+</code></pre>
+<p>但教训是深刻的——Agent的"坚韧"在没钱的场景下变成了"自杀式袭击"。</p>
+<p><img alt="图片展示了搭建Agent团队的真实成本。API / Token消耗方面，推理模型（Claude/GPT）为$0.15 - $0.90/M tokens，箭头指向其0.15 - 0.90的数值；快速模型（Haiku/GPT - 4o - mini）为$0.03 - $0.15/M，箭头指向其0.03 - 0.15的数值；Embedding / 向量为$0.02/M，箭头指向其0.02的数值。基础设施中，向量数据库 / 存储为$20 - 200/月，CI / CD / 部署为$10 - 50/月。时间投入包括搭建期、前孵化期、后续孵化期。还列出了机会成本、隐性成本、试错成本等。" src="../assets/diagrams/zh_03_2.svg" /></p>
+<h2 id="_1">成本构成拆解</h2>
+<h3 id="1-api">1. API调用费 — 最大头的显性成本</h3>
+<p>以Yason三台服务器（Rex、Robot、Neo）的配置为例，他用的混合模型策略：</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>用途</th>
+<th>成本/百万Token</th>
+<th>月均消耗(入/出)</th>
+<th>月费用(估算)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Sonnet</td>
+<td>核心代码生成</td>
+<td>\$3 / \$15（入/出）</td>
+<td>100M入 + 20M出</td>
+<td>\~\$600</td>
+</tr>
+<tr>
+<td>GPT-4o</td>
+<td>复杂推理</td>
+<td>\$5 / \$15</td>
+<td>40M入 + 20M出</td>
+<td>\~\$500</td>
+</tr>
+<tr>
+<td>本地模型（DeepSeek）</td>
+<td>简单任务/格式化</td>
+<td>电费</td>
+<td>\~500M tokens</td>
+<td>\~\$50（电费）</td>
+</tr>
+<tr>
+<td>Embedding模型</td>
+<td>记忆检索</td>
+<td>\~\$0.13/1M</td>
+<td>\~20M tokens</td>
+<td>\~\$3</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>估算方法：Yason从API账单日志中统计的平均值。Claude Sonnet月均100M输入token（每次任务约8K输入×约12,500次调用），20M输出token（每次输出约1.6K），按$3/$15单价计算为\$600。GPT-4o同理。</p>
+</blockquote>
+<p>来看2026年工业界的真实数据。Claude Code目前单人单session日均消耗约$13，3个并行Agent约$30-40/天，5-10个Agent舰队约\$50-130/天（CloudZero 2026年5月分析）。OpenAI Codex的token效率大约是Claude Code的4倍——同样的任务Codex消耗1.5M token，Claude Code消耗6.2M token（来源：morphllm.com 2026年2月Figma-to-code基准测试）。这意味着选择底层模型对你的月度账单有数倍的影响。</p>
+<p>成本最大的隐藏杀手是上下文膨胀。Agent每执行一步，对话历史都会增长。一个简单的调研任务可能在50轮交互后消耗超过10万token。业界的解法是context compaction（上下文压缩）：当对话超过上下文窗口的70%时，让Agent自动总结中间结果，丢弃冗余的工具输出，只保留关键决策和未完成任务。Claude Code内置了auto-compact机制，OpenAI Codex使用tool output offloading（把大型工具输出存到外部存储，只在上下文中保留引用指针）。这两种做法我们都可以在搭建章节具体落地。</p>
+<p>（以上数据来自CloudZero 2026年5月发布的AI Agent成本分析，是目前最公开的行业基准。）</p>
+<p><strong>月均API总费用：约\$1,150/月</strong>，按当时汇率约8,000人民币。</p>
+<blockquote>
+<p>省钱技巧：把简单任务（格式化、提取、分类）路由给本地模型，能省60-70%的API费用。</p>
+</blockquote>
+<p>配置示例——模型路由规则（JSON）：</p>
+<pre><code class="language-json">{
+  &quot;router&quot;: {
+    &quot;rules&quot;: [
+      {
+        &quot;pattern&quot;: &quot;.*code.*generate|.*implement.*&quot;,
+        &quot;model&quot;: &quot;claude-sonnet-4&quot;,
+        &quot;priority&quot;: 1
+      },
+      {
+        &quot;pattern&quot;: &quot;.*analyze|.*reason.*|.*debug.*&quot;,
+        &quot;model&quot;: &quot;gpt-4o&quot;,
+        &quot;priority&quot;: 2
+      },
+      {
+        &quot;pattern&quot;: &quot;.*summarize|.*format|.*extract|.*classify&quot;,
+        &quot;model&quot;: &quot;local-deepseek&quot;,
+        &quot;priority&quot;: 3
+      }
+    ],
+    &quot;fallback&quot;: &quot;local-deepseek&quot;,
+    &quot;circuit_breaker&quot;: {
+      &quot;max_retries&quot;: 3,
+      &quot;cooldown_minutes&quot;: 5,
+      &quot;budget_warning_at&quot;: 0.8
+    }
+  }
+}
+</code></pre>
+<h3 id="2">2. 基础设施费</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>配置</th>
+<th>月费用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>海外服务器（Rex）</td>
+<td>8C/16G, 200G SSD</td>
+<td>\~\$80</td>
+</tr>
+<tr>
+<td>海外服务器（Robot）</td>
+<td>4C/8G, 100G SSD</td>
+<td>\~\$40</td>
+</tr>
+<tr>
+<td>国内服务器（Neo）</td>
+<td>4C/8G, 100G SSD</td>
+<td>\~\$100</td>
+</tr>
+<tr>
+<td>共享存储（记忆系统）</td>
+<td>Git repo, 500MB</td>
+<td>\$0</td>
+</tr>
+<tr>
+<td>域名 + CDN</td>
+<td>2个域名 + 基础CDN</td>
+<td>\~\$20</td>
+</tr>
+</tbody>
+</table>
+<p><strong>月基础设施费用：约\$240/月，约1,700人民币。</strong></p>
+<h3 id="3">3. 时间投入 — 隐性成本</h3>
+<p>Yason每周在Agent团队上投入大约6-8小时：</p>
+<ul>
+<li>Prompt调优和迭代：2-3小时</li>
+<li>审核Agent产出：2小时</li>
+<li>修复Agent搞砸的东西：1-2小时</li>
+<li>设计和分配新任务：1小时</li>
+</ul>
+<p>按他的时薪折算，这部分大概值3000-5000元/月。</p>
+<h2 id="_2">那个让人头秃的「任务饥饿」</h2>
+<p>Agent没有任务的时候，它是闲置的。闲置意味着两件事：</p>
+<ol>
+<li>你还在为它付API钱（心跳检测、连接保持、状态同步）</li>
+<li>它不会主动找事做——除非你配置了"主动建议"机制</li>
+</ol>
+<p>Yason有一次去休假三天，回来发现有三个Agent已经<strong>超过10小时没有收到任何任务</strong>。它们就那么干等着。配置的CPU在空转，Token在空耗，而Yason在沙滩上喝椰子水。</p>
+<p>后来他在Agent系统提示里加了一条：</p>
+<pre><code>## 主动建议
+
+如果你连续超过2小时没有收到新任务：
+1. 检查当前所有项目的状态
+2. 识别潜在的改进点或未完成项
+3. 向Yason发送一条&quot;主动建议&quot;消息（格式：建议标题 + 原因 + 预估工作量）
+4. 等待确认后再执行
+</code></pre>
+<p>这条规则让Agent从"等待指令的打工仔"变成了"会发现问题并提建议的伙伴"。</p>
+<blockquote>
+<p><strong>隐藏成本2：Agent不会主动找事做，除非你明确告诉它可以。</strong></p>
+</blockquote>
+<h2 id="_3">总成本汇总</h2>
+<table>
+<thead>
+<tr>
+<th>成本项</th>
+<th>月均费用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API调用（混合模型）</td>
+<td>\~8,000元</td>
+</tr>
+<tr>
+<td>基础设施</td>
+<td>\~1,700元</td>
+</tr>
+<tr>
+<td>时间投入（折算）</td>
+<td>\~4,000元</td>
+</tr>
+<tr>
+<td>合计</td>
+<td>\~13,700元</td>
+</tr>
+</tbody>
+</table>
+<p>3个Agent，每人（每个Agent）成本约4,500元/月。对比雇一个初级工程师的最小成本（15,000元+社保），<strong>Agent成本约是人的1/3</strong>。</p>
+<h2 id="_4">开源工具帮你省钱</h2>
+<p>社区里已经有大量开源的Agent成本优化工具，不需要自己造：</p>
+<ul>
+<li><strong>OpenRouter</strong>：一个API网关，自动在40+模型提供商之间路由请求，根据价格和性能自动选择最优模型</li>
+<li><strong>LiteLLM</strong>：统一接口对接100+模型，切换提供商只需改一行配置</li>
+<li><strong>Helicone / Portkey</strong>：开源的成本监控和日志追踪，实时看每个Agent花了多少钱</li>
+<li><strong>context-compactor</strong>：开源库，自动管理上下文窗口，到80%阈值自动压缩</li>
+</ul>
+<p>这些工具可以帮你省掉大量的开发和调优时间。记住：<strong>成本控制这件事，社区已经帮你踩了很多坑。</strong></p>
+<h2 id="_5">省钱锦囊</h2>
+<ol>
+<li><strong>本地模型兜底</strong>：简单任务不要走付费API</li>
+<li><strong>熔断机制</strong>：失败3次以上必须停等，不要无限重试</li>
+<li><strong>共享记忆库用Git</strong>：一个私有仓库托管所有Agent的记忆文件，零成本</li>
+<li><strong>定时任务定时器</strong>：非工作时间让Agent进入低功耗模式（仅检查关键告警）</li>
+</ol>
+<h2 id="_6">本章小结</h2>
+<ul>
+<li>Agent团队月成本约1.4万，是同等人力成本的1/3</li>
+<li>API调用是最大头，用好模型路由能省60%+</li>
+<li>失败重试是隐藏杀手，必须配熔断机制</li>
+<li>Agent不会主动找事做——给它"主动建议"权</li>
+<li>算清楚成本再做，别让惊喜变成惊吓</li>
+</ul>
+<blockquote>
+<p><strong>下一章预告</strong>：选定你的第一个Agent——从零开始，怎么选、怎么配、怎么让Agent开始干活的完整路线图。</p>
+</blockquote>
+<p><em>本文来自专栏《给AI当老板》，完整系列持续更新中：</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

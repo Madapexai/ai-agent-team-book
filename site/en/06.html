@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Art of Division — Who Does What · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="Diagram showing the &quot;Art of Division · Agent role system,&quot; including Coding Agent, Review Agent, and Testing Agent roles. The Coding Agent specializes in code implementation, etc.; the Review Agent handles code review, etc.; the Testing Agent runs the full test pipeline automatically, etc. Each role has clear boundaries — e.g., the Review Agent never touches code, only suggests; the Testing Agent doesn't decide test strategy. This diagram echoes the earlier case where Ops Agent Rex overstepped and modified Kai's code, underscoring the importance of clear Agent role division and boundaries." src="../assets/diagrams/en_06_1.svg" /></p>
+<h2 id="when-the-ops-agent-goes-to-edit-code">When the Ops Agent goes to edit code</h2>
+<p>1 a.m., Yason's phone buzzed him awake.</p>
+<p>He opened it: Rex (Ops Agent) had sent a message:</p>
+<pre><code>Found that three recent task logs from Kai (Dev Agent) had a DB connection string hardcoded with an IP.
+Suggested switching it to an environment variable. Already auto-fixed.
+</code></pre>
+<p>Yason was wide awake instantly.</p>
+<p>Rex had indeed found a problem. But Rex had overstepped — it <strong>directly modified Kai's code</strong>. After the change, Kai spent all next morning before discovering the tests were broken, because he didn't know his files had been touched.</p>
+<p>Worse, Kai and Rex both used the same Git repo, with no locking when editing files. Rex edited file A, Kai edited file B — they worked on two different branches, but merging the conflict cost Yason an hour.</p>
+<blockquote>
+<p><strong>Role overreach is the sneakiest trap in Agent team management.</strong> Every Agent needs a clear "turf," and the ability to recognize when it's been overstepped.</p>
+</blockquote>
+<h2 id="role-architecture">Role = Architecture</h2>
+<p>Yason later designed the Agent team's <strong>role model</strong> like software architecture. Each Agent is a microservice — with its own scope of responsibility, data boundaries, and communication protocol.</p>
+<h3 id="yasons-three-agent-model">Yason's three-Agent model</h3>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Role</th>
+<th>Core responsibilities</th>
+<th>Accessible resources</th>
+<th>Decision authority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kai</td>
+<td>Dev engineer</td>
+<td>Code implementation, testing, refactoring</td>
+<td>Code repo, dev docs</td>
+<td>Tech choices at the code level</td>
+</tr>
+<tr>
+<td>Rex</td>
+<td>Ops engineer</td>
+<td>Server health, deployment, monitoring</td>
+<td>Server config, monitoring system</td>
+<td>Failure degrade &amp; isolation</td>
+</tr>
+<tr>
+<td>Max</td>
+<td>Ops assistant</td>
+<td>Content, data analysis, reporting</td>
+<td>Data analysis, content platform API</td>
+<td>Suggestions on ops strategy</td>
+</tr>
+</tbody>
+</table>
+<p>Each Agent's System Prompt has an explicit "role declaration" block:</p>
+<pre><code class="language-yaml"># Role declaration in Kai's System Prompt
+agent:
+  name: Kai
+  role: developer
+  domain:
+    - code_implementation
+    - testing
+    - refactoring
+    - code_review
+  forbidden_domains:
+    - server_configuration  # belongs to Rex
+    - content_creation      # belongs to Max
+    - business_decisions    # belongs to Yason
+</code></pre>
+<h3 id="lessons-from-the-marvis-architecture-one-master-many-subordinates">Lessons from the Marvis architecture: one master, many subordinates</h3>
+<p>When designing Agent roles, Yason borrowed from Marvis's layered architecture. Marvis uses a <strong>1 master Agent + N subordinate Agents (1+N)</strong> pattern:</p>
+<div class="mermaid">flowchart TD
+    Master[Master Agent&lt;br&gt;Yason's dispatcher] --&gt; Dispatch[Task dispatch]
+    Master --&gt; QC[Quality control]
+    Master --&gt; Arbiter[Exception arbitration]
+
+    Master --&gt; Kai[Kai Dev Agent&lt;br&gt;Code · Tests · Refactor]
+    Master --&gt; Rex[Rex Ops Agent&lt;br&gt;Servers · Deploy · Monitoring]
+    Master --&gt; Max[Max Ops Agent&lt;br&gt;Content · Data analysis · Reports]
+
+    Kai --&gt; KaiResult[Return result]
+    Rex --&gt; RexResult[Return result]
+    Max --&gt; MaxResult[Return result]
+</div>
+<p>The core idea: <strong>the master Agent doesn't do the work — it only manages. The subordinates do the work.</strong></p>
+<p>Marvis's architecture proves a key principle: <strong>a team grows not by adding all-powerful Agents, but by creating a dedicated subordinate Agent for each new role.</strong> When Yason needed to add a "data-analysis Agent," he didn't have to touch any of Kai, Rex, or Max's logic — he just created a new subordinate Agent and hung it under the master.</p>
+<p>In fact, as the team expanded further, Yason later grew the subordinates from 3 to 5 — adding a "Data Analysis Agent" and a "Documentation Agent." These 5 subordinate Agents share one master dispatcher, forming a 1-master + 5-subordinate architecture:</p>
+<pre><code>Master Agent (Yason):
+  ├── Kai (Dev): code implementation, testing, refactoring
+  ├── Rex (Ops): servers, deployment, monitoring
+  ├── Max (Ops): content, data analysis, reporting
+  ├── Data (Data analysis): data queries, reports, insights
+  └── Doc (Documentation): doc writing, maintenance, updates
+</code></pre>
+<p>The beauty of this architecture: <strong>every new role joins with zero friction.</strong> No need to modify an existing Agent's System Prompt, no need to change the communication protocol. The new subordinate just registers with the master's dispatcher and gets to work.</p>
+<p>Marvis's architecture validates a trend: once your Agent team exceeds 5, the 1-master + N-subordinate layered model is easier to manage than a fully-connected model. In a fully-connected model, N Agents have N×(N-1) communication links — at N=6, that's 30. But in a 1-master + 5-subordinate model, there are only 5 (subordinate → master).</p>
+<blockquote>
+<p><strong>When your Agent team scales up, don't increase communication complexity — absorb the growth with layering.</strong></p>
+</blockquote>
+<h2 id="resource-contention-who-goes-first">Resource contention: who goes first</h2>
+<p>Once the three Agents were running, Yason found a new problem: <strong>resource contention.</strong></p>
+<p>Example: Rex says server memory is tight and needs optimization. Kai says a new feature is shipping and needs deployment resources. Meanwhile Max says the data-analysis task needs long CPU time.</p>
+<p>All three think their task is most urgent. Without a priority mechanism, whoever grabs Yason's attention first goes first.</p>
+<p>Yason designed a <strong>priority matrix</strong>:</p>
+<pre><code class="language-json">{
+  &quot;priority_matrix&quot;: {
+    &quot;P0&quot;: [&quot;Production failure&quot;, &quot;Security vulnerability&quot;, &quot;Data loss&quot;],
+    &quot;P1&quot;: [&quot;Deployment blocker&quot;, &quot;Customer impact&quot;, &quot;Core API anomaly&quot;],
+    &quot;P2&quot;: [&quot;Feature development&quot;, &quot;Performance tuning&quot;, &quot;Data analysis&quot;],
+    &quot;P3&quot;: [&quot;Documentation polish&quot;, &quot;Tech debt cleanup&quot;, &quot;Non-urgent research&quot;]
+  },
+  &quot;allocation_rules&quot;: {
+    &quot;P0&quot;: &quot;All Agents immediately switch to handling it; pause current P2+ tasks&quot;,
+    &quot;P1&quot;: &quot;Related-domain Agents handle first; unrelated Agents continue current work&quot;,
+    &quot;P2&quot;: &quot;Queue in task order&quot;,
+    &quot;P3&quot;: &quot;Handle when idle; may sit in queue long-term&quot;
+  }
+}
+</code></pre>
+<p>This matrix lives in every Agent's System Prompt; when multiple Agents compete, they auto-sort by priority.</p>
+<blockquote>
+<p><strong>Principle</strong>: Agents can't make priority decisions themselves — the priority matrix must be hard-coded into the Prompt. The place you want the Agent to be flexible is exactly the place you should box in with rules.</p>
+</blockquote>
+<h2 id="six-division-topologies-not-just-1-master-n-subordinate">Six division topologies: not just 1-master + N-subordinate</h2>
+<p>Yason's 1-master + 3-subordinate was a starting point, but as the Agent ecosystem expanded, he found different task types need different division topologies.</p>
+<table>
+<thead>
+<tr>
+<th>Topology</th>
+<th>Structure</th>
+<th>Use case</th>
+<th>Real example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Star</strong></td>
+<td>1 master + N subordinates, all comms go through the master Agent</td>
+<td>Small teams (3–5 Agents)</td>
+<td>Yason's Kai + Rex + Max</td>
+</tr>
+<tr>
+<td><strong>Chain</strong></td>
+<td>A→B→C→D, pipeline collaboration</td>
+<td>DevOps flow (Code→Build→Test→Deploy)</td>
+<td>CI/CD Pipeline Agent</td>
+</tr>
+<tr>
+<td><strong>Mesh</strong></td>
+<td>Any Agent can talk to any Agent</td>
+<td>Dedicated teams needing deep collaboration</td>
+<td>Security audit team (scan→analyze→report→fix)</td>
+</tr>
+<tr>
+<td><strong>Hierarchy</strong></td>
+<td>Multi-level management tree</td>
+<td>Large-scale Agent organizations</td>
+<td>Enterprise deployment (dept→team→individual Agent)</td>
+</tr>
+<tr>
+<td><strong>Bus</strong></td>
+<td>Communicate via a message bus</td>
+<td>Async, loosely-coupled scenarios</td>
+<td>Data-collection Agent cluster</td>
+</tr>
+<tr>
+<td><strong>Hybrid</strong></td>
+<td>Any combination above</td>
+<td>Complex business scenarios</td>
+<td>Most production environments are hybrid</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-to-choose-a-topology">How to choose a topology</h3>
+<p>Yason's rule of thumb:</p>
+<ul>
+<li><strong>Agents 1–3</strong>: a star is enough. Simple, controllable, no surprises.</li>
+<li><strong>Agents 4–8</strong>: consider chain or bus. Tasks start showing upstream/downstream dependencies.</li>
+<li><strong>Agents 8+</strong>: you must use hierarchy or hybrid. Without hierarchical management, the information flood will drown the master Agent.</li>
+</ul>
+<blockquote>
+<p><strong>Pick the topology that's most predictable, not the prettiest.</strong> The star is simple but makes the master a bottleneck. The chain is efficient but one stuck link halts the whole line. No silver bullet — choose based on your team size and task type.</p>
+</blockquote>
+<h3 id="real-case-chain-topology-for-a-cicd-pipeline">Real case: chain topology for a CI/CD Pipeline</h3>
+<p>When building his CI/CD Pipeline Agent team, Yason chose a chain topology:</p>
+<pre><code>Code Agent → Build Agent → Test Agent → Deploy Agent → Verify Agent
+</code></pre>
+<p>Each Agent does exactly one thing, then triggers the next. The key advantage of this topology is <strong>fault isolation</strong> — if the Test Agent finds tests failing, it doesn't block the Build Agent from continuing (because the Build Agent is already working the next PR). Failure info propagates down the chain and finally aggregates at the master Agent for a decision.</p>
+<h3 id="real-case-bus-topology-for-a-data-collection-cluster">Real case: bus topology for a data-collection cluster</h3>
+<p>Another scenario is data collection. Yason has 5 collection Agents scraping different data sources. They communicate via a message bus (based on NATS):</p>
+<pre><code>Collection Agent A (GitHub) → Bus → Cleaning Agent
+Collection Agent B (Twitter) → Bus → Cleaning Agent
+Collection Agent C (Reddit)  → Bus → Cleaning Agent
+</code></pre>
+<p>The collection Agents only collect, dropping raw data onto the bus. The Cleaning Agent consumes from the bus, processes, and stores. This topology fully decouples collection from cleaning — you can add a collection Agent anytime without touching the cleaning logic.</p>
+<blockquote>
+<p><strong>Chain topology fits pipelines, bus topology fits data flows, star topology fits small teams. Choosing a topology isn't picking the best — it's picking the one that best fits your task pattern.</strong></p>
+</blockquote>
+<h2 id="communication-protocol-how-agents-talk-to-each-other">Communication protocol: how Agents talk to each other</h2>
+<p>Yason never lets Agents message each other directly. All cross-Agent communication must route through a <strong>shared knowledge base</strong> (Git repo):</p>
+<pre><code>Kai finds a problem → writes to the issues/ directory in the shared repo → Rex reads it during patrol → handles it within its own scope
+</code></pre>
+<p>The rationale:</p>
+<ol>
+<li><strong>Audit trail</strong>: every cross-Agent interaction is logged</li>
+<li><strong>Avoid arguments</strong>: Agents won't bicker in a group chat (this really happened)</li>
+<li><strong>Async decoupling</strong>: each Agent works at its own pace</li>
+</ol>
+<p>Cross-Agent message format:</p>
+<pre><code class="language-yaml"># /memory/requests/2025-06-01-kai-to-rex.yaml
+from: Kai
+to: Rex
+type: request
+priority: P2
+subject: &quot;Node version on the server needs upgrading&quot;
+reason: &quot;New feature requires Node 18+, currently on 16&quot;
+impact: &quot;If not upgraded, the v3 branch of the user module cannot be deployed&quot;
+suggested_action: &quot;Upgrade Node version; confirm no compatibility issues&quot;
+status: open
+</code></pre>
+<p>Rex periodically checks the <code>requests/</code> directory. Once handled, it sets <code>status</code> to <code>resolved</code>, and Kai reads it on the next sync.</p>
+<h2 id="community-ready-agent-role-definitions">Community-ready Agent role definitions</h2>
+<p>You don't need to write everyone's System Prompt from scratch.</p>
+<p>There are tons of high-quality Agent role definitions on GitHub. Yason realized this when building his third Agent — he searched "agent role template" and found several directly usable templates:</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Recommended open-source template</th>
+<th>Adaptation cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DevOps Agent</strong></td>
+<td>DevOps-Prompt-Template</td>
+<td>Just tweak the server info</td>
+</tr>
+<tr>
+<td><strong>Code Review Agent</strong></td>
+<td>CodeReview-Agent-Prompt</td>
+<td>Just adjust the code standards</td>
+</tr>
+<tr>
+<td><strong>Data Analysis Agent</strong></td>
+<td>Data-Analyst-Prompt</td>
+<td>Just connect the data source</td>
+</tr>
+<tr>
+<td><strong>Customer Support Agent</strong></td>
+<td>Support-Agent-Prompt</td>
+<td>Just import the FAQ and knowledge base</td>
+</tr>
+<tr>
+<td><strong>Code Documentation Agent</strong></td>
+<td>DocGen-Prompt</td>
+<td>Basically works out of the box</td>
+</tr>
+</tbody>
+</table>
+<h3 id="yasons-reuse-workflow">Yason's reuse workflow</h3>
+<pre><code>1. Define the new Agent's role
+2. Search GitHub for &quot;&lt;role&gt; agent prompt template&quot;
+3. Find the repo with the most stars
+4. Write the first version based on the template (20 min)
+5. Run 3-5 trial tasks
+6. Fine-tune based on performance (another 20 min)
+
+Total: 40 min vs. 3-4 days from scratch
+</code></pre>
+<blockquote>
+<p><strong>The community already has dozens of Agent role-definition templates. What you think you need to invent, others have already hit the potholes on.</strong> Appendix B at the end of the book has a more complete list. Don't write from scratch.</p>
+</blockquote>
+<h2 id="security-the-principle-of-least-privilege">Security: the principle of least privilege</h2>
+<p>Each Agent's tool access must follow the <strong>principle of least privilege</strong> — give the Agent only the minimum permissions it needs to finish the task.</p>
+<p>Yason's permission config example:</p>
+<pre><code class="language-yaml"># /opt/agents/permissions.yaml
+agents:
+  kai:
+    tool_access:
+      read:   [code_repo, docs, test_results]
+      write:  [code_repo, test_results]
+      exec:   [npm_test, build, lint]
+      deny:   [ssh, db_connect, config_edit]  # this is Rex's
+    resource_limits:
+      max_concurrent_tasks: 2
+      max_cost_per_hour: &quot;$5&quot;
+
+  rex:
+    tool_access:
+      read:   [server_status, logs, config]
+      write:  [config, backups]
+      exec:   [deploy, restart, rollback]
+      deny:   [npm_test, code_edit, content_publish]
+    resource_limits:
+      max_concurrent_tasks: 3
+
+  max:
+    tool_access:
+      read:   [data_sources, analytics, content_platform]
+      write:  [content_platform, reports]
+      exec:   [data_pipeline]
+      deny:   [code_edit, server_config, deploy]
+    resource_limits:
+      max_concurrent_tasks: 3
+</code></pre>
+<h3 id="why-call-out-permissions-separately">Why call out permissions separately</h3>
+<p>Yason hit a pothole once: Kai had write access to the database. Once, while running tests, Kai generated a bunch of test data and wrote it straight into the production database — because it couldn't tell "test DB" from "production DB."</p>
+<p>From then on, every Agent's System Prompt gained a section:</p>
+<pre><code>## Tool Access Boundaries
+You may only access the following tools and resources:
+- {list of allowed tools}
+Any tool not explicitly authorized is treated as unavailable.
+If you need extra permissions, follow the request process — don't try to obtain them yourself.
+</code></pre>
+<blockquote>
+<p><strong>Permissions aren't restrictions — they're protection.</strong> The more freedom you give an Agent, the more your Prompt quality is tested. Least privilege protects the system and protects the Agent from mistakes.</p>
+</blockquote>
+<h2 id="team-evolution-from-solo-to-symphony">Team evolution: from solo to symphony</h2>
+<p>Yason's Agent team went through four stages:</p>
+<h3 id="stage-1-solo-month-1">Stage 1: Solo (Month 1)</h3>
+<p>Only Kai. Yason was the ops and the ops-assistant. Communication was simple and direct, no coordination needed.</p>
+<h3 id="stage-2-duet-months-23">Stage 2: Duet (Months 2–3)</h3>
+<p>Added Rex. Role overlap started appearing; introduced the "role declaration" mechanism. The two Agents' responsibilities were explicitly cut via System Prompt.</p>
+<h3 id="stage-3-trio-months-36">Stage 3: Trio (Months 3–6)</h3>
+<p>Max joined. Resource contention appeared; introduced the priority matrix and cross-Agent communication protocol.</p>
+<h3 id="stage-4-symphony-after-month-6">Stage 4: Symphony (after Month 6)</h3>
+<p>Agent count stabilized at 6 (3 mains + 3 specialists). A complete system of task allocation, communication, review, and feedback formed.</p>
+<blockquote>
+<p><strong>Don't skip stages.</strong> Each stage has the necessary break-in period. Yason has seen people build 8 Agents in a month, then spend two months cleaning up the mess.</p>
+</blockquote>
+<h2 id="division-anti-patterns">Division anti-patterns</h2>
+<p>The potholes Yason hit, distilled into three anti-patterns:</p>
+<p><strong>Anti-pattern 1: The all-powerful Agent</strong> — one Agent does everything. It constantly switches context between roles, and output quality drops across the board. <strong>Fix</strong>: each Agent does exactly one thing.</p>
+<p><strong>Anti-pattern 2: The blank zone</strong> — stuff nobody owns. Like "log format standard" — Kai thinks it's Rex's, Rex thinks it's Kai's. <strong>Fix</strong>: do a weekly check-in on the "fuzzy-zone list."</p>
+<p><strong>Anti-pattern 3: Reinventing the wheel</strong> — two Agents do the same thing. Kai and Max both wrote a competitor analysis, heavily duplicated. <strong>Fix</strong>: check history before task assignment to avoid duplicate work.</p>
+<h2 id="chapter-summary">Chapter summary</h2>
+<ul>
+<li>Design roles like architecture: each Agent is a microservice</li>
+<li><strong>Marvis's 1-master + N-subordinate architecture is a viable path for scaling Agent teams</strong></li>
+<li><strong>The six division topologies fit different scenarios — start with star, evolve as the team grows</strong></li>
+<li>Use the System Prompt to explicitly declare each Agent's responsibilities and no-go zones</li>
+<li><strong>The community has tons of ready-made Agent role-definition templates — don't write from scratch</strong></li>
+<li><strong>Set least privilege for each Agent — give only the minimum tools needed for the task</strong></li>
+<li>Design a priority matrix to resolve resource contention</li>
+<li>Agents don't communicate directly; route through a shared knowledge base</li>
+<li>Team evolution has four stages: solo → duet → trio → symphony</li>
+<li>Recognize and avoid three anti-patterns: all-powerful, blank zone, reinventing the wheel</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview</strong>: Getting Agents to know each other — building the memory system. The knowledge base synced every 30 minutes, the Git-conflict scare, and the "lock file" problem that broke Yason.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI'. The full series is continuously updated:</em> <a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<p><img alt="Diagram showing the Coding Agent, Review Agent, and Testing Agent in the Agent role system. At the Coding Agent, its responsibilities span code implementation and beyond — a full breakdown of each role's scope and boundaries within the team." src="../assets/diagrams/en_06_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sub-Agent Architecture — Give Your Agents Subordinates · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><h1 id="sub-agent-architecture-give-your-agents-subordinates">Sub-Agent Architecture — Give Your Agents Subordinates</h1>
+<p><img alt="Image showing the Sub-Agent architecture, with &quot;Supervisor Agent&quot; at the core, surrounded by multiple Sub-Agents such as Review Agent and Testing Agent, each Sub-Agent labeled with a count below it — Supervisor: 1, Main Agent: 4, total Sub-Agents: 11. Text below the image explains the power of the Sub-Agent architecture lies in &quot;divide and conquer&quot; — each Sub-Agent focuses on one domain, and combined they form a full-coverage team. The image is closely tied to the context, visually presenting the Sub-Agent architecture mentioned in the doc, and helping understand Kai's problem of getting stuck due to an insufficient context window." src="../assets/diagrams/en_18_1.svg" /></p>
+<h2 id="kai-the-one-person-who-couldnt-keep-up">Kai, the One Person Who Couldn't Keep Up</h2>
+<p>Kai's efficiency problem surfaced in the third month.</p>
+<p>Yason gave Kai a mid-sized task: refactor the user-notification module, write the API docs, and review another Agent's PR — all three in parallel.</p>
+<p>Kai reacted exactly like a human colleague — "Okay, I'll get started."</p>
+<p>Then Kai got stuck.</p>
+<p>It wasn't a capability problem; it was <strong>an insufficient context window</strong>. Information from three tasks was crammed into one context, and Kai started mixing things up: "Is this API doc for the new module or the old one?" "Does the PR I'm reviewing conflict with the refactor task?"</p>
+<p>Yason didn't realize the problem at the time, assuming Kai just needed more time. Until he looked at Kai's execution log:</p>
+<pre><code>09:00 - Start refactoring the notification module
+09:15 - Switch to the API docs task (Yason said &quot;ASAP&quot;)
+09:20 - Switch to the PR review (new task takes priority)
+09:45 - Back to the refactor, forgot the approach, re-read the code
+10:00 - Switch to the API docs again
+</code></pre>
+<p>In one morning, Kai switched tasks 7 times, and every switch carried the cost of "reloading context."</p>
+<blockquote>
+<p><strong>Human multitasking has a "switching cost" — going from writing code to a meeting takes the brain ~15 minutes to get back into a flow state. Agents are the same — every time a task switches, the context must reload, and the Token cost doubles.</strong></p>
+</blockquote>
+<h2 id="industry-sub-agent-practices">Industry Sub-Agent Practices</h2>
+<p>Before designing the Sub-Agent architecture, Yason studied patterns that industry had already proven out.</p>
+<p><strong>OpenAI Codex's Manager-Worker model</strong> was the most direct reference. Codex can create one Manager Agent and up to 8 Worker Agents, each Worker running in an isolated cloud sandbox with its own isolated worktree. The Manager handles task decomposition and assignment; the Worker only handles execution.</p>
+<p>The key design is the <strong>isolated worktree</strong> — each Worker can only see its own copy of the code, with no interference. When all Workers finish, the Manager merges all changes via Pull Request.</p>
+<pre><code>Codex Manager (task decomposition + quality review)
+  │
+  ├─ Worker 1: implement login module (isolated worktree)
+  ├─ Worker 2: implement registration module (isolated worktree)
+  ├─ Worker 3: implement password reset (isolated worktree)
+  ├─ Worker 4: write unit tests (isolated worktree)
+  ├─ Worker 5: write API docs (isolated worktree)
+  │
+  └─ All changes → PR → human confirmation → merge
+</code></pre>
+<p><strong>Claude Code Agent Teams</strong> offers another pattern — Sub-Agents <strong>share</strong> a workspace, avoiding conflicts via file locking. When one Agent edits a file, it locks it; other Agents can read but not write. This pattern fits tightly-coupled collaboration scenarios (e.g., multiple Agents refactoring one module together), but the Agent count shouldn't exceed 5.</p>
+<p>From these two, Yason learned where each fits: <strong>The Codex pattern fits "splitting up to execute independent tasks"; the Claude Code Teams pattern fits "collaboratively processing the same codebase."</strong></p>
+<h2 id="the-birth-of-the-sub-agent">The Birth of the Sub-Agent</h2>
+<p>Yason's solution: <strong>One Agent is spread too thin — give it subordinates.</strong></p>
+<p>The architecture went from flat to tree-shaped:</p>
+<div class="mermaid">flowchart TD
+    Y[Yason] --&gt; K[&quot;Kai (Dev Lead)&quot;]
+    Y --&gt; M[&quot;Max (Ops)&quot;]
+    Y --&gt; R[&quot;Rex (Infra)&quot;]
+
+    K --&gt;|code tasks| OC[OpenCode Worker&lt;br&gt;model: DeepSeek V4 Flash&lt;br&gt;capability: code gen / review / refactor]
+    K --&gt;|analysis tasks| KM[Kimi Worker&lt;br&gt;model: Kimi K1.6&lt;br&gt;capability: tech analysis / doc reading / architecture research]
+
+    M --&gt;|content production| QW[Qwen Worker&lt;br&gt;cost-effective, good for batch ops]
+    M --&gt;|data collection| DS[DeepSeek V4 Worker&lt;br&gt;fast, low cost]
+
+    style Y fill:#e6f3ff,stroke:#1a6bb5,stroke-width:3px
+    style K fill:#fff3cd,stroke:#856404
+    style M fill:#fff3cd,stroke:#856404
+    style R fill:#fff3cd,stroke:#856404
+    style OC fill:#d4edda,stroke:#155724
+    style KM fill:#d4edda,stroke:#155724
+    style QW fill:#d4edda,stroke:#155724
+    style DS fill:#d4edda,stroke:#155724
+</div>
+<p>Kai is no longer just an executor. He became a "junior manager" — he owns the architecture decisions and task decomposition, and assigns the actual coding work to OpenCode and Kimi to execute.</p>
+<p><strong>Why OpenCode and Kimi?</strong></p>
+<p>This wasn't random. Yason found different models have their own talents on different tasks:</p>
+<table>
+<thead>
+<tr>
+<th>Task type</th>
+<th>Primary model</th>
+<th>Sub-Agent</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code generation</td>
+<td>Kai</td>
+<td>OpenCode</td>
+<td>Strong code understanding, large context window</td>
+</tr>
+<tr>
+<td>Technical reasoning</td>
+<td>Kai</td>
+<td>Kimi</td>
+<td>Strong long-text reasoning, good for analysis</td>
+</tr>
+<tr>
+<td>Ops content</td>
+<td>Max</td>
+<td>Qwen</td>
+<td>Cost-effective, good for batch</td>
+</tr>
+<tr>
+<td>Data collection</td>
+<td>Max</td>
+<td>DeepSeek V4</td>
+<td>Fast, low cost</td>
+</tr>
+</tbody>
+</table>
+<p>Each Parent Agent has multiple Child Agents. Sub-Agents have no decision-making power — they only execute specific tasks, and hand their output to the parent Agent for quality check and integration.</p>
+<h2 id="context-isolation-for-each-sub-agent">Context Isolation for Each Sub-Agent</h2>
+<p>The most easily overlooked design in Sub-Agent architecture is <strong>context isolation</strong>.</p>
+<p>Yason found many people make the same mistake when building Sub-Agents: the parent Agent passes the entire conversation history to the Sub-Agent. The result is the Sub-Agent's context gets polluted by irrelevant info, cost doubles, and quality doesn't improve.</p>
+<p>The right approach: <strong>Every time you create a Sub-Agent, give it a clean new context. The parent Agent only stores the Sub-Agent's "task intent" and "result summary" — not the Sub-Agent's full conversation history.</strong></p>
+<pre><code># ❌ Wrong: pass everything
+parent_context = {
+    &quot;full_history&quot;: [...],  # includes all of the parent's prior conversations
+    &quot;task&quot;: &quot;write the user registration module&quot;,
+    &quot;child_context&quot;: full_history + task  # Sub-Agent gets polluted
+}
+
+# ✅ Right: context isolation
+parent_context = {
+    &quot;active_tasks&quot;: {
+        &quot;child_1&quot;: {
+            &quot;task&quot;: &quot;write the user registration module&quot;,  # only store intent
+            &quot;summary&quot;: &quot;completed login, registration, password-reset functions&quot;,  # only store summary
+            &quot;token_cost&quot;: 4520
+        },
+        &quot;child_2&quot;: {
+            &quot;task&quot;: &quot;write unit tests&quot;,
+            &quot;summary&quot;: &quot;92% coverage; 3 edge cases pending confirmation&quot;,
+            &quot;token_cost&quot;: 3810
+        }
+    }
+}
+
+# The Sub-Agent's own context is clean
+child_context = {
+    &quot;task&quot;: &quot;write the user registration module, requirements: ...&quot;,
+    &quot;conversation_history&quot;: []  # starts from scratch
+}
+</code></pre>
+<p>This design is the key reason Yason's Agent team could scale from 3 Agents to 10. If the parent stored every Sub-Agent's full history, the context window would grow approximately linearly with the number of Sub-Agents (each Sub-Agent roughly doubles the parent's Token consumption). With context isolation, the parent's Token consumption is O(1) — no matter how many Sub-Agents, the parent only stores intent and summary.</p>
+<blockquote>
+<p><strong>Context isolation is the cornerstone of Sub-Agent architecture. Without it, every Sub-Agent you add is one more "memory burden" on the parent. With it, the parent is like a project manager — it knows what everyone is doing and how well, but doesn't need to remember every word each person said.</strong></p>
+</blockquote>
+<h2 id="real-config-kai-opencode-kimi">Real Config: Kai + OpenCode + Kimi</h2>
+<p>Here's the Sub-Agent section of Yason's Kai config file:</p>
+<pre><code class="language-yaml"># /opt/agents/kai/config.yaml
+agent:
+  name: Kai
+  role: dev-lead
+
+  # Sub-Agent config
+  children:
+    - name: opencode-worker
+      engine: opencode
+      model: deepseek-v4-flash
+      capabilities:
+        - code_generation
+        - code_review
+        - refactoring
+      max_retries: 3
+      timeout: 300
+
+    - name: kimi-worker
+      engine: kimi
+      model: kimi-k1.6
+      capabilities:
+        - technical_analysis
+        - document_reading
+        - architecture_research
+      max_retries: 2
+      timeout: 600
+
+  # Task assignment rules
+  routing:
+    - match: type == &quot;code&quot; || type == &quot;review&quot;
+      assign_to: opencode-worker
+    - match: type == &quot;research&quot; || type == &quot;analyze&quot;
+      assign_to: kimi-worker
+    - match: type == &quot;architecture&quot; || type == &quot;design&quot;
+      assign_to: self  # Kai does it himself
+</code></pre>
+<p>This config tells Kai: code tasks go to OpenCode, research/analysis goes to Kimi, architecture design he does himself.</p>
+<h2 id="parent-agent-vs-sub-agent-the-power-boundary">Parent Agent vs Sub-Agent: The Power Boundary</h2>
+<p>The most critical design in Sub-Agent architecture isn't "how to assign tasks" — it's <strong>the power boundary between parent and Sub-Agent</strong>.</p>
+<p>Yason set a few clear rules:</p>
+<p><strong>Parent Agent responsibilities:</strong></p>
+<ul>
+<li>Decompose tasks and assign them to the right Sub-Agents</li>
+<li>Check the quality of Sub-Agent output</li>
+<li>Integrate results from multiple Sub-Agents</li>
+<li>Handle Sub-Agent exceptions and failures</li>
+<li>Report the final result to Yason</li>
+</ul>
+<p><strong>Sub-Agent responsibilities:</strong></p>
+<ul>
+<li>Receive tasks assigned by the parent Agent</li>
+<li>Execute specific operations (write code, analyze docs)</li>
+<li>Report results to the parent Agent</li>
+<li>Escalate errors it can't handle (don't try to power through alone)</li>
+</ul>
+<hr />
+<p>One rule Yason keeps emphasizing: <strong>Sub-Agents don't communicate directly with each other.</strong></p>
+<pre><code># ❌ Not allowed: direct talk between Sub-Agents
+OpenCode → Kimi: &quot;Help me look at this API doc&quot;
+Kimi → OpenCode: &quot;Sure, here's the doc content&quot;
+
+# ✅ Right: route through the parent Agent
+OpenCode → Kai: &quot;Need API doc support&quot;
+Kai → Kimi: &quot;Provide this API doc to OpenCode&quot;
+Kimi → Kai: &quot;Doc content below&quot;
+Kai → OpenCode: &quot;Here's the doc, keep coding&quot;
+</code></pre>
+<blockquote>
+<p><strong>Peer-to-peer Sub-Agent communication → uncontrollable info flow → Agent misunderstandings rebound. Parent-Agent routing → traceable info flow → you know who to blame when something breaks.</strong></p>
+</blockquote>
+<h2 id="assignment-strategy-not-just-spread-evenly">Assignment Strategy: Not Just "Spread Evenly"</h2>
+<p>Assigning tasks to Sub-Agents isn't simply "throw it to whoever's idle." Yason uses a cost-aware dispatch logic:</p>
+<pre><code>def assign_task(task, children):
+    # 1. Capability match (the Sub-Agent must be able to handle this task)
+    candidates = [c for c in children if task.type in c.capabilities]
+
+    # 2. Current load (no overloading)
+    candidates = [c for c in candidates if c.current_load &lt; c.max_load]
+
+    # 3. Cost-optimal (if both can do it, pick the cheaper one)
+    candidates.sort(key=lambda c: c.cost_per_task)
+
+    # 4. Historical success rate (same model, pick the higher success rate)
+    candidates.sort(key=lambda c: c.success_rate, reverse=True)
+
+    # 5. Assign
+    return candidates[0] if candidates else self.handle_self(task)
+</code></pre>
+<p>The beauty of this logic: it's not rigid round-robin. If DeepSeek V4's API is especially stable today, it gets more tasks; if some model starts erroring frequently, it's auto-downweighted.</p>
+<h2 id="fan-outgather-the-sub-agent-collaboration-pattern">Fan-Out/Gather: The Sub-Agent Collaboration Pattern</h2>
+<p>Once Sub-Agent count exceeds 2, Yason found he needed a standard collaboration pattern to manage "one-to-many" task dispatch. He uses the Fan-Out/Gather pattern.</p>
+<div class="mermaid">flowchart TD
+    subgraph &quot;Fan-Out phase&quot;
+        direction LR
+        PA[Parent Agent&lt;br&gt;(task decomposition)] --&gt; CA[Sub-Agent A&lt;br&gt;Module A impl]
+        PA --&gt; CB[Sub-Agent B&lt;br&gt;Module B impl]
+        PA --&gt; CC[Sub-Agent C&lt;br&gt;Module C impl]
+    end
+
+    subgraph &quot;Gather phase&quot;
+        direction LR
+        CA --&gt;|Result A| PAG[Parent Agent&lt;br&gt;(result integration)]
+        CB --&gt;|Result B| PAG
+        CC --&gt;|Result C| PAG
+    end
+
+    PAG --&gt; CHECK{Conflict detection}
+    CHECK --&gt;|Conflict| RESOLVE[Conflict resolution]
+    CHECK --&gt;|No conflict| MERGE[Result merge]
+    RESOLVE --&gt; MERGE
+    MERGE --&gt; FINAL[✅ Final deliverable]
+
+    style PA fill:#cce5ff,stroke:#004085
+    style PAG fill:#cce5ff,stroke:#004085
+    style CA fill:#d4edda,stroke:#155724
+    style CB fill:#d4edda,stroke:#155724
+    style CC fill:#d4edda,stroke:#155724
+    style CHECK fill:#fff3cd,stroke:#856404
+    style RESOLVE fill:#f8d7da,stroke:#721c24
+    style MERGE fill:#d1e7dd,stroke:#0f5132
+    style FINAL fill:#d1e7dd,stroke:#0f5132,stroke-width:3px
+</div>
+<p>Fan-Out phase: the parent Agent decomposes one big task into N independent subtasks and dispatches them to N Sub-Agents simultaneously.</p>
+<p>Gather phase: once all Sub-Agents finish, the parent Agent collects results and does conflict detection and integration.</p>
+<p>Yason's implementation:</p>
+<pre><code class="language-python">async def fan_out_gather(task, children):
+    # Fan-Out: decompose the task
+    subtasks = decompose_task(task, len(children))
+
+    # Dispatch in parallel
+    futures = []
+    for i, child in enumerate(children):
+        futures.append(execute_subtask(child, subtasks[i]))
+
+    # Gather: wait for all Sub-Agents to finish
+    results = await asyncio.gather(*futures, return_exceptions=True)
+
+    # Check for conflicts
+    conflicts = detect_conflicts(results)
+    if conflicts:
+        resolve_conflicts(conflicts, results)
+
+    # Integrate results
+    return integrate_results(results)
+</code></pre>
+<p>The key to this pattern is <strong>independence</strong> between subtasks — if subtasks depend on each other, Fan-Out/Gather doesn't apply (you'd switch to a Pipeline pattern). Yason's rule of thumb: <strong>80% of coding tasks can be decomposed into independent subtasks, fitting Fan-Out/Gather. The remaining 20% need chained processing.</strong></p>
+<h2 id="the-recursion-trap-when-a-sub-agent-gets-its-own-sub-agent">The Recursion Trap: When a Sub-Agent Gets Its Own Sub-Agent</h2>
+<p>The first anti-pattern Yason hit was the "recursion trap."</p>
+<p>Someone asked Yason: "Since Kai can have his own Sub-Agents, can Kai's Sub-Agent have its own Sub-Agent?"</p>
+<p>Yason tried it.</p>
+<p>The result was a disaster.</p>
+<pre><code>Kai → OpenCode Worker → Sub-Worker-1 → Sub-Worker-2 → ...
+</code></pre>
+<p>A simple "generate the user registration page" task, after four levels of recursive dispatch, produced 42 intermediate messages, 17 temp files, and 2 conflict merges — and the final code quality was worse than if Kai had just written it directly.</p>
+<blockquote>
+<p><strong>Each level deeper a Sub-Agent goes, communication loss and decision latency grow exponentially. Yason's rule of thumb: at most one level of Sub-Agents, don't recurse further.</strong></p>
+</blockquote>
+<h2 id="community-sub-agent-implementations">Community Sub-Agent Implementations</h2>
+<p>If you don't want to build Sub-Agent architecture from scratch, the community has several mature open-source options:</p>
+<p><strong>Claude Code /agent:</strong> The simplest Sub-Agent option. In Claude Code, typing <code>/agent "do X task"</code> creates a Sub-Agent to execute the specified task. The Sub-Agent has its own context window, and results return to the main session automatically when done. Yason often uses this for quick prototyping.</p>
+<p><strong>LangGraph Sub-Graphs:</strong> LangGraph supports nesting sub-graphs within one graph orchestration. Each sub-graph is an independent Agent with its own state management and node logic. Yason uses LangGraph's sub-graph feature in scenarios needing complex orchestration (e.g., multi-step data processing pipelines).</p>
+<pre><code class="language-python">from langgraph.graph import StateGraph, SubGraph
+
+# Define a sub-graph Agent
+sub_agent = StateGraph(AgentState)
+sub_agent.add_node(&quot;analyze&quot;, analyze_node)
+sub_agent.add_node(&quot;generate&quot;, generate_node)
+sub_agent.add_edge(&quot;analyze&quot;, &quot;generate&quot;)
+
+# Embed the sub-graph in the main graph
+main_graph = StateGraph(MainState)
+main_graph.add_node(&quot;code_agent&quot;, SubGraph(sub_agent))
+main_graph.add_node(&quot;test_agent&quot;, SubGraph(test_sub_agent))
+</code></pre>
+<p><strong>AutoGen's Sub-Agents:</strong> Microsoft AutoGen supports nested Agent teams (Team-in-Team), where a Team can contain other Teams as child nodes. Fits scenarios needing multiple layers of abstraction.</p>
+<p>Yason's advice: <strong>Start simple. Try Claude Code /agent first to feel how Sub-Agents work, then migrate to a more complex framework as needed.</strong></p>
+<h2 id="the-real-world-payoff-of-sub-agent-architecture">The Real-World Payoff of Sub-Agent Architecture</h2>
+<p>After a month of operation, Yason compared the KPIs before and after Sub-Agent architecture:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Flat architecture</th>
+<th>Sub-Agent architecture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parallel tasks</td>
+<td>2-3</td>
+<td>5-8</td>
+</tr>
+<tr>
+<td>Avg task completion time</td>
+<td>45 min</td>
+<td>22 min</td>
+</tr>
+<tr>
+<td>Token cost / task</td>
+<td>$1.20</td>
+<td>$0.85</td>
+</tr>
+<tr>
+<td>Yason interventions / day</td>
+<td>8-10</td>
+<td>3-5</td>
+</tr>
+</tbody>
+</table>
+<p>What surprised Yason most was that <strong>cost actually went down</strong> — he'd assumed an extra Agent layer would add overhead. But the reality: Sub-Agents use cheaper models for specialized tasks (e.g., code generation uses DeepSeek V4 flash instead of the Pro that Kai uses), so total cost dropped.</p>
+<blockquote>
+<p><strong>The value of Sub-Agent architecture isn't "doing more" — it's "using the right resource for each thing."</strong></p>
+</blockquote>
+<h2 id="chapter-summary">Chapter Summary</h2>
+<ul>
+<li>Sub-Agent architecture isn't "adding manpower," it's "using the right resource for each thing"</li>
+<li>Flat architecture is simpler but scales poorly; hierarchical architecture scales well but is more complex</li>
+<li>Every Sub-Agent must have an isolated context window — the parent only stores intent + summary, never full history</li>
+<li>Fan-Out/Gather is the core pattern of Sub-Agent architecture: async execution + result merge</li>
+<li>The community has ready-made Sub-Agent implementations: Claude Code /agent, LangGraph Sub-Graphs, AutoGen</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview:</strong> Where are the Agents' capability boundaries — how the MCP toolchain turns Agents from "talkative AI" into "hands-on workers."</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI'; the full series is continuously updated:</em> <a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<p><img alt="Image showing the Sub-Agent architecture, with &quot;Supervisor Agent&quot; at the core, surrounded by multiple Sub-Agents such as &quot;Review Agent&quot; and &quot;Testing Agent.&quot; Each Sub-Agent is labeled with its count below it, such as &quot;" src="../assets/diagrams/en_18_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

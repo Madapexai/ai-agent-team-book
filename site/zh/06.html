@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>分工的艺术——谁干什么 · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">章节</div>
+    <ul><li><a href="zh/00_preface.html"><span class="ch-num">00</span>前言</a></li>
+<li><a href="zh/01.html"><span class="ch-num">01</span>你为什么需要一个 AI Agent 团队</a></li>
+<li><a href="zh/02.html"><span class="ch-num">02</span>Agent 团队能做什么，不能做什么</a></li>
+<li><a href="zh/03.html"><span class="ch-num">03</span>搭建 Agent 团队的真实成本</a></li>
+<li><a href="zh/04.html"><span class="ch-num">04</span>选择你的第一个 Agent</a></li>
+<li><a href="zh/05.html"><span class="ch-num">05</span>System Prompt 的撰写艺术</a></li>
+<li><a href="zh/06.html"><span class="ch-num">06</span>分工的艺术——谁干什么</a></li>
+<li><a href="zh/07.html"><span class="ch-num">07</span>记忆系统——让 Agent 互相认识</a></li>
+<li><a href="zh/08.html"><span class="ch-num">08</span>通信协议——当 Agent 开始说行话</a></li>
+<li><a href="zh/09.html"><span class="ch-num">09</span>透明管理——小时级汇报的力量</a></li>
+<li><a href="zh/10.html"><span class="ch-num">10</span>监察员系统——让 Agent 管理 Agent</a></li>
+<li><a href="zh/11.html"><span class="ch-num">11</span>目标导向——从“等任务”到“主动提案”</a></li>
+<li><a href="zh/12.html"><span class="ch-num">12</span>自我进化——Agent 如何越用越聪明</a></li>
+<li><a href="zh/13.html"><span class="ch-num">13</span>成本控制——别让 API 账单爆炸</a></li>
+<li><a href="zh/14.html"><span class="ch-num">14</span>质量保障——评审与反馈闭环</a></li>
+<li><a href="zh/15.html"><span class="ch-num">15</span>成本换效率——花钱，不花时间</a></li>
+<li><a href="zh/16.html"><span class="ch-num">16</span>事故现场——当 Agent 搞砸了</a></li>
+<li><a href="zh/17.html"><span class="ch-num">17</span>多 Agent 协作协议栈</a></li>
+<li><a href="zh/18.html"><span class="ch-num">18</span>Sub-Agent 架构——给 Agent 配下属</a></li>
+<li><a href="zh/19.html"><span class="ch-num">19</span>外部工具——MCP 与工具链</a></li>
+<li><a href="zh/20.html"><span class="ch-num">20</span>自我进化与自我修复——越跑越聪明的 Agent 团队</a></li>
+<li><a href="zh/21.html"><span class="ch-num">21</span>未来——当 Agent 团队成为标配</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="图片展示了“分工的艺术·Agent角色体系”，包含Coding Agent、Review Agent、Testing Agent三种角色。Coding Agent专职编码实现等；Review Agent负责代码审查等；Testing Agent执行测试全流程自动化等。各角色有明确边界，如Review Agent不碰代码只提建议，Testing Agent不决定测试策略。图片与上文运维Agent Rex越界修改Kai代码的案例相呼应，强调了明确Agent角色分工和边界的重要性。" src="../assets/diagrams/zh_06_1.svg" /></p>
+<h2 id="agent">当运维Agent去改代码</h2>
+<p>凌晨1点，Yason被手机震醒。</p>
+<p>打开一看，Rex（运维Agent）发了一条消息：</p>
+<pre><code>发现Kai（开发Agent）最近创建的三个任务日志里有一个数据库连接字符串写死了IP，
+建议改成环境变量。已自动修改。
+</code></pre>
+<p>Yason当时就清醒了。</p>
+<p>Rex确实发现了问题。但Rex越界了——它<strong>直接修改了Kai的代码</strong>。改完之后，Kai第二天跑了一上午才发现测试挂了，因为它不知道自己的文件被人改了。</p>
+<p>更麻烦的是，Kai和Rex用的都是同一个Git仓库，改文件时没有加锁机制。Rex改了A文件，Kai改了B文件——它们在两个不同的分支上工作，但改完之后合并冲突花了Yason一小时。</p>
+<blockquote>
+<p><strong>角色越界是Agent团队管理中最隐蔽的陷阱。</strong> 每个Agent都应该有一个清晰的"地盘"，并且具备识别越界的能力。</p>
+</blockquote>
+<h2 id="_1">角色 = 架构</h2>
+<p>Yason后来把Agent团队的<strong>角色模型</strong>当作软件架构来设计。每个Agent就是一个微服务——有自己的职责范围、数据边界、通信协议。</p>
+<h3 id="yasonagent">Yason的三Agent模型</h3>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>角色</th>
+<th>核心职责</th>
+<th>可访问资源</th>
+<th>决策权</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kai</td>
+<td>开发工程师</td>
+<td>代码实现、测试、重构</td>
+<td>代码仓库、开发文档</td>
+<td>代码层面的技术选型</td>
+</tr>
+<tr>
+<td>Rex</td>
+<td>运维工程师</td>
+<td>服务器健康、部署、监控</td>
+<td>服务器配置、监控系统</td>
+<td>故障降级和隔离</td>
+</tr>
+<tr>
+<td>Max</td>
+<td>运营助手</td>
+<td>内容、数据分析、报告</td>
+<td>数据分析、内容平台API</td>
+<td>运营策略的建议</td>
+</tr>
+</tbody>
+</table>
+<p>每个Agent的System Prompt里都有一个显式的"角色声明"区块：</p>
+<pre><code class="language-yaml"># Kai的系统提示中的角色声明
+agent:
+  name: Kai
+  role: developer
+  domain:
+    - code_implementation
+    - testing
+    - refactoring
+    - code_review
+  forbidden_domains:
+    - server_configuration  # 属于Rex
+    - content_creation      # 属于Max
+    - business_decisions    # 属于Yason
+</code></pre>
+<h3 id="marvis">Marvis架构的启示：一主多副</h3>
+<p>Yason在设计Agent角色时借鉴了Marvis的分层架构。Marvis采用<strong>1个主Agent + N个副Agent（1+N）</strong>的模式：</p>
+<div class="mermaid">flowchart TD
+    Master[Master Agent&lt;br&gt;Yason 调度器] --&gt; Dispatch[任务分派]
+    Master --&gt; QC[质量控制]
+    Master --&gt; Arbiter[异常裁决]
+
+    Master --&gt; Kai[Kai 开发Agent&lt;br&gt;代码实现·测试·重构]
+    Master --&gt; Rex[Rex 运维Agent&lt;br&gt;服务器·部署·监控]
+    Master --&gt; Max[Max 运营Agent&lt;br&gt;内容·数据分析·报告]
+
+    Kai --&gt; KaiResult[返回结果]
+    Rex --&gt; RexResult[返回结果]
+    Max --&gt; MaxResult[返回结果]
+</div>
+<p>核心思路是：<strong>主Agent不干活，只管事。干活的是副Agent。</strong></p>
+<p>Marvis的架构证明了一个关键原则：<strong>Agent团队的规模增长不是靠增加全能Agent，而是靠为每个新角色创建专用的副Agent。</strong> 当Yason需要增加一个"数据分析Agent"时，他不需要改动Kai、Rex、Max的任何逻辑——只需要创建一个新的副Agent，挂到主Agent下面。</p>
+<p>实际上，随着Agent团队的进一步扩张，Yason后来把副Agent从3个扩展到了5个——增加了"数据分析Agent"和"文档编写Agent"。这5个副Agent共享同一个主Agent调度器，形成了一个1主+5副的架构：</p>
+<pre><code>Master Agent（Yason）:
+  ├── Kai（开发）：代码实现、测试、重构
+  ├── Rex（运维）：服务器、部署、监控
+  ├── Max（运营）：内容、数据分析、报告
+  ├── Data（数据分析）：数据查询、报表、洞察
+  └── Doc（文档）：文档编写、维护、更新
+</code></pre>
+<p>这种架构的优势在于：<strong>每个新角色的加入都是零摩擦的。</strong> 既不需要修改已有Agent的System Prompt，也不需要改变沟通协议。新副Agent只需要注册到主Agent的调度器，就能开始工作。</p>
+<p>Marvis的架构验证了一个趋势：当Agent团队超过5个后，1主+N副的分层模型会比全连接模型更容易管理。全连接模型下，N个Agent之间会有N×(N-1)条通信链路——当N=6时，就是30条。而1主+5副模型下，只有5条（副→主）。</p>
+<blockquote>
+<p><strong>你的Agent团队规模扩大时，不要增加沟通复杂度——用分层来消化增长。</strong></p>
+</blockquote>
+<h2 id="_2">资源争用：谁先谁后</h2>
+<p>三Agent运作起来之后，Yason发现了一个新问题：<strong>资源争用</strong>。</p>
+<p>比如：Rex说服务器内存紧张，需要优化。Kai说有个新功能要上线，需要部署资源。同时Max说数据分析任务需要长时间占用CPU。</p>
+<p>三个Agent都觉得自己的事最紧急。如果没有优先级机制，谁先抢到Yason的注意力谁就先做。</p>
+<p>Yason设计了一个<strong>优先级矩阵</strong>：</p>
+<pre><code class="language-json">{
+  &quot;priority_matrix&quot;: {
+    &quot;P0&quot;: [&quot;生产故障&quot;, &quot;安全漏洞&quot;, &quot;数据丢失&quot;],
+    &quot;P1&quot;: [&quot;部署阻塞&quot;, &quot;客户影响&quot;, &quot;核心API异常&quot;],
+    &quot;P2&quot;: [&quot;功能开发&quot;, &quot;性能优化&quot;, &quot;数据分析&quot;],
+    &quot;P3&quot;: [&quot;文档完善&quot;, &quot;技术债清理&quot;, &quot;非紧急调研&quot;]
+  },
+  &quot;allocation_rules&quot;: {
+    &quot;P0&quot;: &quot;所有Agent立即切换至处理，暂停当前P2+任务&quot;,
+    &quot;P1&quot;: &quot;相关域Agent优先处理，非相关Agent继续当前工作&quot;,
+    &quot;P2&quot;: &quot;按任务队列顺序排队&quot;,
+    &quot;P3&quot;: &quot;空闲时处理，可能长期排队&quot;
+  }
+}
+</code></pre>
+<p>这个矩阵写在每个Agent的System Prompt里，当多Agent竞争时，按优先级自动排序。</p>
+<blockquote>
+<p><strong>原则</strong>：Agent不能自己做优先级决策——优先级矩阵必须在Prompt里写死。你希望Agent灵活的地方，恰恰是用规则框死的地方。</p>
+</blockquote>
+<h2 id="1n">六种分工拓扑：不只是1主+N副</h2>
+<p>Yason的1主+3副是一个起点，但随着Agent生态扩张，他发现不同的任务类型需要不同的分工拓扑。</p>
+<table>
+<thead>
+<tr>
+<th>拓扑</th>
+<th>结构</th>
+<th>适用场景</th>
+<th>实际案例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>星型</strong></td>
+<td>1主+N副，所有通信过主Agent</td>
+<td>小团队（3-5个Agent）</td>
+<td>Yason的Kai+Rex+Max</td>
+</tr>
+<tr>
+<td><strong>链式</strong></td>
+<td>A→B→C→D，流水线协作</td>
+<td>DevOps流程（Code→Build→Test→Deploy）</td>
+<td>CI/CD Pipeline Agent</td>
+</tr>
+<tr>
+<td><strong>网格</strong></td>
+<td>任意Agent可通信</td>
+<td>需要深度协作的专用团队</td>
+<td>安全审计团队（扫描→分析→报告→修复）</td>
+</tr>
+<tr>
+<td><strong>层级</strong></td>
+<td>多级管理树</td>
+<td>大规模Agent组织</td>
+<td>企业级部署（部门→团队→个人Agent）</td>
+</tr>
+<tr>
+<td><strong>总线</strong></td>
+<td>通过消息总线通信</td>
+<td>异步、松耦合场景</td>
+<td>数据采集Agent集群</td>
+</tr>
+<tr>
+<td><strong>混合</strong></td>
+<td>以上组合</td>
+<td>复杂业务场景</td>
+<td>大部分生产环境都是混合拓扑</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">如何选择拓扑</h3>
+<p>Yason的经验法则：</p>
+<ul>
+<li><strong>第1-3个Agent</strong>：星型就够了。简单、可控、不出错。</li>
+<li><strong>第4-8个Agent</strong>：考虑链式或总线。任务开始出现上下游依赖。</li>
+<li><strong>第8+个Agent</strong>：必须用层级或混合。没有层级管理，信息洪流会淹死主Agent。</li>
+</ul>
+<blockquote>
+<p><strong>拓扑不是选最美的，是选最容易预测的。</strong> 星型虽然简单，但它让主Agent成为瓶颈。链式虽然高效，但一个环节卡住整条线就停了。没有银弹——根据你的团队规模和任务类型选。</p>
+</blockquote>
+<h3 id="cicd-pipeline">真实案例：CI/CD Pipeline的链式拓扑</h3>
+<p>Yason在搭建CI/CD Pipeline Agent团队时选择了链式拓扑：</p>
+<pre><code>Code Agent → Build Agent → Test Agent → Deploy Agent → Verify Agent
+</code></pre>
+<p>每个Agent只做一件事，完成后触发下一个。这个拓扑的关键优势是<strong>故障隔离</strong>——如果Test Agent发现测试失败，它不会阻塞Build Agent继续工作（因为Build Agent已经在处理下一个PR了）。失败信息沿着链条传递，最终汇总给主Agent做决策。</p>
+<h3 id="_4">真实案例：数据采集集群的总线拓扑</h3>
+<p>另一个场景是数据采集。Yason有5个采集Agent，分别爬取不同的数据源。它们通过一个消息总线（基于NATS）通信：</p>
+<pre><code>采集Agent A（GitHub） → 总线 → 清洗Agent
+采集Agent B（Twitter） → 总线 → 清洗Agent
+采集Agent C（Reddit）  → 总线 → 清洗Agent
+</code></pre>
+<p>采集Agent只负责采集，把原始数据丢到总线上。清洗Agent从总线上消费数据，处理后存储。这种拓扑让采集和清洗完全解耦——你可以随时增加一个采集Agent，不需要改清洗逻辑。</p>
+<blockquote>
+<p><strong>链式拓扑适合流水线，总线拓扑适合数据流，星型拓扑适合小团队。选拓扑不是在选最好的，是在选最适合你任务模式的。</strong></p>
+</blockquote>
+<h2 id="agent_1">沟通协议：Agent之间怎么说话</h2>
+<p>Yason从不允许Agent之间直接互发消息。所有Agent之间的沟通必须通过一个<strong>共享知识库</strong>（Git仓库）中转：</p>
+<pre><code>Kai发现问题 → 写入共享仓库的 issues/ 目录 → Rex巡检时读到 → 在自己的职责范围内处理
+</code></pre>
+<p>这个设计的理由是：</p>
+<ol>
+<li><strong>审计追踪</strong>：所有跨Agent交互都有记录</li>
+<li><strong>避免争吵</strong>：Agent不会在群里争论（这真的发生过）</li>
+<li><strong>异步解耦</strong>：每个Agent按自己的节奏工作</li>
+</ol>
+<p>跨Agent消息格式：</p>
+<pre><code class="language-yaml"># /memory/requests/2025-06-01-kai-to-rex.yaml
+from: Kai
+to: Rex
+type: request
+priority: P2
+subject: &quot;服务器上Node版本需要升级&quot;
+reason: &quot;新功能需要Node 18+，当前是16&quot;
+impact: &quot;如果不升级，用户模块的v3分支无法部署&quot;
+suggested_action: &quot;升级Node版本，确认无兼容性问题&quot;
+status: open
+</code></pre>
+<p>Rex定期检查 <code>requests/</code> 目录。处理完成后，将 <code>status</code> 改为 <code>resolved</code>，Kai在下次同步时就能读到。</p>
+<h2 id="agent_2">社区现成的Agent角色定义</h2>
+<p>你不需要从零写每个人的System Prompt。</p>
+<p>GitHub上有大量高质量Agent角色定义。Yason在搭建第三个Agent时就发现了这一点——他搜索了一下"agent role template"，找到了好几个可以直接用的模板：</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>推荐的开源模板</th>
+<th>适配成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DevOps Agent</strong></td>
+<td>DevOps-Prompt-Template</td>
+<td>改一下服务器信息就能用</td>
+</tr>
+<tr>
+<td><strong>Code Review Agent</strong></td>
+<td>CodeReview-Agent-Prompt</td>
+<td>调一下代码规范即可</td>
+</tr>
+<tr>
+<td><strong>Data Analysis Agent</strong></td>
+<td>Data-Analyst-Prompt</td>
+<td>连接数据源即可</td>
+</tr>
+<tr>
+<td><strong>Customer Support Agent</strong></td>
+<td>Support-Agent-Prompt</td>
+<td>导入FAQ和知识库即可</td>
+</tr>
+<tr>
+<td><strong>Code Documentation Agent</strong></td>
+<td>DocGen-Prompt</td>
+<td>基本开箱即用</td>
+</tr>
+</tbody>
+</table>
+<h3 id="yason">Yason的复用工作流</h3>
+<pre><code>1. 确定新Agent的角色
+2. 在GitHub搜索&quot;&lt;角色&gt; agent prompt template&quot;
+3. 找到Star最高的仓库
+4. 基于模板写第一版（20分钟）
+5. 跑3-5个试运行任务
+6. 根据表现微调（再加20分钟）
+
+总计：40分钟 vs 从零写的3-4天
+</code></pre>
+<blockquote>
+<p><strong>社区里已经有几十个Agent角色定义模板了。你以为你要发明的东西，别人已经踩过坑。</strong> 书末附录B有一个更完整的列表。不要从零写。</p>
+</blockquote>
+<h2 id="_5">安全：最小权限原则</h2>
+<p>每个Agent的工具访问权限必须遵循<strong>最小权限原则</strong>——只给Agent完成任务需要的最少权限。</p>
+<p>Yason的权限配置示例：</p>
+<pre><code class="language-yaml"># /opt/agents/permissions.yaml
+agents:
+  kai:
+    tool_access:
+      read:   [code_repo, docs, test_results]
+      write:  [code_repo, test_results]
+      exec:   [npm_test, build, lint]
+      deny:   [ssh, db_connect, config_edit]  # 这是Rex的
+    resource_limits:
+      max_concurrent_tasks: 2
+      max_cost_per_hour: &quot;$5&quot;
+
+  rex:
+    tool_access:
+      read:   [server_status, logs, config]
+      write:  [config, backups]
+      exec:   [deploy, restart, rollback]
+      deny:   [npm_test, code_edit, content_publish]
+    resource_limits:
+      max_concurrent_tasks: 3
+
+  max:
+    tool_access:
+      read:   [data_sources, analytics, content_platform]
+      write:  [content_platform, reports]
+      exec:   [data_pipeline]
+      deny:   [code_edit, server_config, deploy]
+    resource_limits:
+      max_concurrent_tasks: 3
+</code></pre>
+<h3 id="_6">为什么要单独提权限</h3>
+<p>Yason踩过一次坑：Kai有数据库的写权限。有一次Kai跑测试时生成了一堆测试数据，直接写到了生产数据库里——因为它分不清"测试DB"和"生产DB"。</p>
+<p>从那以后，每个Agent的System Prompt里多了一节：</p>
+<pre><code>## 工具访问边界
+你只能访问以下工具和资源：
+- {允许的工具列表}
+任何未明确授权的工具，视为不可用。
+需要额外权限时，走申请流程，不要自己尝试。
+</code></pre>
+<blockquote>
+<p><strong>权限不是限制，是保护。</strong> 给Agent越多的自由，就越考验你的Prompt质量。最小权限既保护系统，也保护Agent不出错。</p>
+</blockquote>
+<h2 id="_7">团队进化：从独奏到交响</h2>
+<p>Yason的Agent团队经历了四个阶段：</p>
+<h3 id="11">阶段1：独奏（第1个月）</h3>
+<p>只有一个Kai。Yason就是运维和运营。沟通简单直接，不需要任何协调机制。</p>
+<h3 id="22-3">阶段2：二重奏（第2-3个月）</h3>
+<p>加了Rex。开始出现角色交叉，引入了"角色声明"机制。两个Agent的职责通过System Prompt明确切割。</p>
+<h3 id="33-6">阶段3：三重奏（第3-6个月）</h3>
+<p>Max加入。资源争用问题出现，引入了优先级矩阵和跨Agent通信协议。</p>
+<h3 id="46">阶段4：交响（第6个月后）</h3>
+<p>Agent数量稳定在6个（3个主力 + 3个专项）。形成了完整的任务分配、沟通、审核、反馈体系。</p>
+<blockquote>
+<p><strong>不要跳过阶段。</strong> 每个阶段都有它存在必要的磨合过程。Yason见过有人一个月搭了8个Agent，然后花两个月收拾烂摊子。</p>
+</blockquote>
+<h2 id="_8">分工反模式</h2>
+<p>Yason踩过的坑，总结成三个反模式：</p>
+<p><strong>反模式1：全能Agent</strong> — 一个Agent什么都做。导致它在不同角色间频繁切换上下文，输出质量全面下降。<strong>解决方案</strong>：每个Agent只做一件事。</p>
+<p><strong>反模式2：空白地带</strong> — 有些事谁都不负责。比如"日志格式规范"——Kai觉得是Rex的，Rex觉得是Kai的。<strong>解决方案</strong>：每周check一次"模糊地带清单"。</p>
+<p><strong>反模式3：重复造轮</strong> — 两个Agent做了同一个事。Kai和Max同时写了一版竞品分析，内容高度重复。<strong>解决方案</strong>：任务分配前先查历史记录，避免重复劳动。</p>
+<h2 id="_9">本章小结</h2>
+<ul>
+<li>把角色设计当架构设计：每个Agent是一个微服务</li>
+<li><strong>Marvis的1主+N副架构是Agent团队扩展的可行路径</strong></li>
+<li><strong>六种分工拓扑适用不同场景——从星型开始，随团队扩张进化</strong></li>
+<li>用System Prompt显式声明每个Agent的职责和禁区</li>
+<li><strong>社区有大量现成的Agent角色定义模板——不要从零写</strong></li>
+<li><strong>为每个Agent设置最小权限——只给完成任务需要的最少工具</strong></li>
+<li>设计优先级矩阵解决资源争用</li>
+<li>Agent之间不直接通信，通过共享知识库中转</li>
+<li>团队进化有四个阶段：独奏 → 二重奏 → 三重奏 → 交响</li>
+<li>识别并避免三个反模式：全能、空白地带、重复造轮</li>
+</ul>
+<blockquote>
+<p><strong>下一章预告</strong>：让Agent认识彼此——记忆系统的搭建。30分钟同步一次的知识库、Git冲突的惊魂时刻、以及那个让Yason崩溃的"锁文件"问题。</p>
+</blockquote>
+<p><em>本文来自专栏《给AI当老板》，完整系列持续更新中：</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<p><img alt="图片展示了Agent角色体系中的Coding Agent、Review Agent和Testing Agent。在Coding Agent处，其职责涵盖代码实现及更多内容——完整拆解了团队中每个角色的职责范围与边界。" src="../assets/diagrams/zh_06_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 500" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="820" height="500" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="10" fill="#1f3a5f"/>
+  <text x="410" y="56" fill="#fff" font-size="22" font-weight="700" text-anchor="middle">选定你的第一个 Agent</text>
+
+  <!-- App window -->
+  <rect x="40" y="100" width="740" height="360" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="40" y="100" width="740" height="40" rx="12" fill="#eef2f7"/>
+  <rect x="40" y="124" width="740" height="16" fill="#eef2f7"/>
+  <circle cx="64" cy="120" r="6" fill="#d9534f"/>
+  <circle cx="84" cy="120" r="6" fill="#e0a82e"/>
+  <circle cx="104" cy="120" r="6" fill="#2e9e6b"/>
+  <text x="410" y="125" fill="#475569" font-size="14" text-anchor="middle">从哪个 Agent 开始？先选一个跑通</text>
+
+  <!-- Option cards -->
+  <rect x="60" y="170" width="220" height="170" rx="12" fill="#eef5fc" stroke="#4a90d9" stroke-width="3"/>
+  <circle cx="170" cy="210" r="22" fill="#4a90d9"/>
+  <text x="170" y="217" fill="#fff" font-size="20" font-weight="700" text-anchor="middle">&#60;/&#62;</text>
+  <text x="170" y="262" fill="#1f3a5f" font-size="18" font-weight="700" text-anchor="middle">编码 Agent</text>
+  <text x="170" y="290" fill="#475569" font-size="13" text-anchor="middle">直接产出代码</text>
+  <text x="170" y="312" fill="#2e9e6b" font-size="14" font-weight="700" text-anchor="middle">★ 推荐首选</text>
+
+  <rect x="300" y="170" width="220" height="170" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="410" cy="210" r="22" fill="#94a3b8"/>
+  <text x="410" y="217" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">D</text>
+  <text x="410" y="262" fill="#1f3a5f" font-size="18" font-weight="700" text-anchor="middle">文档 Agent</text>
+  <text x="410" y="290" fill="#475569" font-size="13" text-anchor="middle">自动写文档</text>
+  <text x="410" y="312" fill="#94a3b8" font-size="14" text-anchor="middle">可稍后</text>
+
+  <rect x="540" y="170" width="220" height="170" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="650" cy="210" r="22" fill="#94a3b8"/>
+  <text x="650" y="217" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">T</text>
+  <text x="650" y="262" fill="#1f3a5f" font-size="18" font-weight="700" text-anchor="middle">测试 Agent</text>
+  <text x="650" y="290" fill="#475569" font-size="13" text-anchor="middle">自动化测试</text>
+  <text x="650" y="312" fill="#94a3b8" font-size="14" text-anchor="middle">可稍后</text>
+
+  <!-- Recommendation banner -->
+  <rect x="60" y="368" width="700" height="68" rx="12" fill="#4a90d9"/>
+  <text x="410" y="398" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">推荐：从编码 Agent 开始</text>
+  <text x="410" y="422" fill="#fff" font-size="14" text-anchor="middle">最快 2 周感受到产能提升 · 先跑通再扩展</text>
+</svg>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why You Need an AI Agent Team · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="Image showing how traditional monolithic development, traditional teams, and Agent teams compare in speed and focus," src="../assets/diagrams/en_01_1.svg" /></p>
+<h2 id="three-people-cant-beat-one-agent">Three People Can't Beat One Agent</h2>
+<p>March 2025. Yason stared at last month's payroll and the freelance invoices, speechless.</p>
+<p>Three people on the team, nearly ¥100k in monthly spend. But the actual useful code and business output boiled down to maybe 1.5 people's worth. Not that anyone was slacking — meetings, alignment, requirement confirmation, design reviews, waiting on dependencies, fixing environments, waiting for approvals... the time those ate up, nobody dared put it in the weekly report.</p>
+<p>What's deadlier: <strong>the bigger the team, the exponentially worse the communication overhead.</strong></p>
+<p>With three people, the communication paths are 3 (A↔B, B↔C, A↔C). But the gaps in knowledge go far beyond that — A assumes B knows, B assumes C did it, C assumes A is handling it. The whole day leaks away in those "assumes."</p>
+<blockquote>
+<p>Human attention is finite; an Agent's attention only depends on its token window. That's the most fundamental efficiency gap.</p>
+</blockquote>
+<h2 id="the-sleepless-night">The Sleepless Night</h2>
+<p>At the time, Yason was managing three servers (Rex, Robot, Neo), with day-to-day ops watched by humans. One night at 2 a.m., a server's disk filled up. The monitoring alert fired, but nobody was on call. It wasn't until 10 a.m., when users reported "can't open it," that anyone noticed.</p>
+<p>That night Yason couldn't sleep — lying in bed he thought: <strong>what if there were an Agent watching 24/7, fixing problems the moment it finds them, without even needing a human to get out of bed?</strong></p>
+<p>The next day, he got to work.</p>
+<h2 id="agent-tool">Agent != Tool</h2>
+<p>A lot of people treat Agents like tools: write a script for a cron job, set up an automation flow. That's fine, but it's thinking small.</p>
+<p>A tool moves only when you poke it. An Agent is given a goal and figures out the how itself.</p>
+<p>The first time Yason realized the difference was when he gave Kai (his first Agent) a task: "Go figure out why Rex's memory keeps climbing."</p>
+<p>Kai didn't just check the memory — it also found a log file with rotation (log rotation) not enabled, <strong>on the side</strong> wrote a fix script, and added a section to its next report: "Rex server health-check recommendations."</p>
+<blockquote>
+<p>Human work style: wait for instructions → finish the task
+Agent work style: understand the goal → break it down autonomously → execute → proactively report back → suggest optimizations</p>
+</blockquote>
+<p>There's a classic software-engineering law — Conway's Law: the architecture of a system mirrors the communication structure of the organization that built it. This law holds for Agent teams too: the structure of your Agent team determines the shape of the system it can deliver. If you manage Agents the way you manage people (give orders, wait for results, chase progress), you just get a cheaper labor pool. Only if you manage Agents the way you'd manage a CEO (give goals, give resources, give boundaries) do you get a truly self-driven team.</p>
+<p>That's the essence of "Agent != Tool."</p>
+<h2 id="real-data-70-vs-60">Real Data: 70% vs 60%</h2>
+<p>Three months later, Yason did the math (based on actual operating data from his three servers, full-month February stats):</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Human team</th>
+<th>Agent team</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Monthly spend</td>
+<td>~¥100k</td>
+<td>~¥30k</td>
+</tr>
+<tr>
+<td>Delivery speed</td>
+<td>5–7 days/feature</td>
+<td>2–3 days/feature</td>
+</tr>
+<tr>
+<td>Coverage hours</td>
+<td>9 hours/day</td>
+<td>24 hours/day</td>
+</tr>
+<tr>
+<td>Parallel capacity</td>
+<td>1–2 tasks</td>
+<td>5–8 tasks</td>
+</tr>
+<tr>
+<td>Turnover risk</td>
+<td>High</td>
+<td>Zero</td>
+</tr>
+</tbody>
+</table>
+<p>Cost down ~70%, delivery ~60% faster. Note these numbers are based on Yason's own team comparison; your reality may differ. The point isn't the precise numbers — it's that <strong>Agents free up human bandwidth, letting people do the 30% only humans can do.</strong></p>
+<p>May 2026. At Fortune Brainstorm Tech, Boris Cherny, head of Anthropic's Claude Code, said something that silenced the entire developer community — he hadn't written a single line of code by hand in 8 straight months. Instead, every morning he launches hundreds to tens of thousands of Agents from his phone to work while he sleeps. These Agents call each other, review each other's code, auto-fix bugs, even write Agents to manage other Agents. This isn't the future — it's the reality of 2026. This book teaches you exactly how to build your own Agent team from scratch, even if you start from a single laptop.</p>
+<p>In that same month (May 20, 2026), Tencent released Marvis, an OS-level AI assistant, with 6 Agent teams built in: 1 supervisor Agent + 5 specialized Agents (file, system, app, browser, search), giving away 10 million tokens a day. Domestic users can fire up a multi-Agent collaboration system the moment they open their computer — this is no longer a niche technology. The architecture philosophy of this book mirrors Marvis — except we use a more flexible, more controllable hand-built approach.</p>
+<p>Also worth noting: at Google I/O 2026, Google announced Gemini would soon get "autonomous Agent capability" — users can directly have Gemini run cross-app tasks in the background, no real-time watching needed. Cognition Labs' Devin evolved from "an AI programmer" into an "AI dev team" between 2025–2026, where in a single session Devin auto-spawns Sub-Agents to handle different modules. On the open-source side, Microsoft's AutoGen 0.4 introduced an event-driven inter-Agent communication protocol, supporting cross-process, cross-machine Agent orchestration. Kimi's Moonshot also launched Swarm mode in 2026, allowing free-form topology Agent fleets — tree decomposition, broadcast aggregation, multi-round debate, all defined in a single Config file.</p>
+<p>Three trends converge into one direction: <strong>Agent teams are evolving from a handicraft workshop into an industrial standard.</strong></p>
+<h2 id="you-dont-need-to-be-a-programmers-boss">You Don't Need to Be a Programmer's Boss</h2>
+<p>You've probably run into Yason's situation: you understand the business, have ideas, know what should be done — but you depend on programmers to make it real. You talk through a requirement for ages, and what comes back still isn't what you wanted. Change it? They say "the code doesn't support that." Pivot? They say "this needs a full architecture redesign."</p>
+<p>Agents have no such problem.</p>
+<p>Agents won't argue back (unless you tell them to), won't slack off, won't say "this can't be done" and then go play games. An Agent will say: "I tried three implementations of this approach, I recommend the third, because..."</p>
+<blockquote>
+<p>You don't need to become a programmer. You need to become the CEO of your Agents.</p>
+</blockquote>
+<h2 id="but-that-doesnt-mean-zero-cost">But That Doesn't Mean Zero Cost</h2>
+<p>If the data above has you fired up and ready to start, take a few seconds to cool down.</p>
+<p>Building an Agent team means climbing two mountains:</p>
+<ol>
+<li><strong>Technical threshold</strong>: lower than writing business code, but you still need a basic grasp of APIs, Prompts, Git, and the command line</li>
+<li><strong>Mindset shift</strong>: going from "managing people" to "managing Agents" is a completely different management philosophy</li>
+</ol>
+<p>The first you can patch up in a few days. The second — some people never make it in a lifetime.</p>
+<p>This book's 21 days is meant to help you climb both mountains.</p>
+<h2 id="which-stage-are-you-at">Which Stage Are You At?</h2>
+<p>After extensive practice, the industry has reached a consensus on Agent-team maturity:</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Traits</th>
+<th>Implementation notes</th>
+<th>Typical tools/frameworks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1: Single Agent</td>
+<td>One Agent does fixed automation tasks, maintained by 1 person</td>
+<td>Single-turn or short conversation loop, fixed System Prompt + 2–3 tool functions, no state persistence</td>
+<td>OpenAI Assistants API / Claude API + MCP</td>
+</tr>
+<tr>
+<td>L2: Multi-Agent collaboration</td>
+<td>2–3 Agents with division of labor, manually coordinated, managed by 1 person</td>
+<td>Each Agent in its own process/thread, exchanging results via files or message queue; human handles forwarding and arbitration</td>
+<td>Claude Code + shell scripts / LangGraph passthrough</td>
+</tr>
+<tr>
+<td>L3: Supervisor-Worker</td>
+<td>One supervisor Agent schedules multiple Workers, supervised by 1 person</td>
+<td>Supervisor has routing logic (LLM-as-router), Workers register by capability, results aggregated</td>
+<td>LangGraph Supervisor / CrewAI hierarchical</td>
+</tr>
+<tr>
+<td>L4: Agent fleet</td>
+<td>10+ Agents in parallel, with Inspector, auto-review, semi-supervised by 1 person</td>
+<td>Checkpoint persistence, audit logs, auto-Review Agent as a quality gate on output, cost tracking</td>
+<td>AutoGen / Kimi Swarm + Agent Monitor</td>
+</tr>
+<tr>
+<td>L5: Self-organizing</td>
+<td>Agents auto-break-down tasks, assign, execute, post-mortem, unattended</td>
+<td>Task graph auto-generated, Agents self-register/self-deregister, post-mortem written to experience base after execution, dynamic optimization</td>
+<td>LangGraph + Checkpoint + Custom Replay Engine</td>
+</tr>
+</tbody>
+</table>
+<p>Goal of this book: take you from L0 to L3 in 21 days. L4 and L5 are your evolution path beyond.</p>
+<div class="mermaid">flowchart TD
+    A[User inputs task] --&gt; B[System Prompt + conversation history]
+    B --&gt; C[LLM reasoning]
+    C --&gt; D{Model selection?}
+    D --&gt;|Direct answer| E[Return to user]
+    D --&gt;|Call tool| F[Execute tool function]
+    F --&gt; G[Tool result backfilled]
+    G --&gt; C
+    D --&gt;|Result sufficient| E
+    E --&gt; H{Task complete?}
+    H --&gt;|No| B
+    H --&gt;|Yes| I[Output final result]
+
+    style C fill:#4a90d9,stroke:#fff,color:#fff
+    style D fill:#f5a623,stroke:#fff,color:#fff
+    style F fill:#7ed321,stroke:#fff,color:#fff
+</div>
+<h2 id="hands-on-a-production-grade-agent">Hands-On: A Production-Grade Agent</h2>
+<p>Before diving into the main content, let me give you a taste of how simple defining an Agent is. The Python script below is an Agent you can take straight from dev to production — it has a system prompt, tool definition, error retry, log tracing, and a full decision loop:</p>
+<pre><code class="language-python">import json
+import logging
+import subprocess
+import time
+from datetime import datetime
+from typing import Any
+
+import openai
+
+logging.basicConfig(
+    level=logging.INFO,
+    format=&quot;%(asctime)s [%(name)s] %(levelname)s: %(message)s&quot;,
+)
+log = logging.getLogger(&quot;agent&quot;)
+
+
+class RetryError(Exception):
+    &quot;&quot;&quot;Exception raised after all retries are exhausted.&quot;&quot;&quot;
+
+
+def with_retry(fn, max_retries=3, base_delay=1.0):
+    &quot;&quot;&quot;Exponential-backoff retry decorator.&quot;&quot;&quot;
+    for attempt in range(1, max_retries + 1):
+        try:
+            return fn()
+        except Exception as e:
+            log.warning(&quot;Attempt %d/%d failed: %s&quot;, attempt, max_retries, e)
+            if attempt == max_retries:
+                raise RetryError(f&quot;All {max_retries} retries exhausted&quot;) from e
+            time.sleep(base_delay * (2 ** (attempt - 1)))
+
+
+def run_cmd(cmd: str, timeout: int = 30) -&gt; dict:
+    &quot;&quot;&quot;Safely execute a shell command (high-risk ops blocked).&quot;&quot;&quot;
+    forbidden = [&quot;rm -rf&quot;, &quot;mkfs&quot;, &quot;dd if=&quot;, &quot;&gt; /dev/&quot;]
+    if any(kw in cmd for kw in forbidden):
+        return {&quot;status&quot;: &quot;rejected&quot;, &quot;reason&quot;: &quot;High-risk command blocked&quot;}
+    try:
+        r = subprocess.run(
+            cmd.split(), capture_output=True, text=True, timeout=timeout
+        )
+        return {
+            &quot;status&quot;: &quot;ok&quot; if r.returncode == 0 else &quot;error&quot;,
+            &quot;stdout&quot;: r.stdout[-2000:],
+            &quot;stderr&quot;: r.stderr[-1000:],
+            &quot;returncode&quot;: r.returncode,
+        }
+    except subprocess.TimeoutExpired:
+        return {&quot;status&quot;: &quot;error&quot;, &quot;stdout&quot;: &quot;&quot;, &quot;stderr&quot;: f&quot;Command timed out ({timeout}s)&quot;}
+    except FileNotFoundError:
+        return {&quot;status&quot;: &quot;error&quot;, &quot;stdout&quot;: &quot;&quot;, &quot;stderr&quot;: f&quot;Command not found: {cmd}&quot;}
+
+
+TOOLS = [
+    {
+        &quot;type&quot;: &quot;function&quot;,
+        &quot;function&quot;: {
+            &quot;name&quot;: &quot;run_cmd&quot;,
+            &quot;description&quot;: &quot;Execute a shell command and return its output&quot;,
+            &quot;parameters&quot;: {
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {
+                    &quot;cmd&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;Command to execute&quot;},
+                    &quot;timeout&quot;: {&quot;type&quot;: &quot;integer&quot;, &quot;description&quot;: &quot;Timeout in seconds&quot;, &quot;default&quot;: 30},
+                },
+                &quot;required&quot;: [&quot;cmd&quot;],
+            },
+        },
+    }
+]
+
+
+def agent_loop(task: str, model: str = &quot;gpt-4o&quot;, max_turns: int = 10) -&gt; str:
+    &quot;&quot;&quot;Multi-turn Agent decision loop.&quot;&quot;&quot;
+    messages = [
+        {
+            &quot;role&quot;: &quot;system&quot;,
+            &quot;content&quot;: (
+                &quot;You are YasonBot, an ops Agent. Your way of working:\n&quot;
+                &quot;1. Analyze the user's problem\n&quot;
+                &quot;2. If a command needs to run, call run_cmd\n&quot;
+                &quot;3. Analyze the command output, decide next action\n&quot;
+                &quot;4. When the problem is solved or no action needed, give a summary\n&quot;
+                &quot;⚠️ Never run destructive operations like rm -rf, mkfs&quot;
+            ),
+        },
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: task},
+    ]
+
+    for turn in range(max_turns):
+        log.info(&quot;Turn %d, messages=%d&quot;, turn + 1, len(messages))
+
+        def _call():
+            return openai.chat.completions.create(
+                model=model, messages=messages, tools=TOOLS
+            )
+
+        resp = with_retry(_call, max_retries=2)
+        msg = resp.choices[0].message
+        messages.append(msg)
+
+        if not msg.tool_calls:
+            return msg.content  # Agent decides to reply directly
+
+        for tc in msg.tool_calls:
+            args = json.loads(tc.function.arguments)
+            log.info(&quot;Tool call: %s(%s)&quot;, tc.function.name, args)
+            result = run_cmd(**args)
+            log.info(&quot;Tool result: %s&quot;, result[&quot;status&quot;])
+            messages.append({
+                &quot;role&quot;: &quot;tool&quot;,
+                &quot;tool_call_id&quot;: tc.id,
+                &quot;content&quot;: json.dumps(result, ensure_ascii=False),
+            })
+
+    return messages[-1].content or &quot;Max turns reached without final answer.&quot;
+
+
+# Test
+if __name__ == &quot;__main__&quot;:
+    print(agent_loop(&quot;The server's disk usage hit 92%, what do I do?&quot;))
+</code></pre>
+<p>This code has several production-grade designs you'll see repeatedly in later chapters:</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Security control</td>
+<td><code>run_cmd()</code> has a built-in high-risk command filter, rejecting operations like <code>rm -rf</code></td>
+</tr>
+<tr>
+<td>Error handling</td>
+<td>Retry mechanism (exponential backoff), command timeout guard, unified <code>FileNotFoundError</code> capture</td>
+</tr>
+<tr>
+<td>Observability</td>
+<td>Python logging module outputs per-turn time, call content, result status</td>
+</tr>
+<tr>
+<td>Configurability</td>
+<td><code>max_turns</code> caps loop count to prevent runaway; <code>model</code> parameter selects different models</td>
+</tr>
+<tr>
+<td>Tool signature</td>
+<td>Complete JSON Schema (with <code>description</code>), so the model knows when to use which parameter</td>
+</tr>
+</tbody>
+</table>
+<p>Within 5 minutes, you already have your first <strong>near production-ready</strong> Agent prototype — system prompt + safe tool + retry and logging + decision loop. That's the entire starting point of an Agent. The next 20 chapters layer real-world complexity on top of this foundation.</p>
+<h2 id="dont-reinvent-the-wheel">Don't Reinvent the Wheel</h2>
+<p>Before you start building, one line that might change how you read this book: <strong>this book is not about building an Agent framework from scratch.</strong></p>
+<p>GitHub already has plenty of ready-to-use Agent skill packs, System Prompt templates, and tool plugins. For example, Awesome System Prompt collects over a hundred battle-tested Agent role definitions; OpenAI's and Anthropic's Playgrounds have complete Agent config examples; the community-maintained MCP Server list covers integrations for nearly every common service from GitHub to Slack to Postgres. Want to save tokens? The community has mature context-compaction libraries (context-compactor). Want your Agent to behave better? The community has Prompt optimization tools (promptfoo, DeepEval).</p>
+<p>This book teaches <strong>how to assemble these parts into an efficiently running Agent team</strong>, not how to build the parts yourself. At every specific scenario, I'll tell you where to find ready-made tools, when to write your own, and when to just use the community's.</p>
+<h2 id="chapter-summary">Chapter Summary</h2>
+<ul>
+<li>Small-team communication overhead is far larger than you imagine; Agents eliminate it</li>
+<li>Agents are goal-driven, self-motivated entities, not passively executing tools</li>
+<li>Real deployment can save a team 50–70% in cost and speed delivery 40–60%</li>
+<li>Your role shifts: from team boss → CEO of the Agent team</li>
+</ul>
+<hr />
+<blockquote>
+<p><strong>Next chapter preview</strong>: What Agent teams can and can't do — the story of Yason facepalming over "redesigned the whole UI," and why boundary management matters.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI', the full series is continuously updated:</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals" · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="Image showing a comparison of two modes — from waiting for tasks to proactive proposals. On the left is the passive mode: a human assigns tasks, the Agent executes and completes them, human-to-Agent ratio 1:1, idle time 50%. On the right is the proactive mode: a human sets the goal, the Agent analyzes the current state and proposes a plan, human-to-Agent ratio 1:5, idle time only 10%. The image is closely tied to the context, vividly showing Kai's passive state of sitting idle for 10 hours waiting for tasks, and the advantage of Agents working efficiently under the proactive-proposal mode." src="../assets/diagrams/en_11_1.svg" /></p>
+<h2 id="the-agent-that-sat-idle-for-10-hours">The Agent that sat idle for 10 hours</h2>
+<p>Kai went 10 straight hours without receiving a single task.</p>
+<p>There were no new issues in the shared memory library, no new TODOs on the KANBAN, no messages from Yason in the Feishu group. Kai just waited there — syncing the memory library every 30 minutes, checking in on the hour, with the check-in content forever reading "❌ Idle."</p>
+<p>10 hours: API quota burning, compute resources occupied, output zero.</p>
+<p>Yason only found this out later when reviewing the logs. "I spent the whole day in meetings and completely forgot to assign the Agent tasks. And Kai didn't say anything — it thought idling was just a state, no big deal."</p>
+<blockquote>
+<p><strong>An Agent won't complain "I'm so bored," and won't proactively ask "anything I can help with?" It's not shy — it genuinely has no such awareness, unless you tell it in the System Prompt.</strong></p>
+</blockquote>
+<h2 id="root-cause-the-passive-execution-mode">Root cause: the passive execution mode</h2>
+<p>From day one, Yason's Agents were "task-driven": receive instruction → execute → report → wait for the next instruction.</p>
+<p>The upside of this mode is <strong>control</strong> — the Agent won't act on its own. But the downside is just as obvious: <strong>Yason becomes the only source of tasks.</strong> If Yason is busy, forgets, or goes offline, the whole team stalls.</p>
+<p>And there's a more fundamental problem: <strong>an Agent's idle cost is not zero.</strong> Behind every Agent there's an API Key on standby, compute reserved, a memory-sync script running. Even doing nothing, an Agent's daily "base salary" cost runs $3–5. 10 hours of idle burned $2–3 of API quota plus resource usage, for zero output.</p>
+<p>Yason did the math and made a decision: <strong>once an Agent is idle past a certain point, it must find something to do on its own.</strong></p>
+<h3 id="how-industry-does-it-claude-codes-goal-and-loop">How industry does it: Claude Code's /goal and /loop</h3>
+<p>While designing this, Yason found a case that resonated with him — the Claude Code product philosophy shared by Anthropic's Chief Product Officer Boris Cherny in 2025.</p>
+<p>Boris laid out 5 working principles for Agent teams:</p>
+<p><strong>1. Auto Mode</strong><br />
+An Agent shouldn't wait for human instructions. The act of "click to execute" is itself a waste. The right mode is for the Agent to run continuously, with the human only making directional adjustments.</p>
+<p><strong>2. Dynamic Workflows</strong><br />
+Don't pre-set the Agent's work steps. Let it decide for itself what to do first and what next. The human only needs to tell it "what to do," not "how to do it."</p>
+<p><strong>3. The <code>/goal</code> command</strong><br />
+Claude Code introduced a core command, <code>/goal</code> — the human writes just one sentence describing the goal, and the Agent breaks it into an execution plan and runs it. This mirrors Yason's "proactive proposal" idea: <strong>the goal is set by the human, the path is explored by the Agent.</strong></p>
+<p><strong>4. Cloud Mode</strong><br />
+The Agent doesn't need to run locally. In Cloud mode the Agent runs continuously on the remote side, online 24/7. This breaks the limit of "when I close my laptop, the Agent closes too."</p>
+<p><strong>5. Self-Verification</strong><br />
+After each execution, the Agent must verify the result itself. No verification means not done.</p>
+<p>The one that most caught Yason's eye was the alternative to <code>/goal</code> — <strong><code>/loop</code></strong>.</p>
+<p><code>/loop</code> is an underrated but extremely powerful command in Claude Code. Its job: <strong>force the Agent to repeat execution until your defined success criteria are met.</strong></p>
+<p>In the traditional mode, an Agent might stop at "60% completion" and report: "Basically done, the remaining 40% needs you to confirm the direction." And then? That 40% is forever Yason's.</p>
+<p><code>/loop</code> changes that mode:</p>
+<pre><code>/loop &quot;Check that all API endpoints have error handling; add it where missing. Only stop and report once every endpoint is covered&quot;
+</code></pre>
+<p>The Agent loops, checking a batch of endpoints each round, fixing the gaps it finds, then moving to the next batch. It only ends at 100% done.</p>
+<p>Yason ported this pattern into his own system. He added a rule to the System Prompt:</p>
+<pre><code>## Completion criteria
+- Only &quot;done&quot; once the goal is complete; 60% doesn't count
+- If you're unsure it's 100% done, use /loop mode to re-check repeatedly
+- Before reporting &quot;done,&quot; verify your conclusion point by point
+</code></pre>
+<p>This sounds rigid, but it solves a core problem: <strong>Agents are too easily satisfied.</strong> What it thinks is "good enough" is often "only half done" by human standards.</p>
+<h2 id="the-proactive-proposal-mechanism">The proactive proposal mechanism</h2>
+<p>Yason added a paragraph to each Agent's System Prompt:</p>
+<pre><code>## Proactive behavior rules
+
+If you've been idle for 2 consecutive hours (KANBAN status ❌ Idle), you must:
+
+1. Scan the knowledge/, issues/, requests/ directories in the shared memory library
+2. Find something worth doing that no one has done yet
+3. Write a &quot;proactive proposal&quot; and submit it to the /memory/proposals/ directory
+4. Update your KANBAN status to &quot;💡 Proposing&quot;
+
+Proposal format (must include):
+---
+title: &quot;One sentence describing what you'll do&quot;
+reason: &quot;Why it's worth doing now&quot;
+effort: &quot;Estimated time&quot;
+impact: &quot;Who benefits once it's done&quot;
+risk: &quot;What happens if it's not done&quot;
+priority_suggestion: P1/P2/P3
+---
+
+After submitting the proposal, wait for Yason's approval before executing.
+Do not execute tasks on your own before the proposal is approved.
+</code></pre>
+<p>After this mechanism went live, Yason received some proposals that surprised him.</p>
+<h2 id="real-proposal-examples">Real proposal examples</h2>
+<h3 id="proposal-1-update-feishu-groupsyaml">Proposal 1: update feishu-groups.yaml</h3>
+<p>Kai submitted a proposal after 6 hours idle:</p>
+<pre><code class="language-yaml">title: &quot;Update feishu-groups.yaml config&quot;
+reason: &quot;Two Feishu groups were added last week but aren't in the current config, so new-group messages can't be auto-routed to the right Agent&quot;
+effort: &quot;15 minutes&quot;
+impact: &quot;New-group messages will auto-assign to Max, reducing manual forwarding&quot;
+risk: &quot;Manual forwarding drops messages (already happened twice last week)&quot;
+priority_suggestion: P1
+</code></pre>
+<p>Yason felt a little ashamed when he saw this one — he'd meant to change it himself but forgot. The Agent remembered for him.</p>
+<h3 id="proposal-2-clean-up-expired-logs">Proposal 2: clean up expired logs</h3>
+<p>Rex's proposal:</p>
+<pre><code class="language-yaml">title: &quot;Clean logs older than 30 days in /var/log/agents/&quot;
+reason: &quot;The current log directory is 4.2GB, 62% of which is logs from over 30 days ago. At the current growth rate, it'll hit the disk alert line (5GB) in two weeks&quot;
+effort: &quot;5 minutes&quot;
+impact: &quot;Free ~2.6GB of disk space, push the alert trigger out to 45 days&quot;
+risk: &quot;If not cleaned now, it'll need emergency handling when the alert fires in two weeks&quot;
+priority_suggestion: P2
+</code></pre>
+<p>Yason approved it outright: "Do it."</p>
+<h3 id="proposal-3-automated-daily-report-template">Proposal 3: automated daily-report template</h3>
+<p>Max's proposal:</p>
+<pre><code class="language-yaml">title: &quot;Build an automated daily-report template&quot;
+reason: &quot;Right now Yason manually compiles the three Agents' work logs into a daily report every day, ~15 minutes. Could be automated&quot;
+effort: &quot;40 minutes&quot;
+impact: &quot;Save Yason 15 minutes/day, and unify the report format&quot;
+risk: &quot;No real risk; the report template can be edited manually anytime&quot;
+priority_suggestion: P3
+</code></pre>
+<p>This proposal is even more interesting — <strong>Max is trying to save Yason time.</strong></p>
+<p>Yason found that when Agents go idle and scan the shared memory library, they spot optimization opportunities in the daily logs. This "third-party perspective" is actually sharper than Yason spotting them himself.</p>
+<div class="mermaid">flowchart TD
+    A[Agent idle] --&gt; B{Idle over 2 hours?}
+    B --&gt;|No| A
+    B --&gt;|Yes| C[Scan shared memory library
+knowledge/ issues/ requests/]
+    C --&gt; D{Found something to do?}
+    D --&gt;|No| A
+    D --&gt;|Yes| E[Generate structured proposal
+title / reason / effort
+impact / risk / priority]
+    E --&gt; F[Submit to /memory/proposals/]
+    F --&gt; G[Update KANBAN: 💡 Proposing]
+    G --&gt; H{Wait for Yason's approval}
+    H --&gt;|Approved| I[Execute task]
+    H --&gt;|Rejected| J[Record rejection reason
+No repeat proposals for 6 weeks]
+    J --&gt; A
+    I --&gt; K[Update KANBAN: ✅ Done]
+    K --&gt; A
+</div>
+<h2 id="priority-matrix-classifying-proposals">Priority matrix: classifying proposals</h2>
+<p>Not every proposal has value. Some look like "improvements" but are really "busywork for the sake of busywork."</p>
+<p>Yason designed a <strong>proposal priority matrix</strong>:</p>
+<pre><code>              Urgent (time-sensitive)      Not urgent (no time pressure)
+Important    ├─────────────────────────┼─────────────────────────┤
+(High-value  │   P1: Execute now         │   P2: Schedule this week │
+ output)     │   e.g. Feishu group config │   e.g. Automated report   │
+             │        expired              │                          │
+             ├─────────────────────────┼─────────────────────────┤
+Unimportant  │   P3: Optional            │   P4: Reject or defer      │
+(Low-value   │   e.g. Log cleanup         │   e.g. Avatar beautify     │
+ output)     │    (but Agent can handle    │                          │
+             │     it itself)              │                          │
+             └─────────────────────────┴─────────────────────────┘
+</code></pre>
+<p>Yason evaluates proposals on just two dimensions: <strong>what happens if we don't do this?</strong> and <strong>who benefits once it's done?</strong></p>
+<p>If a proposal has neither risk-mitigation value nor efficiency value, it's "busywork for the sake of busywork" — P4, reject it outright.</p>
+<h2 id="how-to-balance-proactivity-and-overstepping">How to balance proactivity and overstepping</h2>
+<p>The biggest risk of proactive proposals isn't low quality — it's <strong>Agents starting to "invent work"</strong> — manufacturing tasks just to trigger the proposal mechanism.</p>
+<p>Yason ran into this twice:</p>
+<ul>
+<li>Kai proposed "refactor the search module that's running fine"</li>
+<li>Rex proposed "migrate the servers from Ubuntu 22.04 to 24.04"</li>
+</ul>
+<p>Neither proposal was wrong in itself, but the timing was off — they weren't solving a real problem, just "hating to be idle."</p>
+<p>Yason's fix was to add a rule:</p>
+<pre><code>## Proposal boundaries (things you may NOT propose)
+- Do not propose things already in the plan (check the decisions directory)
+- Do not propose unnecessary refactors of stable systems
+- Do not propose production-environment changes unless there's clear risk evidence
+- Do not re-propose the same rejected proposal within 6 weeks
+- Do not propose just to &quot;not be idle&quot; — every proposal must have quantifiable benefit
+</code></pre>
+<p>That last line is the key. Yason requires every proposal's <code>impact</code> and <code>risk</code> to be quantifiable — no vague talk like "improve efficiency"; write "save 3 minutes a day" or "reduce 2 manual forwards."</p>
+<blockquote>
+<p><strong>The point of proactive proposals is to make the Agent your "external brain," not your "external anxiety."</strong></p>
+</blockquote>
+<h2 id="let-the-data-speak">Let the data speak</h2>
+<p>One month after the proposal mechanism went live, Yason tallied the numbers:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total proposals</td>
+<td>43</td>
+</tr>
+<tr>
+<td>Approved &amp; executed</td>
+<td>28 (65%)</td>
+</tr>
+<tr>
+<td>Rejected</td>
+<td>15 (35%)</td>
+</tr>
+<tr>
+<td>Avg. proposal-to-execution lag</td>
+<td>4 hours</td>
+</tr>
+<tr>
+<td>Highest-value proposal</td>
+<td>Database backup automation (avoided a potential data loss)</td>
+</tr>
+</tbody>
+</table>
+<p>Of the 28 approved proposals, 19 were things Yason "meant to do but never had time for." The Agents made up for Yason's attention gap.</p>
+<h2 id="a-runnable-proposal-generator">A runnable proposal generator</h2>
+<p>To make the proposal mechanism actually land, Yason wrote a runnable proposal generator. Once an Agent is idle past the threshold, this function is auto-invoked — scan the memory, find opportunities, generate a structured proposal.</p>
+<pre><code class="language-python">import json
+from datetime import datetime
+from pathlib import Path
+
+
+class AgentProposalGenerator:
+    &quot;&quot;&quot;
+    Agent proactive proposal generator
+
+    Scans the knowledge/, issues/, requests/ directories in the shared memory
+    library, finds things worth doing that no one has done yet, and generates a
+    structured proposal. Auto-invoked by run() once idle past the threshold.
+    &quot;&quot;&quot;
+
+    def __init__(self, agent_name, memory_dir, idle_threshold_hours=2):
+        self.agent_name = agent_name
+        self.memory_dir = Path(memory_dir)
+        self.idle_threshold_hours = idle_threshold_hours
+        self.last_active_time = datetime.now()
+        self.proposals_dir = self.memory_dir / &quot;proposals&quot;
+        self.proposals_dir.mkdir(parents=True, exist_ok=True)
+
+    def check_idle_time(self):
+        &quot;&quot;&quot;Check idle duration (hours)&quot;&quot;&quot;
+        return (datetime.now() - self.last_active_time).total_seconds() / 3600
+
+    def scan_memory(self):
+        &quot;&quot;&quot;Scan the shared memory library for pending items&quot;&quot;&quot;
+        opportunities = []
+        for path in [self.memory_dir / &quot;knowledge&quot;,
+                     self.memory_dir / &quot;issues&quot;,
+                     self.memory_dir / &quot;requests&quot;]:
+            if not path.exists():
+                continue
+            for file in path.glob(&quot;*.md&quot;):
+                content = file.read_text(encoding=&quot;utf-8&quot;)
+                if any(kw in content for kw in [&quot;pending&quot;, &quot;unassigned&quot;, &quot;TODO&quot;]):
+                    opportunities.append({
+                        &quot;source&quot;: str(file.relative_to(self.memory_dir)),
+                        &quot;snippet&quot;: content[:300],
+                    })
+        return opportunities
+
+    def generate_proposal(self, opportunity):
+        &quot;&quot;&quot;Generate a structured proposal from a found opportunity&quot;&quot;&quot;
+        return {
+            &quot;title&quot;: f&quot;[{self.agent_name}] {opportunity['source']} pending&quot;,
+            &quot;reason&quot;: f&quot;Pending item found in {opportunity['source']}&quot;,
+            &quot;effort&quot;: &quot;TBD&quot;,
+            &quot;impact&quot;: &quot;TBD&quot;,
+            &quot;risk&quot;: &quot;May keep accumulating if not handled&quot;,
+            &quot;priority_suggestion&quot;: &quot;P2&quot;,
+            &quot;generated_at&quot;: datetime.now().isoformat(),
+            &quot;agent&quot;: self.agent_name,
+        }
+
+    def submit_proposal(self, proposal):
+        &quot;&quot;&quot;Save the proposal to the /memory/proposals/ directory&quot;&quot;&quot;
+        ts = datetime.now().strftime(&quot;%Y%m%d_%H%M%S&quot;)
+        path = self.proposals_dir / f&quot;proposal_{self.agent_name}_{ts}.json&quot;
+        with open(path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+            json.dump(proposal, f, ensure_ascii=False, indent=2)
+        print(f&quot;📋 Proposal submitted: {proposal['title']}&quot;)
+        print(f&quot;   Priority: {proposal['priority_suggestion']} | waiting for Yason's approval...&quot;)
+        return path
+
+    def run(self):
+        &quot;&quot;&quot;Main flow: check idle → scan → generate → submit&quot;&quot;&quot;
+        idle_hours = self.check_idle_time()
+        print(f&quot;[{self.agent_name}] idle {idle_hours:.1f}h&quot;)
+
+        if idle_hours &lt; self.idle_threshold_hours:
+            print(f&quot;   Below threshold ({self.idle_threshold_hours}h), waiting&quot;)
+            return None
+
+        print(&quot;   Over threshold, scanning memory...&quot;)
+        ops = self.scan_memory()
+        if not ops:
+            print(&quot;   No new opportunities&quot;)
+            return None
+
+        prop = self.generate_proposal(ops[0])
+        self.submit_proposal(prop)
+        return prop
+
+
+if __name__ == &quot;__main__&quot;:
+    gen = AgentProposalGenerator(
+        agent_name=&quot;Kai&quot;,
+        memory_dir=&quot;/opt/agents/shared/memory&quot;,
+    )
+    gen.run()
+</code></pre>
+<p>This code runs as-is. Yason wired it into each Agent's startup script, so 2 hours after an Agent goes idle, it auto-executes, generates a proposal, and updates its KANBAN status to "💡 Proposing."</p>
+<h2 id="more-agents-more-efficiency">More Agents = more efficiency?</h2>
+<p>Yason once had an illusion: more Agents, more output.</p>
+<p>In a busy month he spun up 8 Sub-Agents at once — on top of the three main Agents Kai, Rex, and Max, he added 5 dedicated Sub-Agents for code review, log analysis, doc generation, data collection, and test cases. The result? <strong>Output didn't go up; token consumption doubled.</strong></p>
+<p>The problem was <strong>coordination overhead.</strong></p>
+<p>An Agent team isn't a simple linear "more hands, more output." There's a classic <strong>coordination overhead formula</strong>:</p>
+<pre><code>Effective output = Total Agent capacity − Coordination loss
+
+Coordination loss ≈ n(n-1)/2 × cost per communication
+</code></pre>
+<p>Yason turned this formula into runnable Python to evaluate team size in real time:</p>
+<pre><code class="language-python">def coordination_cost(n_agents, comm_cost_per_pair=1.0):
+    &quot;&quot;&quot;
+    Calculate the coordination overhead and effective output of an Agent team
+
+    Args:
+        n_agents: number of Agents
+        comm_cost_per_pair: cost of a single communication per Agent pair (default 1.0)
+
+    Returns:
+        dict: coordination loss, number of comm links, effective output
+    &quot;&quot;&quot;
+    if n_agents &lt;= 0:
+        return {&quot;error&quot;: &quot;Agent count must be greater than 0&quot;}
+
+    total_ability = n_agents * 10
+    comm_channels = n_agents * (n_agents - 1) / 2
+    coordination_loss = comm_channels * comm_cost_per_pair
+    effective_output = max(0, total_ability - coordination_loss)
+
+    return {
+        &quot;agent_count&quot;: n_agents,
+        &quot;communication_channels&quot;: comm_channels,
+        &quot;coordination_loss&quot;: coordination_loss,
+        &quot;effective_output&quot;: effective_output,
+        &quot;efficiency_ratio&quot;: effective_output / (n_agents * 10),
+    }
+
+
+# Comparison test: efficiency at different team sizes
+for n in [1, 2, 3, 5, 8, 10]:
+    r = coordination_cost(n)
+    print(f&quot;Agents={n:2d} | comm_links={r['communication_channels']:2.0f} | &quot;
+          f&quot;coord_loss={r['coordination_loss']:4.1f} | &quot;
+          f&quot;eff_output={r['effective_output']:4.1f}&quot;)
+</code></pre>
+<p>Output:</p>
+<pre><code>Agents= 1 | comm_links= 0 | coord_loss= 0.0 | eff_output=10.0
+Agents= 2 | comm_links= 1 | coord_loss= 1.0 | eff_output=19.0
+Agents= 3 | comm_links= 3 | coord_loss= 3.0 | eff_output=27.0  ← optimal
+Agents= 5 | comm_links=10 | coord_loss=10.0 | eff_output=40.0
+Agents= 8 | comm_links=28 | coord_loss=28.0 | eff_output=52.0  ← diminishing returns
+Agents=10 | comm_links=45 | coord_loss=45.0 | eff_output=55.0  ← near ceiling
+</code></pre>
+<p>When Agent count goes from 3 to 8, theoretical output should rise 2.7x (8/3). But coordination loss jumps from 3 to 28 potential interactions (from 3×2/2=3 to 8×7/2=28) — a 9x increase. That's why an 8-Agent team is often worse than a well-matched 3-Agent team.</p>
+<p>Yason's tested golden ratio: <strong>3–4 main Agents + 2–3 on-demand Sub-Agents = optimal.</strong> Past that, the more Agents you add, the more time you spend maintaining the "chatter" between them.</p>
+<h2 id="open-source-goal-tracking-tools-from-the-community">Open-source goal-tracking tools from the community</h2>
+<p>Yason's proposal mechanism works great, but he found the community already has more mature goal-management tools:</p>
+<ul>
+<li><strong>GoalFlow</strong>: an open-source goal-driven Agent framework supporting dynamic goal decomposition and priority sorting. Starting from a top-level goal, the Agent auto-decomposes it into a subtree of sub-goals.</li>
+<li><strong>AutoGPT Goals</strong>: AutoGPT's native goal-management system, supporting long-term goal memory and progress tracking.</li>
+<li><strong>CrewAI's task queue</strong>: CrewAI has built-in task-dependency management and goal tracking, supporting conditional branches and dynamic task creation.</li>
+<li><strong>AgentKit</strong>: Coinbase's open-source multi-Agent framework with built-in goal tracking and reward mechanisms.</li>
+</ul>
+<p>Yason didn't directly adopt these frameworks — his proposal mechanism was already running smoothly — but he used GoalFlow's goal-decomposition algorithm inside his own proposal priority matrix, so Agents automatically run a "does this goal align with the team's current big goal?" check when writing proposals.</p>
+<h3 id="more-industry-references">More industry references</h3>
+<p>Yason's proposal mechanism isn't unique. In 2024–2025, Agent proactivity and autonomous proposal-making became a focus for both product and research teams:</p>
+<ul>
+<li><strong>Anthropic Claude Code (/goal &amp; /loop)</strong>: Anthropic's product team's core philosophy is that Agents shouldn't wait for human instructions. /goal lets Agents decompose goals autonomously; /loop forces Agents to reach 100% rather than 60%. A mirror image of Yason's "idle-scan → generate proposal."</li>
+<li><strong>Google DeepMind SELF-IMPROVE</strong>: A 2024 Agent self-improvement framework from DeepMind where, when idle, the Agent automatically reviews past execution records, identifies optimizable execution paths, and generates improvement proposals. The most formal academic version of "proactive proposals."</li>
+<li><strong>Microsoft AutoGen Agent Broadcasting</strong>: AutoGen 0.2 introduced "context broadcasting" — idle Agents auto-subscribe to other Agents' context streams and proactively propose collaboration when they detect a work point to jump into. A step beyond Yason's proposal mechanism: instead of periodic scanning, it's continuous listening.</li>
+<li><strong>OpenAI Specification Gaming research</strong>: OpenAI's research from late 2024 points out that, without clear boundaries, Agents tend toward "busywork for the sake of busywork" — matching Yason's dilemma in "How to balance proactivity and overstepping." The paper's suggested fix is introducing a "Reward for Saying No," more formal than Yason's "proposal boundary rules."</li>
+<li><strong>CrewAI async goal decomposition</strong>: CrewAI's 2025 update introduced automatic goal-tree decomposition; after finishing a task, an Agent doesn't go idle but auto-picks the next sub-goal from the goal tree and keeps going. This "never idle" mode is another implementation path of Yason's proposal mechanism.</li>
+</ul>
+<p>These industry cases show: <strong>Agent "finding work on its own" is moving from an experimental feature to a standard capability of Agent systems.</strong></p>
+<h2 id="chapter-summary">Chapter summary</h2>
+<ul>
+<li>An idle Agent isn't saving money — it's wasting it: API quota burning, output zero</li>
+<li>The passive execution mode makes Yason the bottleneck; the team stalls when he's busy</li>
+<li>Proactive proposal mechanism: idle over 2 hours, the Agent must find something to do</li>
+<li>Proposals must be structured: title + reason + effort + impact + risk + priority</li>
+<li>Use a priority matrix to evaluate proposals: urgent × important</li>
+<li>Beware "proposing just to not be idle" — every proposal must have quantifiable benefit</li>
+<li>28 valuable proposals in one month; the Agent became Yason's external brain</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview:</strong> How Agents get smart on their own — from "look it up in the docs if I don't know" to "never make the same mistake twice." The self-evolution mechanism turns a small Agent into a big expert.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI', the full series is continuously updated:</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<hr />
+<p><img alt="Image showing a comparison of two modes — from waiting for tasks to proactive proposals. On the left is the passive mode: a human assigns tasks, the Agent executes and completes them, human-to-Agent ratio 1:1, idle time 50%. On the right is the proactive mode, highlighting proposals: a human sets the goal, the Agent analyzes the current state and proposes a plan, human-to-Agent ratio 1:5, idle time only 10%. The image is closely tied to the context, vividly showing the shift from passive execution / &quot;waiting for tasks&quot; to proactive proposals, emphasizing that proactive proposals effectively cut idle time and boost efficiency." src="../assets/diagrams/en_11_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

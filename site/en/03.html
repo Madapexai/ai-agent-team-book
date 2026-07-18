@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Real Cost of Building an Agent Team · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="Image showing the real cost of building an Agent team. On the left is API/Token consumption, including inference models (Claude/GPT) $0.15–$0.90/M tokens, fast models (Haiku/GPT-4o-mini) 0.03–0.15/M, Embedding/vector 0.02/M, plus vector DB/storage and CI/CD/deploy costs. On the right is time investment, covering build phase (2–4 weeks), early incubation (1–2 months), ongoing incubation (2–4h/week), etc. At the bottom is the text '$200–800'. This image is closely related to the context and intuitively presents the specific cost composition of building an Agent team." src="../assets/diagrams/en_03_1.svg" /></p>
+<h2 id="when-your-api-key-blew-up">When Your API Key "Blew Up"</h2>
+<p>Yason will never forget that day.</p>
+<p>He was out for dinner on the weekend when his phone started vibrating like crazy — an Agent on the Rex server called "qclaw" kept erroring out. He opened the terminal and saw: <strong>qclaw's bound API Key had run out of balance, but the Agent didn't know it was out of money.</strong></p>
+<p>What did it do?</p>
+<p>It kept retrying. Every 30 seconds. 120 times an hour. From 3 a.m. to noon — a full 9 hours, thousands of failed requests.</p>
+<p>Even more absurd: Yason had clearly posted in the group at 4 a.m. saying "stop qclaw for now," but the Agent never read that message. Because nobody had designed it to read group messages.</p>
+<p>By the time he noticed, the bill had shot from $50 to $230.</p>
+<blockquote>
+<p><strong>Hidden cost #1: failed retries aren't free. Rate limits, timeouts, auth errors — every failure burns money.</strong></p>
+</blockquote>
+<p>This bug was easy to fix: add a circuit breaker. Here's the protective layer Yason added afterward — had he added it one day earlier, he'd have saved $180:</p>
+<div class="mermaid">flowchart TD
+    A[CLOSED&lt;br&gt;Breaker closed] --&gt;|Request succeeds| A
+    A --&gt;|Consecutive failures hit threshold| B[OPEN&lt;br&gt;Breaker open]
+    B --&gt;|Cooldown ends| C[HALF_OPEN&lt;br&gt;Half-open]
+    C --&gt;|Probe request succeeds| A
+    C --&gt;|Probe request fails| B
+</div>
+<pre><code class="language-python">class CircuitBreaker:
+    &quot;&quot;&quot;Circuit breaker: prevents the Agent from retrying infinitely on failure and burning money&quot;&quot;&quot;
+    def __init__(self, max_retries=3, cooldown=300, budget_limit=50):
+        self.max_retries = max_retries
+        self.cooldown = cooldown       # Cooldown time (seconds)
+        self.budget_limit = budget_limit  # Per-task budget cap (USD)
+        self.failures = 0
+        self.open = False
+
+    def call(self, func, *args, **kwargs):
+        if self.open:
+            raise Exception(&quot;⛔ Breaker is open: please retry later&quot;)
+
+        for attempt in range(self.max_retries):
+            try:
+                result = func(*args, **kwargs)
+                self.failures = 0  # Reset on success
+                return result
+            except (APIError, RateLimitError) as e:
+                self.failures += 1
+                if self.failures &gt;= self.max_retries:
+                    self.open = True
+                    threading.Thread(target=self._cooldown).start()
+                    raise Exception(f&quot;Tripped! {self.failures} consecutive failures, waiting {self.cooldown}s&quot;)
+                time.sleep(2 ** attempt)  # Exponential backoff
+
+    def _cooldown(self):
+        time.sleep(self.cooldown)
+        self.open = False
+        self.failures = 0
+
+# Usage: breaker = CircuitBreaker(max_retries=3, budget_limit=50)
+# result = breaker.call(api.chat.completions.create, ...)
+</code></pre>
+<p>But the lesson was deep — an Agent's "persistence" becomes a "suicide attack" when it's out of money.</p>
+<p><img alt="Image showing the real cost of building an Agent team. On API/Token consumption: inference models (Claude/GPT) are $0.15–$0.90/M tokens, arrow pointing to its 0.15–0.90 value; fast models (Haiku/GPT-4o-mini) are $0.03–$0.15/M, arrow to its 0.03–0.15 value; Embedding/vector is $0.02/M, arrow to its 0.02 value. In infrastructure, vector DB/storage is $20–200/month, CI/CD/deploy is $10–50/month. Time investment includes build phase, early incubation, ongoing incubation. Also lists opportunity cost, hidden cost, trial-and-error cost, etc." src="../assets/diagrams/en_03_2.svg" /></p>
+<h2 id="breaking-down-the-cost-structure">Breaking Down the Cost Structure</h2>
+<h3 id="1-api-call-fees-the-biggest-visible-cost">1. API call fees — the biggest visible cost</h3>
+<p>Using Yason's three-server (Rex, Robot, Neo) config as an example, his hybrid-model strategy:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Use</th>
+<th>Cost/M tokens</th>
+<th>Monthly consumption (in/out)</th>
+<th>Monthly cost (est.)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Sonnet</td>
+<td>Core code generation</td>
+<td>$3 / $15 (in/out)</td>
+<td>100M in + 20M out</td>
+<td>~$600</td>
+</tr>
+<tr>
+<td>GPT-4o</td>
+<td>Complex reasoning</td>
+<td>$5 / $15</td>
+<td>40M in + 20M out</td>
+<td>~$500</td>
+</tr>
+<tr>
+<td>Local model (DeepSeek)</td>
+<td>Simple tasks/formatting</td>
+<td>electricity</td>
+<td>~500M tokens</td>
+<td>~$50 (electricity)</td>
+</tr>
+<tr>
+<td>Embedding model</td>
+<td>Memory retrieval</td>
+<td>~$0.13/1M</td>
+<td>~20M tokens</td>
+<td>~$3</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Estimation method: Yason's average from API billing logs. Claude Sonnet averages 100M input tokens/month (each task ~8K input × ~12,500 calls), 20M output tokens (each output ~1.6K), at $3/$15 unit price = $600. GPT-4o similarly.</p>
+</blockquote>
+<p>Now the real 2026 industry data. Claude Code currently averages about $13/day per person per session, 3 parallel Agents about $30–40/day, and a 5–10 Agent fleet about $50–130/day (CloudZero May 2026 analysis). OpenAI Codex's token efficiency is roughly 4x Claude Code's — for the same task Codex consumes 1.5M tokens, Claude Code consumes 6.2M tokens (source: morphllm.com Feb 2026 Figma-to-code benchmark). This means your choice of underlying model has a multi-fold impact on your monthly bill.</p>
+<p>The biggest hidden killer of cost is context bloat. Every step an Agent takes, the conversation history grows. A simple research task can consume over 100K tokens after 50 interaction rounds. The industry's fix is context compaction: when the conversation exceeds 70% of the context window, have the Agent auto-summarize intermediate results, drop redundant tool output, keeping only key decisions and unfinished tasks. Claude Code has a built-in auto-compact mechanism; OpenAI Codex uses tool output offloading (storing large tool output in external storage, keeping only a reference pointer in context). We can implement both concretely in the build chapter.</p>
+<p>(Above data is from CloudZero's May 2026 AI Agent cost analysis, currently the most public industry benchmark.)</p>
+<p><strong>Average monthly API cost: ~$1,150/month</strong>, ~¥8,000 at then exchange rate.</p>
+<blockquote>
+<p>Money-saving tip: route simple tasks (formatting, extraction, classification) to a local model to save 60–70% on API fees.</p>
+</blockquote>
+<p>Config example — model routing rules (JSON):</p>
+<pre><code class="language-json">{
+  &quot;router&quot;: {
+    &quot;rules&quot;: [
+      {
+        &quot;pattern&quot;: &quot;.*code.*generate|.*implement.*&quot;,
+        &quot;model&quot;: &quot;claude-sonnet-4&quot;,
+        &quot;priority&quot;: 1
+      },
+      {
+        &quot;pattern&quot;: &quot;.*analyze|.*reason.*|.*debug.*&quot;,
+        &quot;model&quot;: &quot;gpt-4o&quot;,
+        &quot;priority&quot;: 2
+      },
+      {
+        &quot;pattern&quot;: &quot;.*summarize|.*format|.*extract|.*classify&quot;,
+        &quot;model&quot;: &quot;local-deepseek&quot;,
+        &quot;priority&quot;: 3
+      }
+    ],
+    &quot;fallback&quot;: &quot;local-deepseek&quot;,
+    &quot;circuit_breaker&quot;: {
+      &quot;max_retries&quot;: 3,
+      &quot;cooldown_minutes&quot;: 5,
+      &quot;budget_warning_at&quot;: 0.8
+    }
+  }
+}
+</code></pre>
+<h3 id="2-infrastructure-fees">2. Infrastructure fees</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Config</th>
+<th>Monthly cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Overseas server (Rex)</td>
+<td>8C/16G, 200G SSD</td>
+<td>~$80</td>
+</tr>
+<tr>
+<td>Overseas server (Robot)</td>
+<td>4C/8G, 100G SSD</td>
+<td>~$40</td>
+</tr>
+<tr>
+<td>Domestic server (Neo)</td>
+<td>4C/8G, 100G SSD</td>
+<td>~$100</td>
+</tr>
+<tr>
+<td>Shared storage (memory system)</td>
+<td>Git repo, 500MB</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>Domain + CDN</td>
+<td>2 domains + basic CDN</td>
+<td>~$20</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Monthly infrastructure cost: ~$240/month, ~¥1,700.</strong></p>
+<h3 id="3-time-investment-the-hidden-cost">3. Time investment — the hidden cost</h3>
+<p>Yason puts about 6–8 hours a week into the Agent team:</p>
+<ul>
+<li>Prompt tuning and iteration: 2–3 hours</li>
+<li>Reviewing Agent output: 2 hours</li>
+<li>Fixing what the Agent messed up: 1–2 hours</li>
+<li>Designing and assigning new tasks: 1 hour</li>
+</ul>
+<p>At his hourly rate, this is worth roughly ¥3,000–5,000/month.</p>
+<h2 id="the-hair-pulling-task-starvation">The Hair-Pulling "Task Starvation"</h2>
+<p>When an Agent has no task, it sits idle. Idle means two things:</p>
+<ol>
+<li>You're still paying its API bill (heartbeat checks, connection keep-alive, state sync)</li>
+<li>It won't proactively find work — unless you configure a "proactive suggestion" mechanism</li>
+</ol>
+<p>Once Yason went on a 3-day vacation and came back to find three Agents had gone <strong>over 10 hours without receiving any task.</strong> They just waited. The configured CPU was idling, tokens burning, while Yason drank coconut water on the beach.</p>
+<p>Later he added a rule to the Agent's System Prompt:</p>
+<pre><code>## Proactive suggestions
+
+If you haven't received a new task for over 2 consecutive hours:
+1. Check the status of all current projects
+2. Identify potential improvements or unfinished items
+3. Send Yason a &quot;proactive suggestion&quot; message (format: suggestion title + reason + estimated effort)
+4. Wait for confirmation before executing
+</code></pre>
+<p>This rule turned the Agent from a "worker waiting for instructions" into a "partner who finds problems and suggests fixes."</p>
+<blockquote>
+<p><strong>Hidden cost #2: Agents won't proactively find work unless you explicitly tell them they can.</strong></p>
+</blockquote>
+<h2 id="total-cost-summary">Total Cost Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Cost item</th>
+<th>Monthly avg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API calls (hybrid model)</td>
+<td>~¥8,000</td>
+</tr>
+<tr>
+<td>Infrastructure</td>
+<td>~¥1,700</td>
+</tr>
+<tr>
+<td>Time investment (converted)</td>
+<td>~¥4,000</td>
+</tr>
+<tr>
+<td>Total</td>
+<td>~¥13,700</td>
+</tr>
+</tbody>
+</table>
+<p>3 Agents, each Agent ~¥4,500/month. Compared to the minimum cost of hiring a junior engineer (¥15,000+ social insurance), <strong>Agent cost is about 1/3 of a human's.</strong></p>
+<h2 id="open-source-tools-to-save-you-money">Open-Source Tools to Save You Money</h2>
+<p>The community already has plenty of open-source Agent cost-optimization tools — no need to build your own:</p>
+<ul>
+<li><strong>OpenRouter</strong>: an API gateway that auto-routes requests across 40+ model providers, auto-selecting the optimal model by price and performance</li>
+<li><strong>LiteLLM</strong>: a unified interface to 100+ models, switching providers with a one-line config change</li>
+<li><strong>Helicone / Portkey</strong>: open-source cost monitoring and log tracing, see in real time how much each Agent spends</li>
+<li><strong>context-compactor</strong>: open-source library that auto-manages the context window, auto-compacts at the 80% threshold</li>
+</ul>
+<p>These tools save you tons of development and tuning time. Remember: <strong>on cost control, the community has already hit most of the potholes for you.</strong></p>
+<h2 id="money-saving-tips">Money-Saving Tips</h2>
+<ol>
+<li><strong>Local model as backstop</strong>: don't route simple tasks through paid APIs</li>
+<li><strong>Circuit breaker</strong>: stop and wait after 3+ failures, don't retry infinitely</li>
+<li><strong>Shared memory lib on Git</strong>: one private repo hosts all Agents' memory files, zero cost</li>
+<li><strong>Scheduled-task timer</strong>: put Agents in low-power mode off-hours (only checking critical alerts)</li>
+</ol>
+<h2 id="chapter-summary">Chapter Summary</h2>
+<ul>
+<li>An Agent team costs ~¥14k/month, about 1/3 of equivalent human cost</li>
+<li>API calls are the biggest chunk; good model routing saves 60%+</li>
+<li>Failed retries are a hidden killer; a circuit breaker is mandatory</li>
+<li>Agents won't proactively find work — give them "proactive suggestion" rights</li>
+<li>Calculate the cost before you start; don't let a surprise become a shock</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview</strong>: Picking your first Agent — from scratch, the complete roadmap of how to choose, configure, and get an Agent working.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI', the full series is continuously updated:</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

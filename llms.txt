@@ -1,0 +1,62 @@
+# Being the Boss of AI: Agent Combat Team
+
+> A free, open-source 21-chapter practical handbook (Chinese + English) for building AI Agent teams that actually work — from zero to a supervised multi-Agent team (L0→L3). Written as a story, backed by real cases, by Yason (MindApex · VokoForge).
+
+## Start here
+- [README (English)](https://github.com/Madapexai/ai-agent-team-book/blob/main/README.md): Overview, audience, and the L0→L3 roadmap.
+- [README (中文)](https://github.com/Madapexai/ai-agent-team-book/blob/main/README_zh.md): 中文版说明。
+- [Preface (English)](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/00_preface.md): Why this book exists.
+
+## Chapters (English)
+- [Ch.00 Preface](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/00_preface.md): 前言.
+- [Ch.01 Why You Need an AI Agent Team](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/01.md): 你为什么需要一个 AI Agent 团队.
+- [Ch.02 What Agent Teams Can and Cannot Do](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/02.md): Agent 团队能做什么，不能做什么.
+- [Ch.03 The Real Cost of Building an Agent Team](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/03.md): 搭建 Agent 团队的真实成本.
+- [Ch.04 Choosing Your First Agent](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/04.md): 选择你的第一个 Agent.
+- [Ch.05 The Art of Writing System Prompts](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/05.md): System Prompt 的撰写艺术.
+- [Ch.06 The Art of Division — Who Does What](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/06.md): 分工的艺术——谁干什么.
+- [Ch.07 Memory Systems — Getting Agents to Know Each Other](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/07.md): 记忆系统——让 Agent 互相认识.
+- [Ch.08 Communication Protocols — When Agents Start Speaking Jargon](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/08.md): 通信协议——当 Agent 开始说行话.
+- [Ch.09 Transparent Management — The Power of Hourly Check-ins](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/09.md): 透明管理——小时级汇报的力量.
+- [Ch.10 Inspector System — Agents Managing Agents](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/10.md): 监察员系统——让 Agent 管理 Agent.
+- [Ch.11 Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/11.md): 目标导向——从“等任务”到“主动提案”.
+- [Ch.12 Self-Evolution — How Agents Get Smarter](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/12.md): 自我进化——Agent 如何越用越聪明.
+- [Ch.13 Cost Control — Don't Let Your API Bill Explode](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/13.md): 成本控制——别让 API 账单爆炸.
+- [Ch.14 Quality Assurance — Reviews and Feedback Loops](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/14.md): 质量保障——评审与反馈闭环.
+- [Ch.15 Cost to Efficiency — Spend Money, Not Time](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/15.md): 成本换效率——花钱，不花时间.
+- [Ch.16 Crash Scenes — When Agents Mess Up](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/16.md): 事故现场——当 Agent 搞砸了.
+- [Ch.17 Multi-Agent Collaboration Protocol Stack](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/17.md): 多 Agent 协作协议栈.
+- [Ch.18 Sub-Agent Architecture — Give Your Agents Subordinates](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/18.md): Sub-Agent 架构——给 Agent 配下属.
+- [Ch.19 External Tools — MCP and Toolchains](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/19.md): 外部工具——MCP 与工具链.
+- [Ch.20 Self-Evolution and Self-Repair — Agent Teams That Grow Smarter](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/20.md): 自我进化与自我修复——越跑越聪明的 Agent 团队.
+- [Ch.21 The Future — When Agent Teams Become Standard](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/en/21.md): 未来——当 Agent 团队成为标配.
+
+## Chapters (中文)
+- [第00章 前言](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/00_preface.md): Preface.
+- [第01章 你为什么需要一个 AI Agent 团队](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/01.md): Why You Need an AI Agent Team.
+- [第02章 Agent 团队能做什么，不能做什么](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/02.md): What Agent Teams Can and Cannot Do.
+- [第03章 搭建 Agent 团队的真实成本](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/03.md): The Real Cost of Building an Agent Team.
+- [第04章 选择你的第一个 Agent](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/04.md): Choosing Your First Agent.
+- [第05章 System Prompt 的撰写艺术](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/05.md): The Art of Writing System Prompts.
+- [第06章 分工的艺术——谁干什么](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/06.md): The Art of Division — Who Does What.
+- [第07章 记忆系统——让 Agent 互相认识](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/07.md): Memory Systems — Getting Agents to Know Each Other.
+- [第08章 通信协议——当 Agent 开始说行话](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/08.md): Communication Protocols — When Agents Start Speaking Jargon.
+- [第09章 透明管理——小时级汇报的力量](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/09.md): Transparent Management — The Power of Hourly Check-ins.
+- [第10章 监察员系统——让 Agent 管理 Agent](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/10.md): Inspector System — Agents Managing Agents.
+- [第11章 目标导向——从“等任务”到“主动提案”](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/11.md): Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals".
+- [第12章 自我进化——Agent 如何越用越聪明](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/12.md): Self-Evolution — How Agents Get Smarter.
+- [第13章 成本控制——别让 API 账单爆炸](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/13.md): Cost Control — Don't Let Your API Bill Explode.
+- [第14章 质量保障——评审与反馈闭环](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/14.md): Quality Assurance — Reviews and Feedback Loops.
+- [第15章 成本换效率——花钱，不花时间](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/15.md): Cost to Efficiency — Spend Money, Not Time.
+- [第16章 事故现场——当 Agent 搞砸了](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/16.md): Crash Scenes — When Agents Mess Up.
+- [第17章 多 Agent 协作协议栈](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/17.md): Multi-Agent Collaboration Protocol Stack.
+- [第18章 Sub-Agent 架构——给 Agent 配下属](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/18.md): Sub-Agent Architecture — Give Your Agents Subordinates.
+- [第19章 外部工具——MCP 与工具链](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/19.md): External Tools — MCP and Toolchains.
+- [第20章 自我进化与自我修复——越跑越聪明的 Agent 团队](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/20.md): Self-Evolution and Self-Repair — Agent Teams That Grow Smarter.
+- [第21章 未来——当 Agent 团队成为标配](https://raw.githubusercontent.com/Madapexai/ai-agent-team-book/main/zh/21.md): The Future — When Agent Teams Become Standard.
+
+## Community & related
+- [Blog](https://blogs.yason.click/): Yason's writing.
+- [madapexai.com](https://www.madapexai.com/): Official site.
+- [Loop Engineering book](https://github.com/Madapexai/loop-engineering-book): A new SE paradigm for the AI Agent era.
+- [Agent Evolution book](https://github.com/Madapexai/agent-evolution-book): From Prompt to self-evolving AI driving.

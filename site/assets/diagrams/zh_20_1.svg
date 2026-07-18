@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 540" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect width="820" height="540" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="55" fill="#ffffff" font-size="22" font-weight="700" text-anchor="middle">自进化与自我修复 Self-Evolution &amp; Repair</text>
+
+  <!-- flow arrows -->
+  <line x1="150" y1="238" x2="178" y2="238" stroke="#475569" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="310" y1="238" x2="338" y2="238" stroke="#475569" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="470" y1="238" x2="498" y2="238" stroke="#475569" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="630" y1="238" x2="658" y2="238" stroke="#475569" stroke-width="3" marker-end="url(#arr)"/>
+
+  <!-- 1 Monitor -->
+  <rect x="20" y="190" width="130" height="96" rx="12" fill="#4a90d9"/>
+  <circle cx="44" cy="214" r="12" fill="#ffffff"/><text x="44" y="219" fill="#4a90d9" font-size="12" font-weight="700" text-anchor="middle">1</text>
+  <text x="95" y="226" fill="#ffffff" font-size="15" font-weight="700" text-anchor="middle">监控 Monitor</text>
+  <text x="95" y="252" fill="#ffffff" font-size="11" text-anchor="middle">持续观测异常</text>
+  <rect x="20" y="302" width="130" height="48" rx="10" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="85" y="324" fill="#1f3a5f" font-size="13" font-weight="700" text-anchor="middle">平均检测 15min</text>
+  <text x="85" y="342" fill="#475569" font-size="11" text-anchor="middle">detect</text>
+
+  <!-- 2 Diagnose -->
+  <rect x="180" y="190" width="130" height="96" rx="12" fill="#e0a82e"/>
+  <circle cx="204" cy="214" r="12" fill="#ffffff"/><text x="204" y="219" fill="#e0a82e" font-size="12" font-weight="700" text-anchor="middle">2</text>
+  <text x="255" y="226" fill="#ffffff" font-size="15" font-weight="700" text-anchor="middle">诊断 Diagnose</text>
+  <text x="255" y="252" fill="#ffffff" font-size="11" text-anchor="middle">定位根因</text>
+  <rect x="180" y="302" width="130" height="48" rx="10" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="245" y="324" fill="#1f3a5f" font-size="13" font-weight="700" text-anchor="middle">隔离核心系统</text>
+  <text x="245" y="342" fill="#475569" font-size="11" text-anchor="middle">isolate</text>
+
+  <!-- 3 Repair -->
+  <rect x="340" y="190" width="130" height="96" rx="12" fill="#d9534f"/>
+  <circle cx="364" cy="214" r="12" fill="#ffffff"/><text x="364" y="219" fill="#d9534f" font-size="12" font-weight="700" text-anchor="middle">3</text>
+  <text x="415" y="226" fill="#ffffff" font-size="15" font-weight="700" text-anchor="middle">修复 Repair</text>
+  <text x="415" y="252" fill="#ffffff" font-size="11" text-anchor="middle">生成修复方案</text>
+  <rect x="340" y="302" width="130" height="48" rx="10" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="405" y="324" fill="#1f3a5f" font-size="13" font-weight="700" text-anchor="middle">自动修复 3min</text>
+  <text x="405" y="342" fill="#475569" font-size="11" text-anchor="middle">auto-fix</text>
+
+  <!-- 4 Verify -->
+  <rect x="500" y="190" width="130" height="96" rx="12" fill="#2e9e6b"/>
+  <circle cx="524" cy="214" r="12" fill="#ffffff"/><text x="524" y="219" fill="#2e9e6b" font-size="12" font-weight="700" text-anchor="middle">4</text>
+  <text x="575" y="226" fill="#ffffff" font-size="15" font-weight="700" text-anchor="middle">验证 Verify</text>
+  <text x="575" y="252" fill="#ffffff" font-size="11" text-anchor="middle">校验修复结果</text>
+  <rect x="500" y="302" width="130" height="48" rx="10" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="565" y="324" fill="#1f3a5f" font-size="13" font-weight="700" text-anchor="middle">成功率 96%</text>
+  <text x="565" y="342" fill="#475569" font-size="11" text-anchor="middle">success</text>
+
+  <!-- 5 Learn -->
+  <rect x="660" y="190" width="130" height="96" rx="12" fill="#1f3a5f"/>
+  <circle cx="684" cy="214" r="12" fill="#ffffff"/><text x="684" y="219" fill="#1f3a5f" font-size="12" font-weight="700" text-anchor="middle">5</text>
+  <text x="725" y="226" fill="#ffffff" font-size="15" font-weight="700" text-anchor="middle">学习 Learn</text>
+  <text x="725" y="252" fill="#ffffff" font-size="11" text-anchor="middle">知识入库</text>
+  <rect x="660" y="302" width="130" height="48" rx="10" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="725" y="324" fill="#1f3a5f" font-size="13" font-weight="700" text-anchor="middle">复发↓ 87%</text>
+  <text x="725" y="342" fill="#475569" font-size="11" text-anchor="middle">recurrence</text>
+
+  <!-- loop-back arrow -->
+  <path d="M 725 302 C 725 405, 85 405, 85 300" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#arr)"/>
+  <text x="410" y="392" fill="#475569" font-size="13" font-weight="700" text-anchor="middle">持续进化循环 · 每 24h 自动进化</text>
+
+  <text x="410" y="470" fill="#475569" font-size="13" text-anchor="middle">自我修复的最高境界：不是不出错，而是出错了能自己修好，且下次不再犯</text>
+  <text x="410" y="498" fill="#475569" font-size="12" text-anchor="middle">The highest level of self-repair — fix on your own, and never repeat the same mistake</text>
+</svg>

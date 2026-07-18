@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>成本控制——别让 API 账单爆炸 · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">章节</div>
+    <ul><li><a href="zh/00_preface.html"><span class="ch-num">00</span>前言</a></li>
+<li><a href="zh/01.html"><span class="ch-num">01</span>你为什么需要一个 AI Agent 团队</a></li>
+<li><a href="zh/02.html"><span class="ch-num">02</span>Agent 团队能做什么，不能做什么</a></li>
+<li><a href="zh/03.html"><span class="ch-num">03</span>搭建 Agent 团队的真实成本</a></li>
+<li><a href="zh/04.html"><span class="ch-num">04</span>选择你的第一个 Agent</a></li>
+<li><a href="zh/05.html"><span class="ch-num">05</span>System Prompt 的撰写艺术</a></li>
+<li><a href="zh/06.html"><span class="ch-num">06</span>分工的艺术——谁干什么</a></li>
+<li><a href="zh/07.html"><span class="ch-num">07</span>记忆系统——让 Agent 互相认识</a></li>
+<li><a href="zh/08.html"><span class="ch-num">08</span>通信协议——当 Agent 开始说行话</a></li>
+<li><a href="zh/09.html"><span class="ch-num">09</span>透明管理——小时级汇报的力量</a></li>
+<li><a href="zh/10.html"><span class="ch-num">10</span>监察员系统——让 Agent 管理 Agent</a></li>
+<li><a href="zh/11.html"><span class="ch-num">11</span>目标导向——从“等任务”到“主动提案”</a></li>
+<li><a href="zh/12.html"><span class="ch-num">12</span>自我进化——Agent 如何越用越聪明</a></li>
+<li><a href="zh/13.html"><span class="ch-num">13</span>成本控制——别让 API 账单爆炸</a></li>
+<li><a href="zh/14.html"><span class="ch-num">14</span>质量保障——评审与反馈闭环</a></li>
+<li><a href="zh/15.html"><span class="ch-num">15</span>成本换效率——花钱，不花时间</a></li>
+<li><a href="zh/16.html"><span class="ch-num">16</span>事故现场——当 Agent 搞砸了</a></li>
+<li><a href="zh/17.html"><span class="ch-num">17</span>多 Agent 协作协议栈</a></li>
+<li><a href="zh/18.html"><span class="ch-num">18</span>Sub-Agent 架构——给 Agent 配下属</a></li>
+<li><a href="zh/19.html"><span class="ch-num">19</span>外部工具——MCP 与工具链</a></li>
+<li><a href="zh/20.html"><span class="ch-num">20</span>自我进化与自我修复——越跑越聪明的 Agent 团队</a></li>
+<li><a href="zh/21.html"><span class="ch-num">21</span>未来——当 Agent 团队成为标配</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="图片是成本监控仪表盘，标题为“别让API账单爆掉”。内容包括四个板块：今日消耗板块显示推理模型、快速模型、Embedding的Token使用量及今日费用为$12.45；7天趋势板块列出周一至周五每天费用；本月累计费用为$287.30；预算控制板块显示月预算$500，已用$287.30（占57%），剩余$212.70；告警和优化板块给出Token使用正常、推理模型占比高、预算剩余合理等提示。该图与文档中Yason关注API账单成本的内容相关。" src="../assets/diagrams/zh_13_1.svg" /></p>
+<h2 id="847">那个\$847的早晨</h2>
+<p>Yason打开API提供商的控制台，看到上个月的账单时，咖啡差点喷在屏幕上。</p>
+<p>\$847.32。</p>
+<p>他记得上个月是$412，上上个月是$380。翻倍了。</p>
+<p>Yason开始翻明细。逐条看下来，一个大头引起了他的注意：</p>
+<pre><code>qclaw-agent:
+  API calls: 28,432
+  Total tokens: 14,217,000
+  Cost: $312.44
+</code></pre>
+<p>等等。qclaw只是一个API路由Agent——它的职责是把请求转发到正确的模型。它不需要调用大模型，它只需要做路由决策。</p>
+<p>但账单显示它调了28,432次大模型。</p>
+<p>Yason查日志才发现爆炸的原因：qclaw的模型路由配置写错了，所有请求都被发到了一个付费模型上。更糟的是，这个配置错误触发了一个<strong>死循环</strong>——qclaw路由失败 → 自动重试 → 继续失败 → 继续重试。4小时内烧掉了\$312。</p>
+<blockquote>
+<p><strong>一个配置错误 + 一个死循环 = 半个月的API预算。Agent的"盲目执行"特性在成本上是一个巨大的隐患——它不会说"这个请求好像太贵了，你要不要确认一下？"</strong></p>
+</blockquote>
+<h2 id="token">Token成本拆解：钱花在哪了</h2>
+<p>Yason在qclaw事故后坐下来做了一次全面的成本审计。他按Agent和任务类型拆解了token消耗：</p>
+<pre><code>Kai (开发) — 月均 $310
+  ├─ 代码生成 (DeepSeek V4 Pro): 42% — $130.20
+  ├─ 代码审查 (DeepSeek V4 Flash): 25% — $77.50
+  ├─ 架构讨论 (Claude Opus): 20% — $62.00
+  └─ 技术调研 (Kimi): 13% — $40.30
+
+Rex (运维) — 月均 $85
+  ├─ 日志分析 (DeepSeek V4 Flash): 50% — $42.50
+  ├─ 告警处理 (GPT-4o mini): 30% — $25.50
+  └─ 配置生成 (DeepSeek V4 Flash): 20% — $17.00
+
+Max (运营) — 月均 $210
+  ├─ 内容创作 (Claude Sonnet): 45% — $94.50
+  ├─ 数据分析 (DeepSeek V4 Flash): 30% — $63.00
+  └─ 调研报告 (Kimi): 25% — $52.50
+
+基础设施 (路由、记忆同步、监控) — 月均 $102
+其他 (测试、试错、重试) — 月均 $140
+</code></pre>
+<p>（注：下表为剔除 qclaw 死循环事故后的常态月度成本基线——那笔 $312.44 属于一次性异常消耗，不计入下列各 Agent 的月均成本。）</p>
+<p>"其他"那一栏让他停了很久——\$140花了，但产出是零。全是试错、重试、死循环。</p>
+<blockquote>
+<p><strong>非产出消耗是Agent团队最大的隐性成本。它的占比通常在15-25%之间——如果你不做成本审计，你甚至不知道它在流血。</strong></p>
+</blockquote>
+<h2 id="_1">模型路由：什么时候用什么模型</h2>
+<p>Yason的第一个成本优化动作是<strong>配置模型路由</strong>——不是所有任务都值得用最强模型。</p>
+<pre><code class="language-yaml"># /opt/agents/config/model-routing.yaml
+models:
+  # 主力模型 — 性价比最优
+  default:
+    provider: deepseek
+    model: deepseek-v4-flash
+    cost_per_1k_tokens: 0.00015
+
+  # 重度推理 — 架构设计、复杂bug分析
+  heavy_reasoning:
+    provider: deepseek
+    model: deepseek-v4-pro
+    cost_per_1k_tokens: 0.002
+    triggers:
+      - task_type: architecture_design
+      - task_type: complex_debug
+      - error_count: &quot;&gt; 3&quot;  # 简单模型失败3次后自动升级
+
+  # 长上下文 — 文档分析、代码库扫描
+  long_context:
+    provider: kimi
+    model: kimi-k1.6
+    cost_per_1k_tokens: 0.001
+    triggers:
+      - input_length: &quot;&gt; 8000&quot;  # 超过8000 tokens
+
+  # 快速任务 — 简单问答、格式化、翻译
+  fast_cheap:
+    provider: openai
+    model: gpt-4o-mini
+    cost_per_1k_tokens: 0.000075
+    triggers:
+      - task_type: translation
+      - task_type: formatting
+      - task_type: simple_qa
+
+  # 本地模型 — 敏感数据、离线任务
+  local:
+    provider: ollama
+    model: qwen2.5:7b
+    cost: 0  # 免费的
+    triggers:
+      - data_sensitivity: high
+</code></pre>
+<p>这套路由配置的核心逻辑只有一句话：<strong>简单任务用便宜模型，复杂任务用好模型，本地能跑的不用远端。</strong></p>
+<div class="mermaid">flowchart TD
+    A[📥 任务到达] --&gt; B{任务类型分类}
+
+    B --&gt;|翻译/格式化/简单问答| C[🪙 快速便宜层]
+    C --&gt; D[GPT-4o mini]
+    D --&gt; E[成本: $0.000075/1K tokens]
+
+    B --&gt;|代码生成/开发| F[⚡ 主力模型层]
+    F --&gt; G[DeepSeek V4 Flash]
+    G --&gt; H[成本: $0.00015/1K tokens]
+
+    B --&gt;|架构设计/复杂调试| I[🧠 重度推理层]
+    I --&gt; J[DeepSeek V4 Pro]
+    J --&gt; K[成本: $0.002/1K tokens]
+
+    B --&gt;|长文档/代码库扫描| L[📚 长上下文层]
+    L --&gt; M[Kimi K1.6]
+    M --&gt; N[成本: $0.001/1K tokens]
+
+    B --&gt;|高敏感数据| O[🔒 本地模型层]
+    O --&gt; P[&quot;Qwen2.5:7b (Ollama)&quot;]
+    P --&gt; Q[成本: $0（免费）]
+
+    style C fill:#e6ffe6,stroke:#2d8a2d
+    style F fill:#e6f3ff,stroke:#1a6bb5
+    style I fill:#fff3e6,stroke:#cc6600
+    style L fill:#f3e6ff,stroke:#6b1ab5
+    style O fill:#ffe6e6,stroke:#b51a1a
+</div>
+<p>配置一个月后，Kai的月成本从$310降到了$180——降低了42%，但Kai自己完全没感觉到区别，因为路由切换是透明的。</p>
+<h2 id="_2">预算告警和自动熔断</h2>
+<p>光路由优化不够，Yason还需要一个<strong>保险丝</strong>——当成本异常时自动切断。</p>
+<pre><code class="language-bash">#!/bin/bash
+# /opt/agents/monitor/scripts/cost-fuse.sh
+# 检查API消耗，超限时执行熔断
+
+THRESHOLD_DAILY=40       # 单日全局上限 $40
+THRESHOLD_AGENT_DAILY=15 # 单Agent单日上限 $15
+LOG=&quot;/var/log/cost-fuse.log&quot;
+
+echo &quot;=== $(date) 成本检查 ===&quot; &gt;&gt; &quot;$LOG&quot;
+
+# 获取当前消耗（通过API Provider的账单接口）
+daily_cost=$(curl -s &quot;https://api.provider.com/v1/billing/daily?key=$API_KEY&quot; | jq '.total_cost')
+kai_cost=$(curl -s &quot;https://api.provider.com/v1/billing/daily?key=$API_KEY&amp;agent=kai&quot; | jq '.cost')
+max_cost=$(curl -s &quot;https://api.provider.com/v1/billing/daily?key=$API_KEY&amp;agent=max&quot; | jq '.cost')
+rex_cost=$(curl -s &quot;https://api.provider.com/v1/billing/daily?key=$API_KEY&amp;agent=rex&quot; | jq '.cost')
+
+echo &quot;  总消耗: \$$daily_cost&quot; &gt;&gt; &quot;$LOG&quot;
+echo &quot;  Kai: \$$kai_cost, Max: \$$max_cost, Rex: \$$rex_cost&quot; &gt;&gt; &quot;$LOG&quot;
+
+# 熔断规则
+if (( $(echo &quot;$daily_cost &gt; $THRESHOLD_DAILY&quot; | bc -l) )); then
+  echo &quot;⚠️ CRITICAL: 单日总消耗超过 \$$THRESHOLD_DAILY，执行全局熔断！&quot; &gt;&gt; &quot;$LOG&quot;
+  /opt/agents/emergency-shutdown.sh &quot;daily_cost_exceeded&quot;
+  feishu send &quot;🚨 全局熔断已触发！今日API消耗 \$$daily_cost，超过上限 \$$THRESHOLD_DAILY&quot; \
+    --target yason --priority critical --phone
+  exit 1
+fi
+
+# 单Agent超限
+for agent in kai rex max; do
+  name=&quot;${agent%%_*}&quot;
+  cost_var=&quot;${agent}_cost&quot;
+  cost=&quot;${!cost_var}&quot;
+
+  if (( $(echo &quot;$cost &gt; $THRESHOLD_AGENT_DAILY&quot; | bc -l) )); then
+    echo &quot;⚠️ HIGH: $name 单日消耗 \$$cost，暂停该Agent&quot; &gt;&gt; &quot;$LOG&quot;
+    /opt/agents/pause-agent.sh &quot;$name&quot; &quot;cost_exceeded&quot;
+    feishu send &quot;🚨 $name 已暂停：今日消耗 \$$cost，超过上限 \$$THRESHOLD_AGENT_DAILY&quot; \
+      --target yason --priority high
+  fi
+done
+</code></pre>
+<p>这套脚本上线后，Yason心里踏实了很多。他做了一个形象的比喻：<strong>"以前我的API账单像没有上限的信用卡，现在像预付费卡——刷完就停，不会超额。"</strong></p>
+<h2 id="token_1">Token优化的实用技巧</h2>
+<p>除了模型路由和自动熔断，Yason还积累了7条Token优化技巧：</p>
+<p><strong>1. 缓存重复请求</strong><br />
+同一个prompt在不同场景下会被多次调用（比如"介绍一下这个项目"）。Yason建了一个简单的内存缓存，对完全相同的请求直接返回缓存结果。这一项省了约30%的IO消耗。</p>
+<p><strong>2. Agent内省前先搜索记忆库</strong><br />
+Agent每次遇到问题不要直接问大模型，先搜索 <code>knowledge/</code> 和 <code>skills/</code> 目录。Yason的统计显示：45%的问题在已有的Skill文件中有答案。</p>
+<p><strong>3. 限制上下文窗口</strong><br />
+Agent倾向于"把所有相关文件都塞进上下文"。Yason在System Prompt里写了一条规则：<strong>每次加载的上下文不超过6000 tokens</strong>。如果需要更多信息，按相关性排序分批加载。</p>
+<p><strong>4. 分步执行的Token审计</strong><br />
+复杂任务分步执行时，每完成一步记录一次Token消耗。如果某一步消耗异常（比如超出预算的2倍），暂停任务并报告。</p>
+<p><strong>5. 用本地模型筛数据</strong><br />
+在大模型调用前先用本地模型（Ollama）做一次粗筛。比如Max做网页分析时，先让本地模型判断页面是否相关，只有相关的页面才调用远端模型。</p>
+<p><strong>6. 设定试错上限</strong><br />
+每个Agent在System Prompt里有一条硬性规则："同一任务连续失败3次后停止，输出失败报告"。Yason发现死循环试错占了非产出消耗的60%。</p>
+<p><strong>7. 周报自动汇总成本</strong><br />
+每周一早上，Yason收到一封飞书卡片：</p>
+<pre><code>━━━━ 团队成本周报 ━━━━
+上周总消耗: $187.32
+环比: +12% (前周: $167.10)
+预算剩余: 62%
+
+角色排行:
+🥇 Kai: $82.10 (43.8%)
+🥈 Max: $61.20 (32.7%)
+🥉 Rex: $24.02 (12.8%)
+
+异常消耗:
+- 6/14 Kai 连续重试消耗 $8.40 (已标记)
+- 6/16 Max 模型路由错配消耗 $4.20 (已修复)
+━━━━━━━━━━━
+</code></pre>
+<p>（注：周报里的"预算剩余 62%"按<strong>本周</strong>预算基数计算；仪表盘左上角的"剩余 43%"是<strong>月度</strong>口径——基数不同，二者并不矛盾。）</p>
+<p>Yason不需要自己统计，成本报告是自动生成的。</p>
+<h2 id="_3">社区的成本优化工具</h2>
+<p>Yason的成本控制体系跑通之后，他发现自己做的事情社区里已经有成熟的开源方案：</p>
+<ul>
+<li><strong>OpenRouter</strong>（openrouter.ai）：一个统一的模型路由网关。所有模型调用通过OpenRouter中转，自动路由到当前负载最低/价格最优的模型提供商。Yason手工配置的模型路由策略，OpenRouter开箱即用，还会根据实时价格自动切换。</li>
+<li><strong>LiteLLM</strong>（litellm.vercel.app）：开源的多模型提供商SDK。一行代码切换模型提供商——从OpenAI换到DeepSeek再换到Anthropic，不需要改任何业务代码。LiteLLM还内置了成本追踪和费率限制管理。</li>
+<li><strong>Portkey</strong>（portkey.ai）：AI网关和成本管理平台，支持缓存、重试、费率限制和预算控制。免费版支持每月100万Token的追踪。</li>
+<li><strong>Helicone</strong>：开源的LLM成本监控工具。Yason自己写的成本熔断脚本，Helicone开箱就有类似功能，还附带可视化仪表盘。</li>
+</ul>
+<p>Yason后来把LiteLLM接入了自己的路由系统："以前每个模型提供商都要单独配置API Key和计费规则，用LiteLLM之后，配置从200行变成了20行。"</p>
+<h2 id="_4">预算墙与速率限制管理</h2>
+<p>成本控制还有一个容易被忽视的维度——<strong>速率限制（Rate Limit）</strong>。</p>
+<p>Yason遇到过不止一次：Agent突然停下来了，不是因为成本超限，而是因为API提供商返回了429（Too Many Requests）。Agent不懂429的语义，继续重试，结果触发了更高的限频惩罚。</p>
+<p>解决方案是加了一个"预算墙+速率墙"的双层防护：</p>
+<pre><code class="language-yaml"># /opt/agents/config/budget-and-rate.yaml
+budget_walls:
+  agent_level:
+    kai:
+      daily_budget: 15.00
+      hourly_budget: 3.00
+      rate_limit: 60 rpm  # 每分钟最多60次请求
+    rex:
+      daily_budget: 5.00
+      rate_limit: 30 rpm
+
+  task_level:
+    heavy_reasoning:
+      max_cost_per_task: 2.00
+      max_steps: 20
+    simple_qa:
+      max_cost_per_task: 0.05
+
+rate_management:
+  backoff_strategy: exponential  # 指数退避
+  max_retries: 3
+  retry_on_codes: [429, 503, 502]  # 只有这些状态码才重试
+  circuit_breaker:
+    error_threshold: 5  # 连续5次错误
+    recovery_time: 60   # 暂停60秒
+</code></pre>
+<p>（注：上面熔断脚本里的 <code>THRESHOLD_AGENT_DAILY=15</code> 是统一的"每日 $15/Agent"硬上限；而预算墙 YAML 中 Rex 的 <code>daily_budget: 5</code> 是给 Rex 单独设的更紧个性化上限，会先于 $15 触发。）</p>
+<p>"预算墙防止你花超出限额的钱，速率墙防止你触达API提供商把你的账号封了。两堵墙之间，Agent可以自由驰骋。"</p>
+<h2 id="apis">APIs是消耗品，不是资产</h2>
+<p>Yason在团队Wiki里写了一句话：</p>
+<blockquote>
+<p><strong>把API费用当"消耗品预算"，不是"固定资产投入"。一个月花几千块Token费不心疼——花错了方向才心疼。定好规则、设好熔断、做好审计，剩下的让Agent放手干。</strong></p>
+</blockquote>
+<p>这是他交了\$847学费之后学到的最重要的一课。</p>
+<h2 id="_5">本章小结</h2>
+<ul>
+<li>一个死循环半天烧掉\$312——Agent的"盲目执行"是成本黑洞</li>
+<li>定期做成本审计，拆解每个Agent的任务类型消耗</li>
+<li>模型路由：简单任务用便宜模型，本地能跑的不用远端</li>
+<li>自动熔断脚本：超限直接暂停，不等人发现</li>
+<li>7个Token优化技巧：缓存、先搜后问、限制窗口、分步审计、本地预筛、失败上限、自动报告</li>
+<li>API费用是消耗品——花对了方向就不心疼</li>
+</ul>
+<blockquote>
+<p><strong>下一章预告</strong>：AI团队生产的东西谁来保证质量？当你不再亲自review每一行代码，就需要一套自动化的质量保障体系——Kai的一次重构事故教会了Yason这一点。</p>
+</blockquote>
+<p><em>本文来自专栏《给AI当老板》，完整系列持续更新中：</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<p><img alt="图片是“别让API" src="../assets/diagrams/zh_13_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

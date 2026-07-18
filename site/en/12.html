@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Self-Evolution — How Agents Get Smarter · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="Image showing the four stages of the Agent self-evolution mechanism. Stage 1 is Observation — recording success/failure patterns and auditing token consumption while executing tasks. Stage 2 is Analysis — identifying process patterns, discovering improvement opportunities, and comparing against historical performance. Stage 3 is Improvement — optimizing Prompts, adjusting workflows, and updating the knowledge base. Stage 4 is Verification — A/B test validation, quantified effect evaluation, and iterative looping. An automatic evolution loop runs every 24 hours, and the human only needs to approve improvement proposals. The image is closely tied to the context and vividly presents the Agent self-evolution workflow." src="../assets/diagrams/en_12_1.svg" /></p>
+<h2 id="the-same-problem-tripped-over-again-the-second-time">The same problem, tripped over again the second time</h2>
+<p>Kai made a mistake that looked pretty dumb.</p>
+<p>Doing task A, it needed to install an npm package, and used <code>npm install</code> to do it. Two hours later, doing task B, it needed the same package again — and Kai ran <code>npm install</code> all over again, same version, same dependencies, re-downloaded.</p>
+<p>When Yason saw the logs he was torn between laughing and crying: "Didn't you just install it once?"</p>
+<p>Kai replied: "I don't remember."</p>
+<p>This isn't Kai's fault. <strong>An Agent's working memory is one-shot by default.</strong> Every task starts with a "clean brain" — it doesn't remember what the last task did, doesn't remember what pitfall it hit last time, doesn't remember which approach got rejected.</p>
+<p>If no one actively stores the knowledge, the Agent will keep stepping in the same hole.</p>
+<blockquote>
+<p><strong>An Agent's "smart" isn't innate — it's fed. Every pitfall, every optimization, every decision — if you don't store it, it's as if it never happened.</strong></p>
+</blockquote>
+<h2 id="kimi-agent-swarm-300-concurrent-agents">Kimi Agent Swarm: 300 concurrent Agents</h2>
+<p>While designing the self-evolution mechanism, Yason read an industry report that floored him — Moonshot AI's K2.6 model, released at the end of 2025, supports <strong>300 concurrent Sub-Agents</strong> working together.</p>
+<p>Not 3, not 30 — <strong>300.</strong></p>
+<p>This isn't a lab demo; it's a real, usable product capability. K2.6's Agent Swarm architecture lets a developer spin up up to 300 Sub-Agents in a single task, each independently executing a different subtask, with a central coordinator merging the results. The whole system can orchestrate 4,000+ steps of multi-step collaboration.</p>
+<p>Even more stunning is its benchmark performance — on BrowseComp (a complex web-browsing and comprehension benchmark), K2.6 Swarm hit 86.3% accuracy. For comparison, GPT-5.4 scored 78.4% on the same task. <strong>For the first time, an open-source model beat a closed-source model on Agent tasks.</strong></p>
+<p>It made Yason think: no matter how strong a single Agent is, it can't beat the collaboration of a swarm. Swarm Intelligence isn't theory — it's something already happening in 2026.</p>
+<h2 id="swarm-intelligence-from-ant-colonies-to-agent-fleets">Swarm intelligence: from ant colonies to Agent fleets</h2>
+<p>Inspired by K2.6, Yason read a few swarm-intelligence papers and found a fascinating concept — <strong>Stigmergy (traces / pheromones)</strong>.</p>
+<p>The concept comes from insect behavior: when ants search for food, they leave pheromones on the path they walk. Other ants smell it and tend to follow the strongest-pheromone path. <strong>No commander, no map — each ant just does one thing: follow the pheromones.</strong></p>
+<p>And the result? The whole colony finds the food.</p>
+<p>Yason mapped Stigmergy onto his Agent team:</p>
+<ul>
+<li>"Pheromones" = the decision records, success logs, and warning markers an Agent leaves in the shared memory library</li>
+<li>"Follow the pheromones" = when an Agent hits a problem, it first searches for a solution "someone else already succeeded with"</li>
+<li>"Swarm intelligence" = each Agent independently optimizes its own local task, and through the "traces" in the shared environment naturally reaches a global optimum</li>
+</ul>
+<p>This framework explains why Yason's shared memory library spontaneously produces swarm intelligence — the "traces" each Agent leaves unintentionally are pheromones for the others: Kai writes in a log "the root cause of this bug is X," and the next day Rex, hitting a similar problem, searches out that record and skips the trial-and-error step entirely. <strong>The essence of those 300 concurrent Agents is 300 independent trial-and-error individuals reaching collective intelligence through a shared environment.</strong></p>
+<pre><code>Individual Agent optimizes → leaves pheromones (logs / Skills / decision records)
+       ↓
+Other Agents read the pheromones → avoid repeating the pitfall
+       ↓
+Collective intelligence emerges → the whole team's decision quality rises
+       ↓
+(feedback loop) new experience settles again as new pheromones
+</code></pre>
+<p>"You don't need a 'super-brain' to command everyone. You just need every Agent to leave traces in the shared environment — and collective intelligence emerges naturally." Yason wrote in his notes.</p>
+<h2 id="the-dream-mechanism-the-agents-nightly-review">The Dream Mechanism: the Agent's nightly review</h2>
+<p>Yason designed a system he calls the "Dream Mechanism."</p>
+<p>Every night at 2 a.m., when all Agents are idle, a "review task" is triggered:</p>
+<pre><code class="language-bash">#!/bin/bash
+# /opt/agents/scripts/daily-dream.sh
+# Runs daily at 2 a.m.: the Agent reviews the day's tasks and extracts reusable knowledge
+
+MEMORY_DIR=&quot;/opt/agents/memory&quot;
+SKILLS_DIR=&quot;$MEMORY_DIR/skills&quot;
+DREAMS_DIR=&quot;$MEMORY_DIR/.dreams&quot;
+
+mkdir -p &quot;$DREAMS_DIR&quot;
+
+# Scan today's full logs
+today=$(date '+%Y-%m-%d')
+logs=$(find &quot;$MEMORY_DIR/daily-logs&quot; -name &quot;*$today*&quot; -type f)
+
+if [ -z &quot;$logs&quot; ]; then
+  echo &quot;No task records today, skip review&quot;
+  exit 0
+fi
+
+echo &quot;=== Daily review $today ===&quot;
+
+# Analyze each log entry, extract &quot;reusable experience&quot;
+for log in $logs; do
+  agent_name=$(basename &quot;$log&quot; | sed &quot;s/$today-//&quot; | sed 's/\.md$//')
+
+  # Extract from the log: problems encountered, solutions, optimization suggestions
+  problems=$(grep -i &quot;problem|error|fail|blocked|pitfall&quot; &quot;$log&quot;)
+  solutions=$(grep -i &quot;solution|fix|approach|changed to|workaround&quot; &quot;$log&quot;)
+  optimizations=$(grep -i &quot;optimize|improve|suggestion|next time|better&quot; &quot;$log&quot;)
+
+  if [ -n &quot;$problems&quot; ] &amp;&amp; [ -n &quot;$solutions&quot; ]; then
+    dream_file=&quot;$DREAMS_DIR/$today-$agent_name-dream.md&quot;
+    {
+      echo &quot;## Experience extraction - $agent_name - $today&quot;
+      echo &quot;&quot;
+      echo &quot;### Problem&quot;
+      echo &quot;$problems&quot;
+      echo &quot;&quot;
+      echo &quot;### Solution&quot;
+      echo &quot;$solutions&quot;
+      echo &quot;&quot;
+      echo &quot;### Optimization suggestion&quot;
+      echo &quot;$optimizations&quot;
+    } &gt; &quot;$dream_file&quot;
+
+    echo &quot;  $agent_name: extracted $(echo &quot;$problems&quot; | wc -l) experiences&quot;
+  fi
+done
+
+# Check whether any experience is worth consolidating into a Skill
+# If the same type of problem appears 3+ times, auto-generate a Skill draft
+# (logic omitted)
+</code></pre>
+<p>This script does three things:</p>
+<ol>
+<li><strong>Extract experience</strong> — find "problem + solution" pairs from today's logs</li>
+<li><strong>Consolidate skills</strong> — if the same type of problem recurs, auto-generate a Skill draft</li>
+<li><strong>Update memory</strong> — write the new experience into the shared knowledge base</li>
+</ol>
+<p>The next day, when Agents load memory, these "dreamed-up" skill files become part of their knowledge.</p>
+<h2 id="from-experience-to-skills-the-structured-sedimentation-of-knowledge">From experience to skills: the structured sedimentation of knowledge</h2>
+<p>Yason divided Agent knowledge into three tiers:</p>
+<div class="mermaid">flowchart LR
+    subgraph Temporary Experience Layer
+        D[&quot;Dream
+Extracted from daily review&quot;]
+        L[&quot;Log records
+Pitfall + solution&quot;]
+    end
+
+    subgraph Skill Layer
+        S[&quot;Skill file
+Structured reusable knowledge&quot;]
+        CHK{&quot;Used ≥5 times
+Success rate ≥80%&quot;}
+    end
+
+    subgraph Default Behavior Layer
+        PB[&quot;Default behavior
+Written into System Prompt&quot;]
+    end
+
+    L --&gt;|Dream Mechanism extraction| D
+    D --&gt;|Consolidate after validation| S
+    S --&gt; CHK
+    CHK --&gt;|Yes / Yason confirms| PB
+    CHK --&gt;|No| S
+
+    PB -.-&gt;|Continuous optimization| L
+
+    style D fill:#f3e5f5,stroke:#7b1fa2
+    style S fill:#e3f2fd,stroke:#1565c0
+    style PB fill:#e8f5e9,stroke:#388e3c
+</div>
+<p><strong>Temporary experience tier</strong>: the experience notes "dreamed" each day. May have noise, not necessarily accurate.</p>
+<p><strong>Skill file tier</strong>: validated experience, written into the <code>skills/</code> directory, with a standard format:</p>
+<pre><code class="language-markdown"># /memory/skills/npm-cache-optimization.md
+
+## Skill name
+npm dependency cache strategy
+
+## Applicable scenario
+When you need to install npm dependencies
+
+## Problem description
+Running npm install multiple times in a short window, re-downloading the same dependencies every time, wasting time
+
+## Solution
+1. Check whether the node_modules directory exists
+2. If it does, first check whether the needed package is already installed
+    `npm ls &lt;package-name&gt; 2&gt;/dev/null`
+3. If installed, skip install
+4. If not installed, run npm install &lt;package-name&gt;
+
+## Notes
+- Must re-install when package.json changes
+- Not applicable to yarn or other package managers
+
+## Source
+Kai, 2025-06-15: re-installed the axios package twice within two hours
+</code></pre>
+<p><strong>Default behavior tier</strong>: if a Skill is used more than 5 times, its core content gets written into the Agent's System Prompt and becomes default behavior.</p>
+<p>This is an <strong>automated knowledge-sedimentation pipeline</strong>:</p>
+<div class="mermaid">flowchart LR
+    A[Agent hits pitfall] --&gt; B[&quot;Log it
+daily-logs/&quot;]
+    B --&gt; C[&quot;Dream extraction
+Midnight review&quot;]
+    C --&gt; D[Skill draft]
+    D --&gt; E[Validation review]
+    E --&gt;|Pass| F[&quot;Official Skill
+skills/ directory&quot;]
+    E --&gt;|Fail| C
+    F --&gt;|Used ≥5 times| G[&quot;Default behavior
+System Prompt&quot;]
+    G -.-&gt;|Reference for new tasks| A
+</div>
+<h2 id="cross-agent-learning">Cross-Agent learning</h2>
+<p>A skill one Agent learns can become shared assets for all Agents.</p>
+<p>For example, Kai found a Node.js version-compatibility issue while coding and wrote a <code>node-version-compat.md</code> Skill. Rex hit the same problem during deployment and searched out that Skill in memory, reusing the solution directly.</p>
+<p>Yason didn't do anything special to configure this — <strong>all Agents share the same memory library, so cross-Agent learning happens naturally.</strong></p>
+<p>But he did hit one "knowledge pollution" problem. Max learned an ops-related trick and tagged it "applies to all Agents" — then Kai and Rex started "learning" the ops skill too, thinking it was universal.</p>
+<p>Yason's fix was to add a <code>scope</code> field to each Skill file:</p>
+<pre><code class="language-yaml"># Metadata for skills/npm-cache-optimization.md
+---
+scope: [kai, rex]
+applicable_roles:
+  - developer
+  - devops
+not_applicable:
+  - operator
+---
+
+# Subsequent content...
+</code></pre>
+<p>When loading a skill, an Agent checks <code>scope</code> and only loads skills that match its role.</p>
+<h2 id="the-evolution-trigger-mechanism">The evolution-trigger mechanism</h2>
+<p>Yason's Agents don't "dream" endlessly. The daily review has a cost — every "dream" burns tokens. Yason set a trigger condition: <strong>the review only fires when the Agent completed 3+ tasks that day, or hit 1+ error.</strong></p>
+<pre><code class="language-yaml"># /opt/agents/config/evolution.yaml
+evolution:
+  dream_trigger:
+    min_tasks_completed: 3
+    min_errors_encountered: 1
+    schedule: &quot;0 2 * * *&quot;  # Every day at 2 a.m.
+
+  skill_promotion:
+    min_usage_count: 5       # Used 5+ times
+    min_confidence: 0.8      # Success rate 80%+
+    review_required: true    # Requires Yason's manual confirmation
+
+  system_prompt_update:
+    min_skill_count: 5       # 5 related Skills → consider writing into System Prompt
+    notify_yason: true
+</code></pre>
+<p>Note <code>review_required: true</code> — promoting from Skill to default behavior must pass Yason's confirmation. This isn't distrust; it's <strong>to prevent "learning it wrong."</strong></p>
+<h2 id="open-source-self-evolution-frameworks-from-the-community">Open-source self-evolution frameworks from the community</h2>
+<p>Yason's "Dream Mechanism" was hand-written, but he later found the community already had plenty of open-source self-evolution frameworks ready to use:</p>
+<ul>
+<li><strong>AutoGen</strong> (Microsoft): supports Agent conversation, code execution, and tool calls, with a built-in "reflection" mechanism. After each task, the Agent can auto-generate a "reflection note" that loads on the next similar task. AutoGen 0.4 introduced cross-session memory for multi-Agent teams.</li>
+<li><strong>CrewAI's learning mechanism</strong>: CrewAI added "Experience Memory" in its autumn 2025 release. After each task, the Agent auto-generates an "experience record" stored in the shared memory library. In later tasks, the Agent auto-retrieves the most relevant historical experience based on the current task description.</li>
+<li><strong>MemGPT/Letta</strong>: an open-source framework giving LLMs long-term memory. The Agent's context window is no longer static — it can "flip through" historical memory as needed, like a human flipping through a notebook.</li>
+<li><strong>AgentProtocol</strong>: an open-source protocol standardizing Agent skill sharing, letting skills be imported and exported between different Agent frameworks.</li>
+</ul>
+<p>Yason didn't replace his whole system, but borrowed AutoGen's "reflection note" format into his own Dream Mechanism — making the Agent's daily review more standardized in structure.</p>
+<h2 id="the-skill-lifecycle-from-draft-to-sediment">The Skill lifecycle: from draft to sediment</h2>
+<p>Yason later organized the "Dream → Skill → default behavior" workflow into a formal <strong>Skill lifecycle</strong>:</p>
+<pre><code>Draft stage
+  Agent finds a reusable experience and writes a draft
+    ↓
+Review stage
+  Another Agent (or Yason) reviews the draft's quality
+    ↓
+Trial stage
+  The Skill is tagged &quot;trial&quot; — the Agent can use it but with caution
+    ↓
+Mature stage
+  The Skill is successfully referenced 5+ times and auto-upgrades to &quot;official Skill&quot;
+    ↓
+Default stage
+  In a certain class of problems, the Skill's call rate exceeds 80%, consider writing into System Prompt
+    ↓
+Deprecated stage
+  As the model upgrades or the environment changes, a Skill no longer applies and is auto-tagged expired
+</code></pre>
+<p>Yason's addition of a "deprecated stage" matters — as LLM models keep upgrading (say from DeepSeek V3 to V4), many problems that once needed a Skill the model now handles itself. If you don't deprecate old Skills, the Agent gets dragged down by outdated knowledge.</p>
+<h2 id="the-sprout-of-reinforcement-learning">The sprout of reinforcement learning</h2>
+<p>Yason doesn't run RL (reinforcement learning) in production — too complex, too costly. But he did something similar:</p>
+<p><strong>Every time Yason rejects or corrects an Agent's output, that "rejection" is recorded as a negative sample.</strong> The next time the Agent hits a similar scenario, it searches memory and sees "this approach was rejected last time."</p>
+<p>It's not real RL, but it's a kind of <strong>implicit preference alignment</strong> — no large-scale training needed, just let the Agent remember "what Yason dislikes."</p>
+<p>"Once the Agent team grows big enough to need fully automatic evolution, I'll consider RL. Until then, this 'memory-driven implicit alignment' is enough."</p>
+<h2 id="visualizing-the-evolution-data">Visualizing the evolution data</h2>
+<p>After three months of running, Yason saw a clear trend:</p>
+<pre><code>Month 1: rate of problems needing Yason's guidance when an Agent is stuck — 65%
+Month 2: rate of problems needing Yason's guidance when an Agent is stuck — 35%
+Month 3: rate of problems needing Yason's guidance when an Agent is stuck — 18%
+</code></pre>
+<p>Changes in the knowledge base:</p>
+<pre><code>Month 1: 0 Skill files
+Month 2: 12 Skill files
+Month 3: 34 Skill files (6 of which promoted to default behavior)
+</code></pre>
+<p>The Agents' decision quality is rising, and Yason's intervention frequency is falling. Not because the model got stronger — Kai, Rex, and Max have used the same model family / routing strategy from start to finish. <strong>What got stronger is the knowledge they accumulated.</strong></p>
+<blockquote>
+<p><strong>An Agent's evolution curve = the quality of your knowledge management × time. The model sets the starting point; knowledge sets the endpoint.</strong></p>
+</blockquote>
+<h2 id="chapter-summary">Chapter summary</h2>
+<ul>
+<li>An Agent's working memory is one-shot — if you don't store it, it's as if it never happened</li>
+<li>The "Dream Mechanism": auto-review logs at 2 a.m. every day, extract reusable experience</li>
+<li>Three-tier knowledge architecture: temporary experience → Skill file → default behavior</li>
+<li>Cross-Agent learning: the shared memory library turns one Agent's experience into the whole team's asset</li>
+<li>Use the scope field to avoid knowledge pollution — different-role Agents learn different skills</li>
+<li>Promoting from Skill to default behavior needs Yason's confirmation, to prevent "learning it wrong"</li>
+<li>After three months, Yason's intervention rate dropped from 65% to 18%</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview:</strong> The biggest "invisible killer" of an Agent team — the API bill. One infinite loop burned a week's budget in half a day. How do you keep your Agent team working without burning money?</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI', the full series is continuously updated:</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<hr />
+<hr />
+<p><img alt="Image showing the four stages of the Agent self-evolution mechanism. Stage 1 is Observation — recording success/failure patterns and auditing token consumption while executing tasks. Stage 2 is Analysis — identifying successful patterns and discovering improvement opportunities. Stage 3 is Improvement. Stage 4 is Verification, with A/B test validation." src="../assets/diagrams/en_12_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

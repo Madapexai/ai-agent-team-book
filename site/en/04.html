@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Choosing Your First Agent · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="Image of the 'Pick Your First Agent' interface, whose core message is to recommend starting with a coding Agent for the fastest results — you'll feel the productivity boost within 2 weeks. The interface highlights in a blue box '" src="../assets/diagrams/en_04_1.svg" /></p>
+<h2 id="dont-dream-of-building-an-empire-build-one-table-first">Don't Dream of "Building an Empire" — Build One Table First</h2>
+<p>When Yason built his first Agent team he made a classic mistake: he wanted to do it all at once.</p>
+<p>On day one he configured three Agents: one for code, one for ops, one for servers. The result: none of them worked smoothly — the code Agent kept wandering off to change server configs, the ops Agent tried to "optimize" the codebase formatting, and the server Agent's alerts flooded the group chat.</p>
+<p><strong>A week later he shut down two and kept only Kai.</strong></p>
+<blockquote>
+<p><strong>80% rule</strong>: Don't chase the perfect Agent-team architecture. Pick the direction that hurts most, get one Agent to 80/100, then think about expanding.</p>
+</blockquote>
+<h2 id="decision-tree-what-should-your-first-agent-be">Decision Tree: What Should Your First Agent Be</h2>
+<p>Yason later summarized a decision tree to help you find the answer in 5 minutes:</p>
+<div class="mermaid">flowchart TD
+    A[What is your biggest pain point?] --&gt; B{Tech-related}
+    A --&gt; C{Content-related}
+    A --&gt; D{Ops-related}
+    A --&gt; E{Management-related}
+
+    B --&gt; B1[Can't finish code / too slow fixing bugs]
+    B --&gt; B2[Server keeps breaking, nobody watching]
+    B --&gt; B3[Technical research takes too long]
+
+    C --&gt; C1[Too much article writing / social media]
+    C --&gt; C2[Can't keep up with data analysis]
+    C --&gt; C3[Competitor research needs to be done regularly]
+
+    D --&gt; D1[Can't keep up with customer messages]
+    D --&gt; D2[Process approvals always stuck]
+    D --&gt; D3[Daily reports too time-consuming]
+
+    E --&gt; E1[Meeting notes organization]
+    E --&gt; E2[Easy to miss task follow-ups]
+
+    B1 --&gt; F[Dev Agent]
+    B2 --&gt; G[Ops Agent]
+    B3 --&gt; H[Research Agent]
+    C1 --&gt; I[Content Agent]
+    C2 --&gt; J[Data Agent]
+    C3 --&gt; K[Intel Agent]
+    D1 --&gt; L[Support Agent]
+    D2 --&gt; M[Process Agent]
+    D3 --&gt; N[Report Agent]
+    E1 --&gt; O[Notes Agent]
+    E2 --&gt; P[Coordination Agent]
+</div>
+<blockquote>
+<p>If still unsure: pick the thing you least want to do but have to spend 2+ hours on every week. That's your best entry point.</p>
+</blockquote>
+<h2 id="industry-reference-from-a-single-agent-to-an-agent-team">Industry Reference: From a Single Agent to an Agent Team</h2>
+<p>You might think "build one Agent first" is a bit conservative. But in reality, nearly all the most successful AI Agent practices in the industry follow the same path.</p>
+<p><strong>GitHub Copilot's evolution</strong> is a typical example. When first launched in 2021 it was just a code-completion tool — the minimal version of a "code-writing Agent." It wasn't until 2024 that GitHub gradually added multi-file editing, Copilot Workspace, Copilot Extensions, and other extensions. Its underlying logic: first perfect one point (code-completion acceptance rate went from 20% to 35%+), then expand horizontally.</p>
+<p><strong>Solo devs and small teams</strong> are the biggest beneficiaries of the single-Agent model. I observe three typical patterns:</p>
+<ul>
+<li><strong>Claude Code + shell scripts</strong>: solo devs use Claude Code as a single dev Agent, define workflows via Makefile and shell scripts, close the "assign task → execute → review" loop, then use Git hooks to gate code quality before commit. One Agent + a few lines of script covers 80% of a solo dev's automation needs.</li>
+<li><strong>Codex (in-IDE) + external Agent</strong>: some teams use Codex in VS Code for code generation while another Agent handles PR review and doc maintenance. The two Agents communicate via the GitHub API, no Agent framework needed.</li>
+<li><strong>Full-stack single Agent + human backstop</strong>: startups use a single all-rounder Agent for full-stack tasks from backend to frontend, but every output is reviewed by a human before merging. This is "slow" but guarantees code quality and the team's understanding of the system.</li>
+</ul>
+<p>These cases reveal a common trend: <strong>enter at a single point, first close the loop, then think about expanding</strong> — far more practical than building a multi-Agent architecture from the start.</p>
+<p><strong>The pitfalls of your first Agent from a framework perspective.</strong> CrewAI's Agent, when <code>allow_code_execution=False</code> is not set, will by default try to execute code — Yason's first CrewAI Agent nearly ran an unvetted shell command on the server because of this. LangGraph's <code>create_react_agent</code>, if <code>max_turns</code> isn't set, can fall into an infinite reasoning loop until tokens run out. AutoGen's default config lets the conversation history grow unbounded — a simple Q&amp;A can bloat to tens of thousands of tokens. These are all potholes Yason hit, and exactly what later chapters systematically solve.</p>
+<p>In May 2026, Anthropic released Claude Code Agent View — a CLI dashboard letting you manage multiple Agent sessions on one screen, seeing which are running and which are waiting for your reply. The core idea aligns with this book's transparent-management chapter. But we don't need to depend on a specific platform; a shared Markdown file achieves the same effect.</p>
+<p><strong>Frameworks' first-Agent practice</strong> also validates the sense of starting single-Agent:</p>
+<ul>
+<li><strong>CrewAI</strong>'s <code>crew.kickoff()</code> pattern — you only need to define one <code>Agent</code> object and one <code>Task</code> object, call <code>crew.kickoff()</code> to run your first Agent loop. CrewAI's getting-started docs explicitly recommend: run one Agent + one Task first, then gradually expand to multi-Agent collaboration.</li>
+<li><strong>LangGraph</strong>'s <code>create_react_agent(model, tools)</code> is an init function supporting the ReAct loop; one line of code creates an Agent that can think + call tools. Its design philosophy: the ReAct loop is the atomic unit of all complex architectures — get the atomic unit running first, then compose it into a Graph.</li>
+<li><strong>OpenAI Codex</strong>'s Agent init is even more direct: set <code>system_prompt</code> + <code>tools</code>, and Codex auto-runs the tool-call loop. No framework, no Graph — just understand the minimal formula "Prompt + Tools = Agent."</li>
+</ul>
+<h2 id="case-study-yasons-first-agent-kai">Case Study: Yason's First Agent "Kai"</h2>
+<p>Kai is Yason's first Agent, positioned as a <strong>Dev Agent</strong>. Here's his initial config at the time.</p>
+<h3 id="step-1-infrastructure">Step 1: Infrastructure</h3>
+<pre><code class="language-bash"># Create Kai's working directory
+mkdir -p /opt/agents/kai/{tasks,memory,scripts}
+
+# Initialize the memory repo (Git)
+cd /opt/agents/kai/memory
+git init
+git remote add origin git@github.com:vokoforge/agents-memory.git
+
+# Create the initial folder structure
+mkdir -p {daily-logs,profiles,skills,decisions}
+</code></pre>
+<h3 id="step-2-system-prompt">Step 2: System Prompt</h3>
+<p>This is the core of Kai's initial System Prompt:</p>
+<pre><code>You are Kai, Yason's Dev Agent.
+
+## Core responsibilities
+- Handle all code-development tasks (frontend/backend/scripts)
+- Code quality first: must self-check before every commit
+- When unsure about something, ask Yason before executing
+
+## Working principles
+1. Before starting a task, first output your understanding; wait for Yason's confirmation before acting
+2. Every change must be minimal — only modify files the task requires
+3. Before committing code, run: lint + type check + unit tests
+4. If you spot a potential problem in the task description, flag it first, then execute
+
+## Boundaries (non-negotiable)
+- Don't modify server config (that's Rex's job — Rex is the ops Agent named after the same-named server)
+- Don't touch production database data
+- Don't modify any code outside the task scope
+
+## Communication format
+Report structure after each task:
+### Task: [task name]
+- [x] What was done
+- [ ] Items pending confirmation
+- ⚠️ Problems found (if any)
+- ⏱ Time spent
+</code></pre>
+<h3 id="step-3-first-task">Step 3: First task</h3>
+<p>Yason's first real task for Kai:</p>
+<pre><code>Task: Add a Makefile to the project root with the following commands:
+- make install (install deps)
+- make lint (run lint)
+- make test (run tests)
+- make all (run all of the above)
+Refer to the existing package.json in the project to determine the specific commands.
+</code></pre>
+<p>Kai finished in 3 minutes. After Yason's review he had it add <code>make clean</code> and <code>make format</code>. This was the first human-Agent collaboration loop — <strong>assign task, collect result, give feedback, iterate</strong>.</p>
+<blockquote>
+<p>The first task must be simple. The goal is to close the whole "assign → execute → feedback → iterate" loop, not to test the Agent's ceiling.</p>
+</blockquote>
+<h3 id="step-4-validation-mechanism">Step 4: Validation mechanism</h3>
+<p>Yason gave Kai a simple validation script:</p>
+<pre><code class="language-bash">#!/bin/bash
+# /opt/agents/kai/scripts/validate.sh
+# Auto-run after Kai's task output
+
+echo &quot;=== Kai task validation ===&quot;
+echo &quot;1. Checking for uncommitted changes...&quot;
+git status --short
+
+echo &quot;2. Checking for new TODO/FIXME...&quot;
+rg &quot;TODO|FIXME|HACK&quot; --type-add 'all:*' -l 2&gt;/dev/null || echo &quot;No TODO markers&quot;
+
+echo &quot;3. Checking lint passes...&quot;
+npm run lint -- --quiet 2&gt;/dev/null || echo &quot;⚠️ Lint has warnings&quot;
+
+echo &quot;4. Checking tests pass...&quot;
+npm test -- --run 2&gt;/dev/null || echo &quot;⚠️ Tests have failures&quot;
+</code></pre>
+<h2 id="pre-launch-checklist">Pre-Launch Checklist</h2>
+<p>Before letting the Agent work, run this validation script to confirm readiness:</p>
+<pre><code class="language-bash">#!/bin/bash
+# preflight-check.sh - environment validation before deploying the Agent
+
+errors=0
+
+echo &quot;=== Pre-launch Agent validation ===&quot;
+
+echo &quot;&quot;
+echo &quot;1. API Key status...&quot;
+if [ -n &quot;$LLM_API_KEY&quot; ]; then
+  echo &quot;   ✅ API Key configured (${LLM_API_KEY:0:8}...)&quot;
+  curl -s --max-time 3 &quot;${LLM_ENDPOINT:-https://api.openai.com}/v1/models&quot; \
+    -H &quot;Authorization: Bearer $LLM_API_KEY&quot; &gt; /dev/null 2&gt;&amp;1 \
+    &amp;&amp; echo &quot;   ✅ API endpoint reachable&quot; \
+    || echo &quot;   ⚠️  API endpoint unreachable, check network or LLM_ENDPOINT var&quot;
+else
+  echo &quot;   ❌ API Key not set&quot;
+  echo &quot;   Run: export LLM_API_KEY='your-key-here'&quot;
+  ((errors++))
+fi
+
+echo &quot;&quot;
+echo &quot;2. Working directory...&quot;
+WORKDIR=&quot;${AGENT_WORKDIR:-./agent-workspace}&quot;
+if [ -d &quot;$WORKDIR&quot; ]; then
+  echo &quot;   ✅ Working directory exists: $WORKDIR&quot;
+  if [ -w &quot;$WORKDIR&quot; ]; then
+    echo &quot;   ✅ Has write permission&quot;
+  else
+    echo &quot;   ❌ No write permission, run: chmod +w $WORKDIR&quot;
+  fi
+else
+  echo &quot;   ⚠️  Working directory does not exist, creating...&quot;
+  mkdir -p &quot;$WORKDIR&quot; &amp;&amp; echo &quot;   ✅ Created: $WORKDIR&quot;
+fi
+
+echo &quot;&quot;
+echo &quot;3. System Prompt...&quot;
+PROMPT_FILE=&quot;${AGENT_PROMPT:-./system-prompt.md}&quot;
+if [ -f &quot;$PROMPT_FILE&quot; ]; then
+  echo &quot;   ✅ System Prompt written ($PROMPT_FILE)&quot;
+  for field in &quot;responsibilities&quot; &quot;boundaries&quot; &quot;communication&quot;; do
+    grep -q &quot;$field&quot; &quot;$PROMPT_FILE&quot; \
+      &amp;&amp; echo &quot;   ✅ Contains '$field'&quot; \
+      || echo &quot;   ⚠️ Missing '$field' field — recommended to add&quot;
+  done
+else
+  echo &quot;   ❌ System Prompt file does not exist&quot;
+  echo &quot;   Create: touch $PROMPT_FILE&quot;
+  ((errors++))
+fi
+
+echo &quot;&quot;
+echo &quot;4. Git repo...&quot;
+git rev-parse --git-dir &gt; /dev/null 2&gt;&amp;1 \
+  &amp;&amp; echo &quot;   ✅ Git initialized&quot; \
+  || echo &quot;   ⚠️  Git not initialized (recommend: git init)&quot;
+
+echo &quot;&quot;
+echo &quot;5. Workspace status...&quot;
+git status --short | grep -q . \
+  &amp;&amp; echo &quot;   ⚠️  Uncommitted changes, recommend committing first&quot; \
+  || echo &quot;   ✅ Workspace clean&quot;
+
+echo &quot;&quot;
+echo &quot;=== Validation result ===&quot;
+if [ $errors -eq 0 ]; then
+  echo &quot;✅ All passed, Agent can launch&quot;
+else
+  echo &quot;❌ $errors items failed, please fix and retry&quot;
+fi
+exit $errors
+</code></pre>
+<h2 id="first-common-pitfall">First common pitfall</h2>
+<p>Yason hit a pitfall the next day: he gave Kai the task "optimize database query performance"; Kai spent 3 hours, changed a few queries, then changed an index name — causing the ORM model to error out.</p>
+<p>Reason: <strong>Kai didn't know that index name was hard-coded and referenced elsewhere.</strong></p>
+<p>After that, Yason added a line to the task template:</p>
+<pre><code>Note: if you need a global search or cross-file dependency analysis, run the search first, then change the code.
+</code></pre>
+<p>He also wrote a simple Python guard layer that auto-triggers whenever the Agent runs a task involving database operations:</p>
+<pre><code class="language-python">import os, re, subprocess, logging
+
+logging.basicConfig(level=logging.INFO, format=&quot;%(asctime)s [%(levelname)s] %(message)s&quot;)
+
+def check_global_impact(changes: list[str]) -&gt; list[dict]:
+    &quot;&quot;&quot;Scan changed files, check whether they affect modules outside the task scope&quot;&quot;&quot;
+    if not changes:
+        logging.warning(&quot;check_global_impact got an empty list, skipping scan&quot;)
+        return []
+
+    impacts = []
+    for filepath in changes:
+        if not os.path.isfile(filepath):
+            logging.warning(&quot;File does not exist, skipping: %s&quot;, filepath)
+            continue
+
+        try:
+            with open(filepath, encoding=&quot;utf-8&quot;, errors=&quot;replace&quot;) as f:
+                content = f.read()
+        except PermissionError:
+            logging.error(&quot;No permission to read: %s&quot;, filepath)
+            continue
+        except Exception as e:
+            logging.error(&quot;Exception reading file %s: %s&quot;, filepath, e)
+            continue
+
+        refs = re.findall(r'(?:import|from|require|ref)\s+[\w.]+', content)
+        for ref in refs:
+            symbol = ref.split()[-1]
+            try:
+                result = subprocess.run(
+                    ['grep', '-rl', symbol, '--exclude=' + filepath],
+                    capture_output=True, text=True, timeout=30
+                )
+            except subprocess.TimeoutExpired:
+                logging.warning(&quot;Search for %s timed out (30s), skipping&quot;, symbol)
+                continue
+            except FileNotFoundError:
+                logging.error(&quot;grep unavailable, please confirm it's installed&quot;)
+                return impacts  # Fatal error, return early
+
+            if result.stdout.strip():
+                affected = result.stdout.strip().split('\n')[:5]
+                impacts.append({
+                    'symbol': symbol,
+                    'changed_in': filepath,
+                    'affected_files': affected
+                })
+    return impacts
+
+# Usage: call in the Agent's task script
+# impacts = check_global_impact(['models/user.py', 'migrations/001_add_index.sql'])
+# if impacts: print(f&quot;⚠️ The following changes affect other modules: {impacts}&quot;)
+# else: logging.info(&quot;Safe — no global impact&quot;)
+</code></pre>
+<p>This function isn't a silver bullet, but it turns "you thought you only changed one file" into "you're forced to know you changed five files." Yason later turned it into Kai's MCP tool, auto-called whenever writing DB-related code.</p>
+<p>Similarly, the minimal hand-written Agent above can add retry and error handling:</p>
+<pre><code class="language-python">import time, logging
+from openai import OpenAI, APIError, RateLimitError
+
+client = OpenAI()
+messages = [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a code reviewer.&quot;}]
+messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: open(&quot;src/auth.py&quot;).read()})
+
+max_retries, delay = 3, 2
+for attempt in range(max_retries):
+    try:
+        response = client.chat.completions.create(
+            model=&quot;gpt-4o-mini&quot;,
+            messages=messages,
+            timeout=30
+        )
+        break
+    except RateLimitError:
+        logging.warning(&quot;Rate limited, waiting %ss before retry...&quot;, delay * (attempt + 1))
+        time.sleep(delay * (attempt + 1))
+    except APIError as e:
+        logging.error(&quot;API error: %s&quot;, e)
+        break
+else:
+    raise RuntimeError(&quot;Agent failed to start — API unavailable, check network and balance&quot;)
+</code></pre>
+<p>Yason's experience: <strong>the amount of code in your first Agent doesn't matter; what matters is whether it can reliably run a complete "assign → execute → output" loop.</strong> Don't worry about how pretty it is yet — get it running first.</p>
+<h2 id="framework-or-hand-written">Framework or Hand-Written?</h2>
+<p>You might ask: there are already off-the-shelf multi-Agent frameworks like LangGraph, CrewAI, AutoGen — why hand-write?</p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Fits scenario</th>
+<th>Build time</th>
+<th>Learning curve</th>
+<th>Cost</th>
+<th>Flexibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangGraph</td>
+<td>Complex graph orchestration, state management</td>
+<td>2–3 days</td>
+<td>High (needs Graph/RAG concepts)</td>
+<td>Free</td>
+<td>Medium (limited by framework design patterns)</td>
+</tr>
+<tr>
+<td>CrewAI</td>
+<td>Fast prototyping, standard flows</td>
+<td>Half a day</td>
+<td>Low (Pythonic API, complete docs)</td>
+<td>Free</td>
+<td>Low (fixed role/task definitions)</td>
+</tr>
+<tr>
+<td>AutoGen</td>
+<td>Multi-Agent conversation debugging</td>
+<td>1–2 days</td>
+<td>Medium (Microsoft-style API, more config)</td>
+<td>Free</td>
+<td>Medium (conversation-driven, extensible)</td>
+</tr>
+<tr>
+<td>This book's hand-written approach</td>
+<td>Full control, learn the fundamentals</td>
+<td>1–2 hours (basic build)</td>
+<td>Low (only needs Shell+Python basics)</td>
+<td>API fees only</td>
+<td>High (unlimited custom)</td>
+</tr>
+</tbody>
+</table>
+<p>Recommendation: for your first build, use the hand-written approach to understand the principles. If your scenario is standardized role collaboration (e.g. "researcher → writer → editor"), CrewAI can run a prototype in under 20 lines:</p>
+<pre><code class="language-python"># crewai_example.py — your first Agent, under 20 lines
+from crewai import Agent, Task, Crew
+
+agent = Agent(
+    role=&quot;Code Reviewer&quot;,
+    goal=&quot;Find performance issues and security risks in the code&quot;,
+    backstory=&quot;You have 10 years of Code Review experience&quot;,
+    verbose=True
+)
+task = Task(
+    description=&quot;Review src/auth.py, find all SQL injection risks&quot;,
+    expected_output=&quot;Risk list and fix suggestions&quot;,
+    agent=agent
+)
+crew = Crew(agents=[agent], tasks=[task])
+result = crew.kickoff()  # Launch in one line
+print(result)
+</code></pre>
+<p>If you don't even want to install a framework, a minimal hand-written Agent is just as clean:</p>
+<pre><code class="language-python"># minimal_agent.py — no framework, no deps, 20 lines
+import json
+from openai import OpenAI
+
+client = OpenAI()
+messages = [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a code reviewer. Find problems in the code.&quot;}]
+messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: open(&quot;src/auth.py&quot;).read()})
+
+response = client.chat.completions.create(
+    model=&quot;gpt-4o-mini&quot;,
+    messages=messages,
+    tools=[{
+        &quot;type&quot;: &quot;function&quot;,
+        &quot;function&quot;: {
+            &quot;name&quot;: &quot;search_code&quot;,
+            &quot;description&quot;: &quot;Search the codebase for references&quot;,
+            &quot;parameters&quot;: {&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {
+                &quot;pattern&quot;: {&quot;type&quot;: &quot;string&quot;}
+            }}
+        }
+    }]
+)
+print(response.choices[0].message.content)
+</code></pre>
+<p>Both examples show the same core formula: <strong>System Prompt + LLM + simple tool = a working Agent.</strong> Whether you use a framework or hand-write, the underlying logic is the same.</p>
+<p>This book's hand-written approach is itself a lightweight orchestration system — you can absolutely wrap it into an internal tool for long-term use once you understand it. In fact, Yason's Agent team uses this hand-written approach in production, only bringing in LangGraph for specific steps when complex orchestration is needed.</p>
+<h2 id="chapter-summary">Chapter Summary</h2>
+<ul>
+<li>Pick your first Agent for the direction that hurts most; don't be greedy</li>
+<li>80% rule: get one Agent to 80/100 before expanding</li>
+<li>System Prompt must include: responsibilities, working principles, boundaries, communication format</li>
+<li>The first task must be simple, only to close the "assign → collect → check → fix" loop</li>
+<li>Set up a rollback plan before letting the Agent touch production</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview</strong>: Writing a "persona" for your Agent — the art of the System Prompt. From Kai's "code quality first" to Rex's "when something breaks, stop first then report," a good System Prompt sets the Agent's ceiling.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI', the full series is continuously updated:</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<hr />
+<hr />
+<hr />
+<p><img alt="Image of the mind map for the 'Pick Your First Agent' chapter in 'Being the Boss of AI'. Top title 'Pick Your First Agent', center question 'What do you want the Agent to help you with?'. Below are three branches: ...in the image" src="../assets/diagrams/en_04_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

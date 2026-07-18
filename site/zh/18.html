@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sub-Agent 架构——给 Agent 配下属 · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">章节</div>
+    <ul><li><a href="zh/00_preface.html"><span class="ch-num">00</span>前言</a></li>
+<li><a href="zh/01.html"><span class="ch-num">01</span>你为什么需要一个 AI Agent 团队</a></li>
+<li><a href="zh/02.html"><span class="ch-num">02</span>Agent 团队能做什么，不能做什么</a></li>
+<li><a href="zh/03.html"><span class="ch-num">03</span>搭建 Agent 团队的真实成本</a></li>
+<li><a href="zh/04.html"><span class="ch-num">04</span>选择你的第一个 Agent</a></li>
+<li><a href="zh/05.html"><span class="ch-num">05</span>System Prompt 的撰写艺术</a></li>
+<li><a href="zh/06.html"><span class="ch-num">06</span>分工的艺术——谁干什么</a></li>
+<li><a href="zh/07.html"><span class="ch-num">07</span>记忆系统——让 Agent 互相认识</a></li>
+<li><a href="zh/08.html"><span class="ch-num">08</span>通信协议——当 Agent 开始说行话</a></li>
+<li><a href="zh/09.html"><span class="ch-num">09</span>透明管理——小时级汇报的力量</a></li>
+<li><a href="zh/10.html"><span class="ch-num">10</span>监察员系统——让 Agent 管理 Agent</a></li>
+<li><a href="zh/11.html"><span class="ch-num">11</span>目标导向——从“等任务”到“主动提案”</a></li>
+<li><a href="zh/12.html"><span class="ch-num">12</span>自我进化——Agent 如何越用越聪明</a></li>
+<li><a href="zh/13.html"><span class="ch-num">13</span>成本控制——别让 API 账单爆炸</a></li>
+<li><a href="zh/14.html"><span class="ch-num">14</span>质量保障——评审与反馈闭环</a></li>
+<li><a href="zh/15.html"><span class="ch-num">15</span>成本换效率——花钱，不花时间</a></li>
+<li><a href="zh/16.html"><span class="ch-num">16</span>事故现场——当 Agent 搞砸了</a></li>
+<li><a href="zh/17.html"><span class="ch-num">17</span>多 Agent 协作协议栈</a></li>
+<li><a href="zh/18.html"><span class="ch-num">18</span>Sub-Agent 架构——给 Agent 配下属</a></li>
+<li><a href="zh/19.html"><span class="ch-num">19</span>外部工具——MCP 与工具链</a></li>
+<li><a href="zh/20.html"><span class="ch-num">20</span>自我进化与自我修复——越跑越聪明的 Agent 团队</a></li>
+<li><a href="zh/21.html"><span class="ch-num">21</span>未来——当 Agent 团队成为标配</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="图片展示了子Agent架构，以“Supervisor Agent”为核心，周围分布着多个子Agent，如Review Agent、Testing Agent等，每个子Agent下方标注了数量，如Supervisor为1、Main Agent为4、子Agent总数为11。图片下方文字说明子Agent架构的威力在于“分而治之”——每个子Agent专注一个领域，组合起来就是全线团队。该图与上下文紧密相关，直观呈现了文档中提到的子Agent架构，帮助理解文档中Kai因上下文窗口不够而卡住的问题。" src="../assets/diagrams/zh_18_1.svg" /></p>
+<h2 id="kai">一个人忙不过来的Kai</h2>
+<p>Kai的效率问题发生在第三个月。</p>
+<p>Yason给Kai布置了一个中型任务：重构用户通知模块，同时写API文档，同时Review另一个Agent的PR。三个任务并行。</p>
+<p>Kai的反应跟人类同事一模一样——"好的，我开始做。"</p>
+<p>然后Kai就卡住了。</p>
+<p>它不是能力不够，是<strong>上下文窗口不够</strong>。三个任务的信息挤在一个上下文里，Kai开始混淆："这个API文档是给新模块写的还是给旧模块的？""我review的这个PR，跟重构任务冲突吗？"</p>
+<p>Yason当时没意识到问题，以为Kai只是需要更多时间。直到他看了Kai的执行日志：</p>
+<pre><code>09:00 - 开始重构通知模块
+09:15 - 切换到API文档任务（Yason说&quot;尽快&quot;）
+09:20 - 切换到PR review（新任务优先）
+09:45 - 回到重构，发现忘了重构思路，重新读代码
+10:00 - 又切换到API文档
+</code></pre>
+<p>一上午，Kai切换了7次任务，每次切换都有"重新加载上下文"的成本。</p>
+<blockquote>
+<p><strong>人类的多任务切换有"切换成本"——从代码写到开会，大脑需要15分钟重新进入状态。Agent也一样——每次切换任务，上下文需要重新加载，Token成本翻倍。</strong></p>
+</blockquote>
+<h2 id="agent">工业界的子Agent实践</h2>
+<p>Yason在设计子Agent架构之前，研究了工业界已经跑通的模式。</p>
+<p><strong>OpenAI Codex的Manager-Worker模型</strong>是最直接的参考。Codex可以创建一个Manager Agent和最多8个Worker Agent，每个Worker运行在独立的云端沙箱中，拥有隔离的工作目录（worktree）。Manager负责拆解任务和分配，Worker只负责执行。</p>
+<p>关键设计是<strong>隔离的工作目录</strong>——每个Worker只能看到自己的代码副本，不会相互干扰。当所有Worker完成后，Manager通过Pull Request合并所有变更。</p>
+<pre><code>Codex Manager (任务拆解 + 质量审查)
+  │
+  ├─ Worker 1: 实现登录模块 (独立worktree)
+  ├─ Worker 2: 实现注册模块 (独立worktree)
+  ├─ Worker 3: 实现密码重置 (独立worktree)
+  ├─ Worker 4: 写单元测试 (独立worktree)
+  ├─ Worker 5: 写API文档 (独立worktree)
+  │
+  └─ 所有变更 → PR → 人工确认 → 合并
+</code></pre>
+<p><strong>Claude Code Agent Teams</strong>则提供了另一种模式——子Agent之间<strong>共享</strong>工作区，通过文件锁（file locking）避免冲突。一个Agent在编辑文件时会给文件加锁，其他Agent可以读取但不能写入。这种模式适合需要紧密协作的场景（比如多个Agent一起重构一个模块），但Agent数量不宜超过5个。</p>
+<p>Yason从这两者身上学到了各自适合的场景：<strong>Codex模式适合"分头执行互不依赖的任务"，Claude Code Teams模式适合"协作处理同一份代码"。</strong></p>
+<h2 id="agent_1">子Agent的诞生</h2>
+<p>Yason的解决方案：<strong>一个Agent管太宽了，给它配手下。</strong></p>
+<p>架构从扁平变成树形：</p>
+<div class="mermaid">flowchart TD
+    Y[Yason] --&gt; K[&quot;Kai (开发主管)&quot;]
+    Y --&gt; M[&quot;Max (运营)&quot;]
+    Y --&gt; R[&quot;Rex (运维)&quot;]
+
+    K --&gt;|代码任务| OC[OpenCode Worker&lt;br&gt;模型: DeepSeek V4 Flash&lt;br&gt;能力: 代码生成/审查/重构]
+    K --&gt;|分析任务| KM[Kimi Worker&lt;br&gt;模型: Kimi K1.6&lt;br&gt;能力: 技术分析/文档阅读/架构研究]
+
+    M --&gt;|内容生产| QW[Qwen Worker&lt;br&gt;性价比高，适合批量运营]
+    M --&gt;|数据采集| DS[DeepSeek V4 Worker&lt;br&gt;速度快，成本低]
+
+    style Y fill:#e6f3ff,stroke:#1a6bb5,stroke-width:3px
+    style K fill:#fff3cd,stroke:#856404
+    style M fill:#fff3cd,stroke:#856404
+    style R fill:#fff3cd,stroke:#856404
+    style OC fill:#d4edda,stroke:#155724
+    style KM fill:#d4edda,stroke:#155724
+    style QW fill:#d4edda,stroke:#155724
+    style DS fill:#d4edda,stroke:#155724
+</div>
+<p>Kai不再是单纯的执行者。他变成了一个"小主管"——他自己负责架构决策和任务拆解，把具体的编码工作分配给OpenCode和Kimi来执行。</p>
+<p><strong>为什么是OpenCode和Kimi？</strong></p>
+<p>这不是随机选的。Yason发现不同的模型在不同任务上有各自的天赋：</p>
+<table>
+<thead>
+<tr>
+<th>任务类型</th>
+<th>主模型</th>
+<th>子Agent</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>代码生成</td>
+<td>Kai</td>
+<td>OpenCode</td>
+<td>代码理解强，上下文窗口大</td>
+</tr>
+<tr>
+<td>技术推理</td>
+<td>Kai</td>
+<td>Kimi</td>
+<td>长文本推理强，适合分析</td>
+</tr>
+<tr>
+<td>运营内容</td>
+<td>Max</td>
+<td>Qwen</td>
+<td>性价比高，适合批量</td>
+</tr>
+<tr>
+<td>数据采集</td>
+<td>Max</td>
+<td>DeepSeek V4</td>
+<td>速度快，成本低</td>
+</tr>
+</tbody>
+</table>
+<p>每个主Agent（Parent Agent）拥有多个子Agent（Child Agent）。子Agent没有决策权——它们只负责执行具体任务，产出的结果交给父Agent做质量检查和整合。</p>
+<h2 id="agent_2">每个子Agent的上下文隔离</h2>
+<p>子Agent架构中最容易被忽视的设计是<strong>上下文隔离</strong>。</p>
+<p>Yason发现很多人在搭建子Agent时犯同一个错误：父Agent把整个对话历史传给子Agent。结果是子Agent的上下文被无关信息污染，成本翻倍，质量却没有提升。</p>
+<p>正确的做法是：<strong>每次创建子Agent时，只给它一个干净的新上下文。父Agent只存储子Agent的"任务意图"和"结果摘要"，不存储子Agent的完整对话历史。</strong></p>
+<pre><code># ❌ 错误：全量传递
+parent_context = {
+    &quot;full_history&quot;: [...],  # 包含父Agent之前的所有对话
+    &quot;task&quot;: &quot;写用户注册模块&quot;,
+    &quot;child_context&quot;: full_history + task  # 子Agent被污染
+}
+
+# ✅ 正确：上下文隔离
+parent_context = {
+    &quot;active_tasks&quot;: {
+        &quot;child_1&quot;: {
+            &quot;task&quot;: &quot;写用户注册模块&quot;,  # 只存意图
+            &quot;summary&quot;: &quot;已完成登录、注册、密码重置三个函数&quot;,  # 只存摘要
+            &quot;token_cost&quot;: 4520
+        },
+        &quot;child_2&quot;: {
+            &quot;task&quot;: &quot;写单元测试&quot;,
+            &quot;summary&quot;: &quot;覆盖率达92%，3个边缘用例待确认&quot;,
+            &quot;token_cost&quot;: 3810
+        }
+    }
+}
+
+# 子Agent自己的上下文是干净的
+child_context = {
+    &quot;task&quot;: &quot;写用户注册模块，具体要求：...&quot;,
+    &quot;conversation_history&quot;: []  # 从零开始
+}
+</code></pre>
+<p>这个设计是Yason的Agent团队能从3个Agent扩展到10个Agent的关键。如果父Agent存储所有子Agent的完整历史，上下文窗口会随子Agent数量近似线性增长（每个子Agent约使父Agent Token ×2）。有了上下文隔离，父Agent的Token消耗是O(1)——无论多少个子Agent，父Agent只存意图和摘要。</p>
+<blockquote>
+<p><strong>上下文隔离是子Agent架构的基石。没有它，你每加一个子Agent，父Agent就多一分"记忆负担"。有了它，父Agent就像项目经理——知道每个人在做什么、做得怎么样，但不需要记住每个人的每一句话。</strong></p>
+</blockquote>
+<h2 id="kai-opencode-kimi">真实配置：Kai + OpenCode + Kimi</h2>
+<p>Yason的Kai配置文件中，子Agent部分是这样的：</p>
+<pre><code class="language-yaml"># /opt/agents/kai/config.yaml
+agent:
+  name: Kai
+  role: dev-lead
+
+  # 子Agent配置
+  children:
+    - name: opencode-worker
+      engine: opencode
+      model: deepseek-v4-flash
+      capabilities:
+        - code_generation
+        - code_review
+        - refactoring
+      max_retries: 3
+      timeout: 300
+
+    - name: kimi-worker
+      engine: kimi
+      model: kimi-k1.6
+      capabilities:
+        - technical_analysis
+        - document_reading
+        - architecture_research
+      max_retries: 2
+      timeout: 600
+
+  # 任务分配规则
+  routing:
+    - match: type == &quot;code&quot; || type == &quot;review&quot;
+      assign_to: opencode-worker
+    - match: type == &quot;research&quot; || type == &quot;analyze&quot;
+      assign_to: kimi-worker
+    - match: type == &quot;architecture&quot; || type == &quot;design&quot;
+      assign_to: self  # Kai自己做
+</code></pre>
+<p>这个配置告诉Kai：代码类任务丢给OpenCode，研究分析类丢给Kimi，架构设计类自己来。</p>
+<h2 id="agent-vs-agent">父Agent vs 子Agent：权力边界</h2>
+<p>子Agent架构最关键的设计不是"怎么分配任务"，而是<strong>父Agent和子Agent之间的权力边界</strong>。</p>
+<p>Yason设计了几条清晰的规则：</p>
+<p><strong>父Agent的职责</strong>：</p>
+<ul>
+<li>拆解任务，分配给合适的子Agent</li>
+<li>检查子Agent的输出质量</li>
+<li>整合多个子Agent的结果</li>
+<li>处理子Agent的异常和失败</li>
+<li>向Yason汇报最终结果</li>
+</ul>
+<p><strong>子Agent的职责</strong>：</p>
+<ul>
+<li>接收父Agent分配的任务</li>
+<li>执行具体操作（写代码、分析文档）</li>
+<li>向父Agent汇报结果</li>
+<li>遇到无法处理的错误时上报（不是自己硬扛）</li>
+</ul>
+<hr />
+<p>有一条规则是Yason反复强调的：<strong>子Agent之间不直接通信。</strong></p>
+<pre><code># ❌ 不允许：子Agent之间直接对话
+OpenCode → Kimi: &quot;帮我看看这个API文档&quot;
+Kimi → OpenCode: &quot;好，这是文档内容&quot;
+
+# ✅ 正确：通过父Agent中转
+OpenCode → Kai: &quot;需要API文档支持&quot;
+Kai → Kimi: &quot;给OpenCode提供这份API文档&quot;
+Kimi → Kai: &quot;文档内容如下&quot;
+Kai → OpenCode: &quot;文档在这里，继续写代码&quot;
+</code></pre>
+<blockquote>
+<p><strong>子Agent平级通信 → 信息流不可控 → Agent之间的误解反弹。父Agent中转 → 信息流可追溯 → 出问题知道找谁。</strong></p>
+</blockquote>
+<h2 id="_1">分配策略：不只是"平均分"</h2>
+<p>给子Agent分任务不是简单地"谁闲着就丢给谁"。Yason用了一套成本意识的分派逻辑：</p>
+<pre><code>def assign_task(task, children):
+    # 1. 能力匹配（子Agent必须能处理这个任务）
+    candidates = [c for c in children if task.type in c.capabilities]
+
+    # 2. 当前负载（不能超载）
+    candidates = [c for c in candidates if c.current_load &lt; c.max_load]
+
+    # 3. 成本最优（同样能做，选便宜的）
+    candidates.sort(key=lambda c: c.cost_per_task)
+
+    # 4. 历史成功率（同样的模型，选成功率高的）
+    candidates.sort(key=lambda c: c.success_rate, reverse=True)
+
+    # 5. 分配
+    return candidates[0] if candidates else self.handle_self(task)
+</code></pre>
+<p>这套逻辑的妙处在于——它不是死板的轮询分配。如果今天DeepSeek V4的API特别稳定，它就被多分一些任务；如果今天某个模型开始报错频繁，自动降权。</p>
+<h2 id="fan-outgatheragent">Fan-Out/Gather模式：子Agent的协作模式</h2>
+<p>当子Agent数量超过2个后，Yason发现需要一种标准的协作模式来管理"一对多"的任务派发。他用的就是Fan-Out/Gather模式。</p>
+<div class="mermaid">flowchart TD
+    subgraph &quot;Fan-Out 阶段&quot;
+        direction LR
+        PA[父 Agent&lt;br&gt;（任务拆解）] --&gt; CA[子 Agent A&lt;br&gt;模块A实现]
+        PA --&gt; CB[子 Agent B&lt;br&gt;模块B实现]
+        PA --&gt; CC[子 Agent C&lt;br&gt;模块C实现]
+    end
+
+    subgraph &quot;Gather 阶段&quot;
+        direction LR
+        CA --&gt;|结果A| PAG[父 Agent&lt;br&gt;（结果整合）]
+        CB --&gt;|结果B| PAG
+        CC --&gt;|结果C| PAG
+    end
+
+    PAG --&gt; CHECK{冲突检测}
+    CHECK --&gt;|有冲突| RESOLVE[冲突解决]
+    CHECK --&gt;|无冲突| MERGE[结果合并]
+    RESOLVE --&gt; MERGE
+    MERGE --&gt; FINAL[✅ 最终交付]
+
+    style PA fill:#cce5ff,stroke:#004085
+    style PAG fill:#cce5ff,stroke:#004085
+    style CA fill:#d4edda,stroke:#155724
+    style CB fill:#d4edda,stroke:#155724
+    style CC fill:#d4edda,stroke:#155724
+    style CHECK fill:#fff3cd,stroke:#856404
+    style RESOLVE fill:#f8d7da,stroke:#721c24
+    style MERGE fill:#d1e7dd,stroke:#0f5132
+    style FINAL fill:#d1e7dd,stroke:#0f5132,stroke-width:3px
+</div>
+<p>Fan-Out阶段：父Agent将一个大任务拆解为N个独立子任务，同时派发给N个子Agent。</p>
+<p>Gather阶段：所有子Agent完成后，父Agent收集结果，做冲突检测和整合。</p>
+<p>Yason的实现代码：</p>
+<pre><code class="language-python">async def fan_out_gather(task, children):
+    # Fan-Out: 拆解任务
+    subtasks = decompose_task(task, len(children))
+
+    # 并行派发
+    futures = []
+    for i, child in enumerate(children):
+        futures.append(execute_subtask(child, subtasks[i]))
+
+    # Gather: 等待所有子Agent完成
+    results = await asyncio.gather(*futures, return_exceptions=True)
+
+    # 检查冲突
+    conflicts = detect_conflicts(results)
+    if conflicts:
+        resolve_conflicts(conflicts, results)
+
+    # 整合结果
+    return integrate_results(results)
+</code></pre>
+<p>这个模式的关键在于子任务之间的<strong>独立性</strong>——如果子任务之间有依赖关系，Fan-Out/Gather就不适用（需要改为Pipeline模式）。Yason的经验是：<strong>80%的编码任务可以拆解为独立子任务，适合Fan-Out/Gather。剩下的20%需要链式处理。</strong></p>
+<h2 id="agentagent">递归陷阱：当子Agent有了子Agent</h2>
+<p>Yason碰到的第一个反模式是"递归陷阱"。</p>
+<p>有个人问Yason："既然Kai可以有自己的子Agent，那Kai的子Agent能不能有自己的子Agent？"</p>
+<p>Yason试了。</p>
+<p>结果是灾难性的。</p>
+<pre><code>Kai → OpenCode Worker → Sub-Worker-1 → Sub-Worker-2 → ...
+</code></pre>
+<p>一条简单的"生成用户注册页面"任务，经过四层递归派发后，产生了42条中间消息、17个临时文件、2次冲突合并——最终输出的代码质量还不如Kai直接写的。</p>
+<blockquote>
+<p><strong>子Agent每深一层，沟通损耗和决策延迟指数级增长。Yason的经验法则：子Agent最多一层深度，不要再往下递归。</strong></p>
+</blockquote>
+<h2 id="agent_3">社区的子Agent实现</h2>
+<p>如果你不想从零搭建子Agent架构，社区有多个成熟的开源方案：</p>
+<p><strong>Claude Code /agent</strong>：这是最简单的子Agent方案。在Claude Code中，输入<code>/agent "完成X任务"</code>就能创建一个子Agent来执行指定任务。子Agent有自己的上下文窗口，完成后结果自动返回主会话。Yason经常用这个来做快速的原型验证。</p>
+<p><strong>LangGraph Sub-Graphs</strong>：LangGraph支持在一个图编排中嵌套子图（sub-graphs）。每个子图是一个独立的Agent，有自己的状态管理和节点逻辑。Yason在需要复杂编排的场景（比如多步骤的数据处理管道）中使用LangGraph的子图功能。</p>
+<pre><code class="language-python">from langgraph.graph import StateGraph, SubGraph
+
+# 定义一个子图Agent
+sub_agent = StateGraph(AgentState)
+sub_agent.add_node(&quot;analyze&quot;, analyze_node)
+sub_agent.add_node(&quot;generate&quot;, generate_node)
+sub_agent.add_edge(&quot;analyze&quot;, &quot;generate&quot;)
+
+# 在主图中嵌入子图
+main_graph = StateGraph(MainState)
+main_graph.add_node(&quot;code_agent&quot;, SubGraph(sub_agent))
+main_graph.add_node(&quot;test_agent&quot;, SubGraph(test_sub_agent))
+</code></pre>
+<p><strong>AutoGen的子Agent</strong>：Microsoft AutoGen支持嵌套的Agent团队（Team-in-Team），一个Team中可以包含其他Team作为子节点。适合需要多层抽象的场景。</p>
+<p>Yason的建议是：<strong>从最简单的开始。先用Claude Code /agent感受一下子Agent的工作方式，再根据需要迁移到更复杂的框架。</strong></p>
+<h2 id="agent_4">子Agent架构的实战收益</h2>
+<p>经过一个月的运营，Yason对比了子Agent架构前后的KPI：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>扁平架构</th>
+<th>子Agent架构</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>并行任务数</td>
+<td>2-3个</td>
+<td>5-8个</td>
+</tr>
+<tr>
+<td>任务平均完成时间</td>
+<td>45分钟</td>
+<td>22分钟</td>
+</tr>
+<tr>
+<td>Token成本/任务</td>
+<td>\$1.20</td>
+<td>\$0.85</td>
+</tr>
+<tr>
+<td>Yason介入次数/天</td>
+<td>8-10次</td>
+<td>3-5次</td>
+</tr>
+</tbody>
+</table>
+<p>Yason最意外的是<strong>成本反而降了</strong>——他原以为多一层Agent会增加开销。但实际情况是：子Agent用更便宜的模型处理专有任务（比如代码生成用DeepSeek V4 flash替代Kai用的Pro），总成本反而下降了。</p>
+<blockquote>
+<p><strong>子Agent架构的价值不是"做更多事"，而是"用更合适的资源做每一件事"。</strong></p>
+</blockquote>
+<h2 id="_2">本章小结</h2>
+<ul>
+<li>子Agent架构不是"加人手"，而是"用更合适的资源做每件事"</li>
+<li>扁平架构更简单但扩展性差，层级架构扩展性好但复杂度高</li>
+<li>每个子Agent必须有独立的上下文窗口隔离——主Agent只存意图+摘要，不存完整历史</li>
+<li>Fan-Out/Gather是子Agent架构的核心模式，异步执行 + 结果合并</li>
+<li>社区有现成的子Agent实现：Claude Code /agent、LangGraph Sub-Graphs、AutoGen</li>
+</ul>
+<blockquote>
+<p><strong>下一章预告</strong>：Agent的能力边界在哪里——MCP工具链如何让Agent从"会说话的AI"变成"能动手的工人"。</p>
+</blockquote>
+<p><em>本文来自专栏《给AI当老板》，完整系列持续更新中：</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<p><img alt="图片展示了子Agent架构，以“Supervisor Agent”为核心，周围分布着多个子Agent，如“Review Agent”“Testing Agent”等。每个子Agent下方标注了其数量，如“" src="../assets/diagrams/zh_18_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

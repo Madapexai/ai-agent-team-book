@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Agent Teams Can and Cannot Do · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="Image showing the Agent's capability boundaries, divided into three parts: what Agents are good at, what humans are good at, and what Agents are bad at. What Agents are good at includes code, docs, testing, repetition, search, etc.; what humans excel at covers decisions, creativity, communication, judgment, analysis, etc.; what Agents struggle with includes hallucination, long-horizon tasks, creativity, ethics, aesthetics, etc. This image is closely related to the context and intuitively presents the Agent's capability differences across tasks, helping understand how it" src="../assets/diagrams/en_02_1.svg" /></p>
+<h2 id="when-yason-said-optimize-the-ux">When Yason Said "Optimize the UX"</h2>
+<p>The story starts on a Thursday afternoon.</p>
+<p>Yason was rushing a demo build, and the UI was a bit rough. He had to dash to another meeting, so he dropped a line in the group chat:</p>
+<blockquote>
+<p>"Kai, help me optimize the UX on the signup page, it looks too rough."</p>
+</blockquote>
+<p>Two hours later he came back and found Kai had not only changed the signup page, but <strong>on the side</strong> swapped out the entire app's navigation structure, color system, and font scheme. The whole app went from "usable prototype" to "looks complete but is all bugs, half-done."</p>
+<p>Button positions moved, the previously buried tracking points all went dead. Some database field names got changed too — because Kai thought "the old naming wasn't standard." Half the test cases broke.</p>
+<p>Yason's blood pressure maxed out on the spot.</p>
+<p>Later, in his post-mortem, he wrote this:</p>
+<blockquote>
+<p><strong>Agents have no concept of "moderation." You say "optimize it a bit," and it optimizes all the way to what it considers the optimal solution — usually over the top.</strong></p>
+</blockquote>
+<p>That lesson cost ¥30k and a week of rework.</p>
+<h2 id="boundaries-boundaries-boundaries">Boundaries, Boundaries, Boundaries</h2>
+<p>After that, Yason added one iron rule to every Agent's System Prompt:</p>
+<pre><code>## Boundary rules (non-negotiable)
+
+1. Do not modify any file outside the task scope unless explicitly instructed
+2. Design/UI tasks: only change the specified component/page, no cascading changes
+3. If unsure whether a change is in scope — stop and ask
+</code></pre>
+<p>This rule looks simple, but it's the <strong>first cornerstone</strong> of an Agent team's operation.</p>
+<h2 id="what-agents-are-good-at">What Agents Are Good At</h2>
+<p>After a few months of tuning, Yason tallied from his own ops logs the five core capabilities of Agent teams and their success rates (based on 180+ tasks run by Kai over 3 months):</p>
+<p>May 2026, Tencent's Marvis internally uses a similar 1-lead + 5-sub architecture: the lead Agent handles breakdown and scheduling, File Agent manages files, Computer Agent manages the system, App Agent manages applications, Browser Agent manages web pages, Search Agent manages search. This design philosophy coincides with ours — the difference is Marvis is a closed system built into the OS, while we can customize freely.</p>
+<p>Beyond Marvis, there are a few boundary-management practices in the industry worth noting:</p>
+<ul>
+<li><strong>Claude Code Agent Teams</strong> uses file locking as the Agent's physical boundary — when one Agent is editing a file it auto-locks, so other Agents can't modify the same file. This is the "replace conscience with mechanism" approach, more reliable than relying solely on rules in the System Prompt.</li>
+<li><strong>OpenAI Codex Sub-Agents</strong> use isolated worktrees — each Worker Agent has its own filesystem view, architecturally eliminating any possibility of out-of-bounds modification. This is the "zero trust" principle applied to Agent teams — don't trust the Agent's judgment, only trust the architecture's constraints.</li>
+<li><strong>GitHub Copilot Code Review</strong> launched auto-review at the end of 2025, but after Yason tested it he found it won't proactively flag "this method shouldn't be modified." One of Copilot's rules of thumb later got written into Kai's System Prompt: <strong>"If you're not sure it counts as overstepping, ask first. Reviewing once is 100x cheaper than rolling back."</strong></li>
+</ul>
+<p>These industry cases all point to one conclusion: <strong>Agent boundary management can't rely on prompts alone; it must combine with architecture-level guardrails.</strong></p>
+<h3 id="1-repetitive-tasks-80100-142-successes-out-of-178">1. Repetitive tasks — 80/100 (142 successes out of 178)</h3>
+<p>Scheduled inspection, log analysis, data cleaning, batch processing — these are the Agent's comfort zone. Nobody wants to do them, and Agents do them without complaint.</p>
+<p>Below is a real boundary-rule System Prompt. Add it to the Agent's System Prompt and you avoid the "Kai over-optimized" tragedy at the start of this chapter:</p>
+<pre><code>## Boundary rules (non-negotiable)
+
+### Scope limits
+- Only handle files/modules explicitly specified in the task description
+- If you find a problem outside the task scope → record it in the &quot;Issues found&quot; field, don't fix it yourself
+
+### Change principles
+- Minimization principle: each change touches the fewest lines
+- If a change would affect other functionality → mark it as &quot;suggested optimization&quot; first, don't change it directly
+
+### Stop conditions
+- If unsure whether a change is out of scope → stop and wait for Yason's confirmation
+- If tests fail after the change → roll back the change and report the failure reason
+</code></pre>
+<p>Compare the behavior difference between no boundary rules (Kai at the start of this chapter) and with boundary rules (the above) — for the same "optimize the UX" task, a bounded Agent will only change the specified button color, not rewrite the entire navigation system.</p>
+<h3 id="2-research-and-info-organization-75100-35-successes-out-of-47">2. Research and info organization — 75/100 (35 successes out of 47)</h3>
+<p>Given a topic, an Agent can read a dozen-plus documents in an hour and output a structured summary. Yason often has Agents research competitors' new features, and by the next morning there's a comparison report.</p>
+<h3 id="3-code-implementation-70100">3. Code implementation — 70/100</h3>
+<p>An Agent's coding ability has leapt forward in the past year. Complex business logic, API integration, CRUD — Agents can do 70–80%, with the rest being edge cases and integration testing that need human eyes.</p>
+<h3 id="4-monitoring-and-alerting-90100">4. Monitoring and alerting — 90/100</h3>
+<p>This Agent is naturally suited for it. Yason's monitoring Agent "Sentry" generates that day's system health report every night at 10 p.m. and @s the relevant people in the group:</p>
+<h3 id="5-documentation-and-knowledge-management-85100">5. Documentation and knowledge management — 85/100</h3>
+<p>Agents don't mind writing docs. Every time it finishes a task, it auto-generates a change log and operations manual — that's why Yason's team knowledge base grows so fast.</p>
+<h2 id="what-must-be-done-by-humans">What Must Be Done by Humans</h2>
+<h3 id="1-creative-decisions">1. Creative decisions</h3>
+<p>"Is plan A or plan B better for the user?" — an Agent can list pros, cons, and data analysis, but the final call must be human. Because Agents lack "brand intuition," "user empathy" — the things that need to be felt firsthand.</p>
+<h3 id="2-client-communication-and-negotiation">2. Client communication and negotiation</h3>
+<p>When the client says "I added a requirement," the Agent can analyze the impact scope, but how to talk to the client, whether to charge more, and how to manage expectations after — that's the realm of human relationships.</p>
+<h3 id="3-culture-building-and-team-spirit">3. Culture-building and team spirit</h3>
+<p>Agents won't do team building, won't buy milk tea, won't say "I ordered you takeout" when you're working late. These things seem fluffy, but they decide whether team members are willing to step up in a crunch.</p>
+<h3 id="4-complex-ambiguous-problem-definition">4. Complex, ambiguous problem definition</h3>
+<p>"I want to improve user retention" — Agents can't catch this kind of problem. Because even "why are they churning" is itself a question needing lots of context and intuitive judgment. Agents take on well-defined problems, not vague directions.</p>
+<div class="mermaid">flowchart TD
+    A[New task arrives] --&gt; B{Is the goal clear and measurable?}
+    B --&gt;|Yes| C{Needs creativity/intuition?}
+    B --&gt;|No| D[🧑 Route to human]
+    C --&gt;|Yes| D
+    C --&gt;|No| E{Involves external communication?}
+    E --&gt;|Yes| D
+    E --&gt;|No| F{Needs emotional judgment?}
+    F --&gt;|Yes| D
+    F --&gt;|No| G[Score the Agent]
+    G --&gt; H{Agent score &gt;= 2?}
+    H --&gt;|Yes| I[🤖 Agent handles automatically]
+    H --&gt;|No| J[⚠️ Needs further clarification]
+</div>
+<h2 id="a-practical-decision-matrix">A Practical Decision Matrix</h2>
+<p>Yason later built a simple judgment framework, a quick pass before assigning each task:</p>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>Fits Agent</th>
+<th>Fits human</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Goal clear and measurable</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Needs creativity/intuition</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Involves external communication</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Needs 24-hour response</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Needs emotional judgment</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>High repetition frequency</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Golden rule</strong>: If you think "I can explain this in one pass," give it to the Agent. If you think "we need to sit down and talk for half an hour," keep it for yourself.</p>
+</blockquote>
+<h2 id="write-boundary-rules-as-code-the-enforce_boundary-decorator">Write Boundary Rules as Code: the @enforce_boundary Decorator</h2>
+<p>The boundary rules above are text rules written in the System Prompt. But Yason soon found a problem — text rules rely on the Agent obeying them voluntarily, and sometimes the Agent "forgets" to read the rules.</p>
+<p>He did something more concrete: <strong>wrote the boundary rules as mandatory-check code.</strong></p>
+<p>Below is a Python decorator that can wrap any "file-modifying" function. It checks before execution whether the path and file type are within the allowed scope, and after execution whether the change volume exceeds the limit:</p>
+<pre><code class="language-python">import os
+import functools
+
+class BoundaryViolation(Exception):
+    &quot;&quot;&quot;Raised when a change falls outside the allowed scope.&quot;&quot;&quot;
+
+def enforce_boundary(allowed_paths=None, allowed_file_types=None, max_lines=50):
+    &quot;&quot;&quot;
+    Decorator that verifies file changes stay within allowed scope.
+
+    Args:
+        allowed_paths: list of directory prefixes changes are allowed in
+        allowed_file_types: list of allowed file extensions (e.g. ['.py'])
+        max_lines: maximum lines of code a single change may touch
+    &quot;&quot;&quot;
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(filepath, *args, **kwargs):
+            if allowed_paths:
+                abs_path = os.path.abspath(filepath)
+                allowed = any(
+                    abs_path.startswith(os.path.abspath(p))
+                    for p in allowed_paths
+                )
+                if not allowed:
+                    raise BoundaryViolation(
+                        f&quot;Path {filepath} is not within the allowed scope.&quot;
+                        f&quot;Allowed paths: {allowed_paths}&quot;
+                    )
+            if allowed_file_types:
+                ext = os.path.splitext(filepath)[1]
+                if ext not in allowed_file_types:
+                    raise BoundaryViolation(
+                        f&quot;File type {ext} is not allowed to be modified.&quot;
+                        f&quot;Allowed types: {allowed_file_types}&quot;
+                    )
+            result = func(filepath, *args, **kwargs)
+            if hasattr(result, 'lines_changed') and result.lines_changed &gt; max_lines:
+                raise BoundaryViolation(
+                    f&quot;Changed {result.lines_changed} lines, exceeding the limit {max_lines}&quot;
+                )
+            return result
+        return wrapper
+    return decorator
+</code></pre>
+<p>Usage example — restrict Kai to only modify <code>.tsx</code> files under <code>src/pages/</code>, at most 30 lines per change:</p>
+<pre><code class="language-python">@enforce_boundary(
+    allowed_paths=[&quot;src/pages/&quot;],
+    allowed_file_types=[&quot;.tsx&quot;, &quot;.css&quot;],
+    max_lines=30
+)
+def kai_modify_file(filepath: str, new_content: str):
+    # Actual modification logic
+    ...
+</code></pre>
+<p>When Kai tries to modify <code>src/store/db.ts</code>, the decorator throws <code>BoundaryViolation</code> directly — not "suggested not to change," but "simply can't change it." This is the upgrade <strong>from soft constraint to hard constraint</strong>.</p>
+<h2 id="write-the-decision-matrix-as-code-programmatic-task-routing">Write the Decision Matrix as Code: Programmatic Task Routing</h2>
+<p>The decision matrix above is a lookup-table tool. But in practice, Yason wanted this judgment process automated too — let the system itself decide "should this task go to an Agent or a human."</p>
+<p>He wrote a simple routing function:</p>
+<pre><code class="language-python">from dataclasses import dataclass
+
+@dataclass
+class TaskProfile:
+    goal_clear: bool              # Is the goal clear and measurable
+    needs_creativity: bool        # Needs creativity/intuition
+    involves_communication: bool  # Involves external communication
+    needs_24h: bool               # Needs 24-hour response
+    needs_empathy: bool           # Needs emotional judgment
+    high_frequency: bool          # High repetition frequency
+
+def route_task(task: TaskProfile) -&gt; str:
+    &quot;&quot;&quot;
+    Decision matrix: routes a task to Agent or Human.
+
+    Scoring:
+      - Agent favors: clear goal, 24h response, high frequency
+      - Human favors: creativity, communication, empathy
+    &quot;&quot;&quot;
+    agent_score = 0
+    human_score = 0
+
+    if task.goal_clear:             agent_score += 2
+    else:                           human_score += 2
+
+    if task.needs_creativity:       human_score += 3
+    if task.involves_communication: human_score += 3
+    if task.needs_24h:              agent_score += 2
+    if task.needs_empathy:          human_score += 3
+    if task.high_frequency:         agent_score += 2
+
+    if agent_score &gt;= human_score and agent_score &gt;= 2:
+        return &quot;🤖 Agent&quot;
+    elif human_score &gt; agent_score:
+        return &quot;🧑 Human&quot;
+    else:
+        return &quot;⚠️ Needs further clarification&quot;
+
+
+# Real-scenario test
+tasks = [
+    TaskProfile(True, False, False, True, False, True),   # Log inspection → Agent
+    TaskProfile(False, True, True, False, True, False),   # Customer complaint → Human
+    TaskProfile(True, False, False, False, False, False), # A refactor → needs clarification
+]
+
+for i, t in enumerate(tasks, 1):
+    print(f&quot;Task{i}: {route_task(t)}&quot;)
+</code></pre>
+<p>Output:</p>
+<pre><code>Task1: 🤖 Agent
+Task2: 🧑 Human
+Task3: ⚠️ Needs further clarification
+</code></pre>
+<p>The third task's output is the most interesting — clear goal, no creativity needed, no external communication, but it's neither high-frequency nor 24-hour, so the score isn't enough to route clearly. <strong>This "gray zone" is exactly where a human needs to judge</strong> — and this judgment process itself is the starting point for requirement clarification.</p>
+<p>Yason hung this routing function at the task entry point, running the scoring automatically every time a new task comes in. If it's "🤖 Agent," the task goes straight into the queue; if "🧑 Human," it's bounced back to Yason for confirmation; if "⚠️," the system auto-follows up with a few clarifying questions, then re-scores after more info.</p>
+<p><strong>Boundary rules turned into code become mandatory constraints; the decision matrix turned into code becomes automated routing.</strong> These two practices are the key step that turns "being the boss of AI" from experience into engineering.</p>
+<h2 id="the-communitys-agent-role-library">The Community's Agent Role Library</h2>
+<p>You don't need to write a System Prompt from scratch for every Agent. GitHub has plenty of open-source Agent role definitions you can reuse directly: DevOps Agent, Code Review Agent, customer-service Agent, data-analysis Agent... For each role, the responsibilities, boundary rules, and communication format have been validated by the community many times. In the companion GitHub repo for this book, I've also compiled a curated list, annotating each role's use cases and debugging tips.</p>
+<p>When you want to add a new Agent, first check if the community has something ready, then fine-tune it to your scenario — far more efficient than writing from zero. This is also the principle this book keeps emphasizing: <strong>you're not building a framework, you're assembling a team.</strong></p>
+<h2 id="agent-team-architecture-patterns">Agent Team Architecture Patterns</h2>
+<p>After two-plus years of industry exploration, 6 Agent collaboration topologies have converged into industry consensus. Google's A2A protocol's Agent Card pattern uses the Route topology; Anthropic's Claude Code Teams uses the Hierarchy pattern with a shared task list; OpenAI Codex uses a Manager-Worker parallel topology; Microsoft AutoGen 0.4's event-driven architecture naturally supports Chain and Orchestrate; Kimi Swarm implements a flexible hybrid topology — the 6 topologies map to different real business scenarios:</p>
+<ol>
+<li><strong>Chain</strong>: A→B→C, serial processing, fits CI/CD pipeline-style tasks</li>
+<li><strong>Route</strong>: one entry point dispatches to different Agents by task type (that's what A2A's Agent Card does)</li>
+<li><strong>Parallel</strong>: multiple Agents process different sub-tasks simultaneously, results merged (Codex 8-Worker mode)</li>
+<li><strong>Orchestrate</strong>: a central scheduler breaks down → assigns → aggregates (the main mode of this book, implemented with AutoGen/Temporal)</li>
+<li><strong>Loop</strong>: the Agent iterates repeatedly until a quality standard is met (the core mechanism of Claude Code /loop)</li>
+<li><strong>Hierarchy</strong>: supervisor → manager → Worker, multi-layer scheduling (Marvis 1+N, Claude Code Teams)</li>
+</ol>
+<p>This book uses Orchestrate as the main thread, with the other patterns as extended reading. Understand these patterns and you can pick the most suitable structure for different tasks.</p>
+<h2 id="chapter-summary">Chapter Summary</h2>
+<ul>
+<li>Agents have no concept of "moderation"; boundary rules are the top priority</li>
+<li>Repetitive tasks, monitoring, research, code implementation → give to Agents</li>
+<li>Decisions, communication, culture-building → keep for humans</li>
+<li>Use the decision matrix to quickly judge task ownership</li>
+<li>When unsure, define it clearly before assigning</li>
+<li><strong>Industry consensus</strong>: Claude Code uses file locking, Codex uses isolated worktrees, Marvis uses 1+N architecture — boundary management is the #1 engineering problem for Agent teams, and every team solves it in its own way</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview</strong>: The real cost of building an Agent team — API bills, server overhead, and that "task starvation" problem that made Yason pull his hair out.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI', the full series is continuously updated:</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

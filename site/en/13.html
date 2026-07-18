@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cost Control — Don't Let Your API Bill Explode · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><h1 id="cost-control-dont-let-your-api-bill-explode">Cost Control — Don't Let Your API Bill Explode</h1>
+<p><img alt="Image is a cost monitoring dashboard titled &quot;Don't Let Your API Bill Explode&quot;. It includes four sections: the Today's consumption section shows token usage for inference models, fast models, and Embedding, with today's cost at $12.45; the 7-day trend section lists daily costs from Monday to Friday; the month-to-date cumulative cost is $287.30; the budget control section shows a monthly budget of $500, with $287.30 used (57%), and $212.70 remaining; the alerts and optimization section notes token usage is normal, the inference model share is high, and remaining budget is reasonable. This image relates to Yason's concern about API billing costs discussed in the document." src="../assets/diagrams/en_13_1.svg" /></p>
+<h2 id="the-morning-of-the-847-bill">The Morning of the $847 Bill</h2>
+<p>When Yason opened his API provider's console and saw last month's bill, his coffee nearly shot onto the screen.</p>
+<p>$847.32.</p>
+<p>He remembered the month before was $412, and the month before that was $380. It had doubled.</p>
+<p>Yason started digging through the itemized charges. As he scanned line by line, one big-ticket item caught his eye:</p>
+<pre><code>qclaw-agent:
+  API calls: 28,432
+  Total tokens: 14,217,000
+  Cost: $312.44
+</code></pre>
+<p>Wait. qclaw is just an API-routing Agent — its job is to forward requests to the right model. It shouldn't need to call a heavy model; it only needs to make a routing decision.</p>
+<p>But the bill showed it had called the heavy model 28,432 times.</p>
+<p>Yason checked the logs and found the cause of the explosion: qclaw's model-routing config was wrong, so every request got sent to a paid model. Worse, that misconfiguration triggered an <strong>infinite loop</strong> — qclaw's routing failed → auto-retry → kept failing → kept retrying. It burned through $312 in four hours.</p>
+<blockquote>
+<p><strong>One misconfiguration + one infinite loop = half a month of API budget. An Agent's "blind execution" trait is a huge cost hazard — it will never say "this request looks expensive, do you want to confirm?"</strong></p>
+</blockquote>
+<h2 id="breaking-down-token-costs-where-the-money-goes">Breaking Down Token Costs: Where the Money Goes</h2>
+<p>After the qclaw incident, Yason sat down and did a full cost audit. He broke token consumption down by Agent and task type:</p>
+<pre><code>Kai (dev) — avg $310/month
+  ├─ Code generation (DeepSeek V4 Pro): 42% — $130.20
+  ├─ Code review (DeepSeek V4 Flash): 25% — $77.50
+  ├─ Architecture discussion (Claude Opus): 20% — $62.00
+  └─ Tech research (Kimi): 13% — $40.30
+
+Rex (ops) — avg $85/month
+  ├─ Log analysis (DeepSeek V4 Flash): 50% — $42.50
+  ├─ Alert handling (GPT-4o mini): 30% — $25.50
+  └─ Config generation (DeepSeek V4 Flash): 20% — $17.00
+
+Max (ops/content) — avg $210/month
+  ├─ Content creation (Claude Sonnet): 45% — $94.50
+  ├─ Data analysis (DeepSeek V4 Flash): 30% — $63.00
+  └─ Research reports (Kimi): 25% — $52.50
+
+Infrastructure (routing, memory sync, monitoring) — avg $102/month
+Other (testing, trial-and-error, retries) — avg $140/month
+</code></pre>
+<p>(Note: the table below is the normal monthly cost baseline after removing the qclaw infinite-loop incident — that $312.44 was a one-time anomalous spend and is not counted in the monthly averages below.)</p>
+<p>That "Other" line made him stop for a long time — $140 spent, but zero output. All trial-and-error, retries, and infinite loops.</p>
+<blockquote>
+<p><strong>Non-productive consumption is the biggest hidden cost of an Agent team. It usually runs 15–25% of your spend — if you don't audit your costs, you won't even know it's bleeding you dry.</strong></p>
+</blockquote>
+<h2 id="model-routing-which-model-for-which-job">Model Routing: Which Model for Which Job</h2>
+<p>Yason's first cost-optimization move was <strong>configuring model routing</strong> — not every task deserves the strongest model.</p>
+<pre><code class="language-yaml"># /opt/agents/config/model-routing.yaml
+models:
+  # Main model — best price/performance
+  default:
+    provider: deepseek
+    model: deepseek-v4-flash
+    cost_per_1k_tokens: 0.00015
+
+  # Heavy reasoning — architecture design, complex bug analysis
+  heavy_reasoning:
+    provider: deepseek
+    model: deepseek-v4-pro
+    cost_per_1k_tokens: 0.002
+    triggers:
+      - task_type: architecture_design
+      - task_type: complex_debug
+      - error_count: &quot;&gt; 3&quot;  # auto-upgrade after the simple model fails 3 times
+
+  # Long context — document analysis, codebase scans
+  long_context:
+    provider: kimi
+    model: kimi-k1.6
+    cost_per_1k_tokens: 0.001
+    triggers:
+      - input_length: &quot;&gt; 8000&quot;  # exceeds 8000 tokens
+
+  # Fast tasks — simple Q&amp;A, formatting, translation
+  fast_cheap:
+    provider: openai
+    model: gpt-4o-mini
+    cost_per_1k_tokens: 0.000075
+    triggers:
+      - task_type: translation
+      - task_type: formatting
+      - task_type: simple_qa
+
+  # Local model — sensitive data, offline tasks
+  local:
+    provider: ollama
+    model: qwen2.5:7b
+    cost: 0  # free
+    triggers:
+      - data_sensitivity: high
+</code></pre>
+<p>The core logic of this routing config fits in one sentence: <strong>use a cheap model for simple tasks, a good model for complex ones, and run locally whatever you can instead of calling a remote endpoint.</strong></p>
+<div class="mermaid">flowchart TD
+    A[📥 Task arrives] --&gt; B{Classify task type}
+
+    B --&gt;|Translation/formatting/simple Q&amp;A| C[🪙 Fast &amp; cheap tier]
+    C --&gt; D[GPT-4o mini]
+    D --&gt; E[Cost: $0.000075/1K tokens]
+
+    B --&gt;|Code generation/development| F[⚡ Main model tier]
+    F --&gt; G[DeepSeek V4 Flash]
+    G --&gt; H[Cost: $0.00015/1K tokens]
+
+    B --&gt;|Architecture design/complex debugging| I[🧠 Heavy reasoning tier]
+    I --&gt; J[DeepSeek V4 Pro]
+    J --&gt; K[Cost: $0.002/1K tokens]
+
+    B --&gt;|Long docs/codebase scan| L[📚 Long-context tier]
+    L --&gt; M[Kimi K1.6]
+    M --&gt; N[Cost: $0.001/1K tokens]
+
+    B --&gt;|Highly sensitive data| O[🔒 Local model tier]
+    O --&gt; P[&quot;Qwen2.5:7b (Ollama)&quot;]
+    P --&gt; Q[Cost: $0 (free)]
+
+    style C fill:#e6ffe6,stroke:#2d8a2d
+    style F fill:#e6f3ff,stroke:#1a6bb5
+    style I fill:#fff3e6,stroke:#cc6600
+    style L fill:#f3e6ff,stroke:#6b1ab5
+    style O fill:#ffe6e6,stroke:#b51a1a
+</div>
+<p>A month after rolling out the config, Kai's monthly cost dropped from $310 to $180 — a 42% reduction — but Kai himself didn't notice a thing, because the routing switch was transparent.</p>
+<h2 id="budget-alerts-and-automatic-circuit-breaking">Budget Alerts and Automatic Circuit Breaking</h2>
+<p>Routing optimization alone wasn't enough; Yason also needed a <strong>fuse</strong> — something that cuts the power automatically when costs go abnormal.</p>
+<pre><code class="language-bash">#!/bin/bash
+# /opt/agents/monitor/scripts/cost-fuse.sh
+# Check API consumption, trip the fuse when over limit
+
+THRESHOLD_DAILY=40       # global daily cap $40
+THRESHOLD_AGENT_DAILY=15 # per-Agent daily cap $15
+LOG=&quot;/var/log/cost-fuse.log&quot;
+
+echo &quot;=== $(date) cost check ===&quot; &gt;&gt; &quot;$LOG&quot;
+
+# Get current consumption (via the API provider's billing interface)
+daily_cost=$(curl -s &quot;https://api.provider.com/v1/billing/daily?key=$API_KEY&quot; | jq '.total_cost')
+kai_cost=$(curl -s &quot;https://api.provider.com/v1/billing/daily?key=$API_KEY&amp;agent=kai&quot; | jq '.cost')
+max_cost=$(curl -s &quot;https://api.provider.com/v1/billing/daily?key=$API_KEY&amp;agent=max&quot; | jq '.cost')
+rex_cost=$(curl -s &quot;https://api.provider.com/v1/billing/daily?key=$API_KEY&amp;agent=rex&quot; | jq '.cost')
+
+echo &quot;  Total: \$$daily_cost&quot; &gt;&gt; &quot;$LOG&quot;
+echo &quot;  Kai: \$$kai_cost, Max: \$$max_cost, Rex: \$$rex_cost&quot; &gt;&gt; &quot;$LOG&quot;
+
+# Circuit-breaker rules
+if (( $(echo &quot;$daily_cost &gt; $THRESHOLD_DAILY&quot; | bc -l) )); then
+  echo &quot;⚠️ CRITICAL: daily total exceeded \$$THRESHOLD_DAILY, triggering global fuse!&quot; &gt;&gt; &quot;$LOG&quot;
+  /opt/agents/emergency-shutdown.sh &quot;daily_cost_exceeded&quot;
+  feishu send &quot;🚨 Global fuse tripped! Today's API spend \$$daily_cost exceeded cap \$$THRESHOLD_DAILY&quot; \
+    --target yason --priority critical --phone
+  exit 1
+fi
+
+# Per-Agent over-limit
+for agent in kai rex max; do
+  name=&quot;${agent%%_*}&quot;
+  cost_var=&quot;${agent}_cost&quot;
+  cost=&quot;${!cost_var}&quot;
+
+  if (( $(echo &quot;$cost &gt; $THRESHOLD_AGENT_DAILY&quot; | bc -l) )); then
+    echo &quot;⚠️ HIGH: $name daily spend \$$cost, pausing this Agent&quot; &gt;&gt; &quot;$LOG&quot;
+    /opt/agents/pause-agent.sh &quot;$name&quot; &quot;cost_exceeded&quot;
+    feishu send &quot;🚨 $name paused: today's spend \$$cost exceeded cap \$$THRESHOLD_AGENT_DAILY&quot; \
+      --target yason --priority high
+  fi
+done
+</code></pre>
+<p>After this script went live, Yason finally felt at ease. He put it in vivid terms: <strong>"Before, my API bill was like a credit card with no limit. Now it's like a prepaid card — once it's empty, it stops, no overage."</strong></p>
+<h2 id="practical-token-optimization-tips">Practical Token Optimization Tips</h2>
+<p>Beyond model routing and automatic circuit breaking, Yason collected 7 token-optimization tips:</p>
+<p><strong>1. Cache repeated requests</strong>
+The same prompt gets called in multiple scenarios (e.g., "introduce this project"). Yason built a simple in-memory cache that returns the cached result directly for identical requests. This alone saved about 30% of I/O consumption.</p>
+<p><strong>2. Search memory before asking the model</strong>
+Before an Agent hits the model with every problem, it should first search the <code>knowledge/</code> and <code>skills/</code> directories. Yason's stats showed: 45% of questions already had answers in existing Skill files.</p>
+<p><strong>3. Cap the context window</strong>
+Agents have a tendency to "shove every relevant file into context." Yason added a rule to the System Prompt: <strong>never load more than 6000 tokens of context at a time.</strong> If more info is needed, load it in batches sorted by relevance.</p>
+<p><strong>4. Token audit per step</strong>
+When a complex task runs step by step, log token consumption after each step. If any step's consumption is abnormal (e.g., over 2x the budget), pause the task and report.</p>
+<p><strong>5. Pre-filter with a local model</strong>
+Before calling the heavy model, run a coarse filter with a local model (Ollama). For example, when Max does web analysis, the local model first judges whether a page is relevant, and only relevant pages get sent to the remote model.</p>
+<p><strong>6. Set a trial-and-error ceiling</strong>
+Every Agent has a hard rule in its System Prompt: "After 3 consecutive failures on the same task, stop and output a failure report." Yason found that infinite-loop trial-and-error accounted for 60% of non-productive consumption.</p>
+<p><strong>7. Auto-summarize costs in a weekly report</strong>
+Every Monday morning, Yason gets a Feishu card:</p>
+<pre><code>━━━━ Team Cost Weekly ━━━━
+Last week total: $187.32
+WoW: +12% (prior week: $167.10)
+Budget remaining: 62%
+
+Role ranking:
+🥇 Kai: $82.10 (43.8%)
+🥈 Max: $61.20 (32.7%)
+🥉 Rex: $24.02 (12.8%)
+
+Anomalous spend:
+- 6/14 Kai continuous retries $8.40 (flagged)
+- 6/16 Max model-routing mismatch $4.20 (fixed)
+━━━━━━━━━━━
+</code></pre>
+<p>(Note: the "Budget remaining: 62%" in the weekly report is based on the <strong>weekly</strong> budget base, while the dashboard's "43% remaining" is on a <strong>monthly</strong> basis — different bases, so the two figures don't conflict.)</p>
+<p>Yason doesn't have to tally it himself — the cost report is generated automatically.</p>
+<h2 id="community-cost-optimization-tools">Community Cost-Optimization Tools</h2>
+<p>Once Yason's cost-control system was working, he realized the community already had mature open-source solutions for what he'd built:</p>
+<ul>
+<li><strong>OpenRouter</strong> (openrouter.ai): a unified model-routing gateway. All model calls are relayed through OpenRouter, which auto-routes to the provider with the lowest current load / best price. Yason's hand-tuned routing strategy comes out of the box with OpenRouter, and it switches automatically based on real-time pricing.</li>
+<li><strong>LiteLLM</strong> (litellm.vercel.app): an open-source multi-provider SDK. Switch providers in one line of code — from OpenAI to DeepSeek to Anthropic — with no business-code changes. LiteLLM also has built-in cost tracking and rate-limit management.</li>
+<li><strong>Portkey</strong> (portkey.ai): an AI gateway and cost-management platform supporting caching, retries, rate limiting, and budget control. The free tier tracks up to 1 million tokens per month.</li>
+<li><strong>Helicone</strong>: an open-source LLM cost-monitoring tool. Yason's hand-written cost-fuse script? Helicone ships with similar functionality out of the box, plus a visual dashboard.</li>
+</ul>
+<p>Yason later plugged LiteLLM into his own routing system: "Before, every provider needed its own API key and billing rules configured. With LiteLLM, the config went from 200 lines to 20."</p>
+<h2 id="budget-walls-and-rate-limit-management">Budget Walls and Rate-Limit Management</h2>
+<p>There's one easily overlooked dimension to cost control — <strong>rate limiting</strong>.</p>
+<p>Yason ran into this more than once: an Agent would suddenly stop, not because of cost overage, but because the API provider returned 429 (Too Many Requests). The Agent doesn't understand the semantics of 429, so it keeps retrying — and ends up triggering even harsher rate-limit penalties.</p>
+<p>The fix was a two-layer defense of "budget wall + rate wall":</p>
+<pre><code class="language-yaml"># /opt/agents/config/budget-and-rate.yaml
+budget_walls:
+  agent_level:
+    kai:
+      daily_budget: 15.00
+      hourly_budget: 3.00
+      rate_limit: 60 rpm  # max 60 requests per minute
+    rex:
+      daily_budget: 5.00
+      rate_limit: 30 rpm
+
+  task_level:
+    heavy_reasoning:
+      max_cost_per_task: 2.00
+      max_steps: 20
+    simple_qa:
+      max_cost_per_task: 0.05
+
+rate_management:
+  backoff_strategy: exponential  # exponential backoff
+  max_retries: 3
+  retry_on_codes: [429, 503, 502]  # only retry on these status codes
+  circuit_breaker:
+    error_threshold: 5  # 5 consecutive errors
+    recovery_time: 60   # pause 60 seconds
+</code></pre>
+<p>(Note: <code>THRESHOLD_AGENT_DAILY=15</code> in the fuse script is the uniform "$15/Agent/day" hard cap; Rex's <code>daily_budget: 5</code> in the budget-wall YAML is a tighter personal cap set just for Rex, which trips before the $15 cap.)</p>
+<p>"The budget wall stops you from spending past your limit; the rate wall stops you from getting your account banned by the API provider. Between those two walls, the Agents are free to roam."</p>
+<h2 id="apis-are-consumables-not-assets">APIs Are Consumables, Not Assets</h2>
+<p>Yason wrote one line in the team Wiki:</p>
+<blockquote>
+<p><strong>Treat API fees as a "consumables budget," not "fixed-asset investment." Spending a few thousand a month in token fees isn't painful — spending it in the wrong direction is. Set your rules, wire up the fuse, do your audits, then let the Agents run free with the rest.</strong></p>
+</blockquote>
+<p>That was the most important lesson he learned after paying $847 in tuition.</p>
+<h2 id="chapter-summary">Chapter Summary</h2>
+<ul>
+<li>One infinite loop burned $312 in half a day — an Agent's "blind execution" is a cost black hole</li>
+<li>Do regular cost audits; break down each Agent's consumption by task type</li>
+<li>Model routing: cheap model for simple tasks, run locally whatever you can instead of calling remote</li>
+<li>Automatic fuse script: pause on overage without waiting for a human to notice</li>
+<li>7 token-optimization tips: cache, search before asking, cap the window, per-step audit, local pre-filter, failure ceiling, auto-report</li>
+<li>API fees are consumables — spend them in the right direction and you won't wince</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview:</strong> Who guarantees the quality of what an AI team produces? Once you stop reviewing every line of code yourself, you need an automated quality-assurance system — and Kai's refactoring accident is what taught Yason that lesson.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI', with the full series continuously updating:</em> <a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<p><img alt="Image shows &quot;Don't Let Your API" src="../assets/diagrams/en_13_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

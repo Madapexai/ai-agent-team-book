@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quality Assurance — Reviews and Feedback Loops · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><h1 id="quality-assurance-reviews-and-feedback-loops">Quality Assurance — Reviews and Feedback Loops</h1>
+<p><img alt="Image shows the Review mechanism" src="../assets/diagrams/en_14_1.svg" /></p>
+<h2 id="the-refactor-that-took-the-whole-system-down-for-4-hours">The Refactor That Took the Whole System Down for 4 Hours</h2>
+<p>Kai said he wanted to do an "architecture-level refactor."</p>
+<p>Yason glanced at the plan and thought it was feasible — migrate the user module's cache layer from Redis to local in-memory cache to cut network latency. Kai's analysis showed this change could lower API response time by 40%. Yason approved it.</p>
+<p>12 minutes later, Kai submitted the PR.</p>
+<p>Yason was in a meeting that day. He skimmed the PR description — "cache layer refactor complete, tests passing" — and clicked merge.</p>
+<p>Then the system started throwing errors.</p>
+<p>Not small ones — <strong>the entire user module returned 500s, for a full 4 hours.</strong></p>
+<p>Where was the problem? Kai had indeed changed the cache layer, and the tests had indeed passed. But during the refactor, Kai had changed the signature of a public interface — <code>getUser(id)</code> became <code>getUser(id, cachePolicy)</code>, with the second parameter required. Every call in the test files passed the second argument, so the tests passed. But in production there were still 6 other services, not covered by tests, calling the old <code>getUser(id)</code> — and they all crashed.</p>
+<p>When Yason did the post-mortem later, he wrote down three causes:</p>
+<ol>
+<li><strong>Kai didn't globally search all callers</strong> — he assumed only the few spots in the test files</li>
+<li><strong>The review was a formality</strong> — Yason only read the PR description, not the code</li>
+<li><strong>No "compatibility check" step</strong> — API signature changes need extra auditing</li>
+</ol>
+<blockquote>
+<p><strong>An Agent's output needs review just like human code does. No — it needs it more. Because an Agent has no "common sense" — it won't intuitively know "changing a public interface signature means checking all callers first" — unless you explicitly tell it.</strong></p>
+</blockquote>
+<h2 id="the-review-pipeline-three-lines-of-defense">The Review Pipeline: Three Lines of Defense</h2>
+<p>After this incident, Yason built a three-layer review pipeline:</p>
+<div class="mermaid">flowchart LR
+    A[Agent submits] --&gt; B{Layer 1&lt;br&gt;Auto checks}
+    B --&gt;|❌ Failed| C[Return for fix]
+    B --&gt;|✅ Passed| D{Layer 2&lt;br&gt;Peer Agent Review}
+    D --&gt;|REVISE/REJECT| E[Return for fix&lt;br&gt;with specific suggestions]
+    D --&gt;|ACCEPT| F{Layer 3&lt;br&gt;Human Review}
+    F --&gt;|Review as needed| G[Review only:&lt;br&gt;① CRITICAL changes&lt;br&gt;② Disputed peer reviews&lt;br&gt;③ First task in a new domain]
+    F --&gt;|No review needed| H[✅ Ship directly]
+
+    style A fill:#e6f3ff,stroke:#1a6bb5
+    style B fill:#fff3cd,stroke:#856404
+    style C fill:#f8d7da,stroke:#721c24
+    style D fill:#fff3cd,stroke:#856404
+    style E fill:#f8d7da,stroke:#721c24
+    style F fill:#d1e7dd,stroke:#0f5132
+    style G fill:#e6ffe6,stroke:#2d8a2d
+    style H fill:#d1e7dd,stroke:#0f5132
+</div>
+<h3 id="layer-1-auto-checks-under-5-seconds">Layer 1: Auto Checks (under 5 seconds)</h3>
+<p>Before submitting any output, an Agent must first run a set of auto-check scripts. If checks fail, it can't submit.</p>
+<pre><code class="language-yaml"># /opt/agents/config/auto-checks.yaml
+checks:
+  # Code changes
+  code_change:
+    - name: lint
+      command: &quot;npm run lint -- --quiet&quot;
+      fail_on: warning
+    - name: type_check
+      command: &quot;npm run typecheck&quot;
+      fail_on: error
+    - name: test
+      command: &quot;npm test -- --run&quot;
+      fail_on: failure
+    - name: breaking_change_detection
+      script: |
+        # Check whether any public interface signatures changed
+        check_public_api_changes() {
+          changed_files=$(git diff --name-only HEAD~1)
+          for f in $changed_files; do
+            if grep -q &quot;export.*function\|export.*class\|export interface&quot; &quot;$f&quot;; then
+              echo &quot;⚠️ Public interface change detected, compatibility check required&quot;
+              return 1
+            fi
+          done
+        }
+      fail_on: warning
+
+  # Config changes
+  config_change:
+    - name: syntax_validate
+      command: &quot;yq eval '.' $file &gt; /dev/null&quot;
+      fail_on: error
+    - name: cross_reference
+      script: |
+        # Check whether the config change affects other services
+        check_config_impact() { ... }
+      fail_on: warning
+
+  # Doc changes
+  doc_change:
+    - name: link_check
+      command: &quot;markdown-link-check $file&quot;
+      fail_on: error
+    - name: format_check
+      command: &quot;prettier --check $file&quot;
+      fail_on: error
+</code></pre>
+<p>These auto checks aren't advisory — <strong>fail them and you can't submit.</strong> The Agent gets stuck at the very first step of the CI/CD pipeline.</p>
+<h3 id="layer-2-peer-agent-review-under-5-minutes">Layer 2: Peer Agent Review (under 5 minutes)</h3>
+<p>Once auto checks pass, the output goes to another Agent for code review.</p>
+<p>The rule: <strong>whoever develops doesn't review; whoever reviews doesn't develop.</strong></p>
+<pre><code>Kai writes code → Rex reviews
+Rex changes config → Kai reviews
+Max writes docs → Kai or Rex reviews
+</code></pre>
+<p>Peer review also follows a structured format:</p>
+<pre><code class="language-yaml"># Review report format
+reviewer: Rex
+target: Kai
+task: &quot;Cache layer refactor PR #142&quot;
+result: REVISE  # ACCEPT | REVISE | REJECT
+
+issues_found:
+  - severity: CRITICAL
+    location: &quot;src/services/user.ts:42&quot;
+    description: &quot;getUser signature changed (addParam: cachePolicy),
+                  need to check whether all callers were updated&quot;
+    suggestion: &quot;Grep all calls to getUser( and fill in the required param&quot;
+
+  - severity: MINOR
+    location: &quot;src/cache/local-cache.ts:15&quot;
+    description: &quot;Cache TTL hardcoded to 300s, suggest making it configurable&quot;
+    suggestion: &quot;Read CACHE_TTL from an env var&quot;
+
+summary: &quot;Core logic is fine, but interface compatibility is a fatal flaw.
+          Fix the CRITICAL issue and resubmit.&quot;
+</code></pre>
+<p>Rex caught in review exactly the problem Kai had missed — not searching all callers — which was precisely the pit Yason had fallen into. <strong>This is the value of having another Agent do review: it has no psychological bias of "what I wrote must be good."</strong></p>
+<p>If the review result is REVISE or REJECT, the task goes back to the original Agent for fixes.</p>
+<p>If the result is ACCEPT, it moves to Layer 3.</p>
+<h2 id="layer-3-human-review-as-needed">Layer 3: Human Review (as needed)</h2>
+<p>Yason doesn't review everything. He only reviews three cases:</p>
+<ol>
+<li><strong>CRITICAL-level changes</strong> — production config, data migration, security policy</li>
+<li><strong>Disputed peer reviews</strong> — two Agents disagree</li>
+<li><strong>First task in a new domain</strong> — an Agent doing this kind of work for the first time; Yason needs to confirm the direction</li>
+</ol>
+<p>That's enough. Yason went from "reviewing every line of code" to "only reviewing risky changes" — his review time dropped from 15 minutes per task to under 1 minute per task.</p>
+<blockquote>
+<p><strong>Human attention is a scarce resource. Don't spend it on the auto-checks an Agent can handle. Only review the things where "if it's wrong, you're in trouble."</strong></p>
+</blockquote>
+<h2 id="the-accept-revise-reject-protocol">The ACCEPT / REVISE / REJECT Protocol</h2>
+<p>Yason defined a three-state review protocol that all Agents must follow:</p>
+<p><strong>ACCEPT</strong>: output is qualified and can be used or merged directly.</p>
+<p><strong>REVISE</strong>: there's a clear problem that needs fixing. The reviewer must give a specific problem location and a fix suggestion. You're not allowed to just say "this won't do" without saying "how to fix it."</p>
+<p><strong>REJECT</strong>: the whole direction is wrong. The reviewer must explain why the direction is wrong and offer an alternative. You're not allowed to just say "redo it" without saying "do what."</p>
+<p>Feedback format:</p>
+<pre><code class="language-yaml">result: REVISE
+feedback:
+  - what: &quot;What is the problem&quot;
+  - where: &quot;Precise location (file + line number)&quot;
+  - why: &quot;Why this is a problem&quot;
+  - how: &quot;Suggested fix&quot;
+follow_up:
+  - &quot;After fixing, resubmit checkpoints 2 and 3&quot;
+  - &quot;If you disagree with the review, note your reason in a comment&quot;
+</code></pre>
+<p>Note the <code>follow_up</code> — it's not done once you fix it. After fixing, you must re-run the specified checkpoints to make sure the fix itself didn't introduce new problems.</p>
+<h2 id="real-story-kais-lesson-becomes-the-teams-rule">Real Story: Kai's Lesson Becomes the Team's Rule</h2>
+<p>After that refactor incident, Yason did one thing: he wrote the lesson into a Skill file — <code>skills/breaking-change-protocol.md</code>:</p>
+<pre><code class="language-markdown"># Breaking Change Protocol
+
+## When it applies
+When you need to change the signature of a public interface (export function/class/interface)
+
+## Mandatory flow
+1. Globally search all callers (not limited to test files)
+2. Assess the caller count:
+   - Fewer than 5: modify all of them
+   - 5–20: modify all + add compatibility notes
+   - 20+: consider keeping the original interface (mark deprecated) + add a new one
+3. List all affected services in the PR description before submitting
+4. After submitting, notify the owner of every calling service
+
+## Common pitfalls
+- Test-file coverage ≠ production coverage
+- Interface signature changes may break compilation but not runtime (until triggered)
+- TypeScript may not error when a referenced type changes
+
+## Source
+2025-06-10: When refactoring the cache layer, Kai changed the getUser interface signature,
+causing 6 uncovered services to crash and the system to go down for 4 hours
+</code></pre>
+<p>This story became a "cautionary tale" Skill. When a new Agent joins, it reads this first and learns "how dangerous it is to change a public interface signature."</p>
+<h2 id="measuring-quality-with-hard-data">Measuring Quality with Hard Data</h2>
+<p>Yason tracked a monthly quality metric:</p>
+<pre><code>April (no review mechanism):
+   Rollback rate after Agent submission: 17%
+   Production incidents attributed to Agents: 3
+   Average fix time: 2.5 hours
+
+May (auto checks live):
+   Rollback rate after Agent submission: 8%
+   Production incidents attributed to Agents: 1
+   Average fix time: 45 minutes
+
+June (full three-layer review live):
+   Rollback rate after Agent submission: 3%
+   Production incidents attributed to Agents: 0
+   Average fix time: 20 minutes (mostly auto-rollback)
+</code></pre>
+<p>The data is clear: <strong>an Agent team with no review has an incident rate on par with a software team with no tests. That's not "agile" — that's flying blind.</strong></p>
+<h2 id="cross-validation-dual-agent-independent-verification-for-critical-tasks">Cross-Validation: Dual-Agent Independent Verification for Critical Tasks</h2>
+<p>After the three-layer review pipeline went live, Yason added one more safeguard — <strong>cross-validation</strong>.</p>
+<p>For critical tasks (payment-related code changes, database schema modifications, production config changes), Yason requires two Agents to execute the same task <strong>independently</strong>.</p>
+<p>The flow looks like this:</p>
+<pre><code>Task: &quot;Change the email index type on the user table&quot;
+
+Agent A (Kai) → completes the change independently + outputs verification report A
+Agent B (Max) → completes the change independently + outputs verification report B
+
+Comparison phase
+  ├── Results match → adopt either one, log &quot;dual-Agent verification passed&quot;
+  └── Results differ → auto-flag the divergence, escalate to Yason for manual adjudication
+</code></pre>
+<p>This isn't "one writes code, the other reviews" — it's <strong>two Agents doing the exact same thing independently from scratch.</strong> Their prompts are isolated, their System Prompt versions may differ, and the models they use may differ too (e.g., Kai on DeepSeek, Max on Claude).</p>
+<p>Why does this work? Because two different models, under different prompt frameworks, have an extremely low probability of making the same mistake at the same time. <strong>If two Agents' outputs agree, you can have very high confidence in the result's correctness.</strong></p>
+<p>The cost? Token consumption doubles. But here's how Yason does the math:</p>
+<blockquote>
+<p>"Fixing one production incident costs $50–$500 in psychological and time pain, while dual-Agent verification costs $0.40–$2.00 in extra tokens. Which is the better deal is obvious."</p>
+</blockquote>
+<p>He only enables dual verification for the top 20% highest-risk tasks. The other 80% of ordinary tasks are fine with the standard three-layer review.</p>
+<h2 id="concrete-implementation-of-the-three-layer-eval-pipeline">Concrete Implementation of the Three-Layer Eval Pipeline</h2>
+<p>Yason's three-layer review is actually a broader <strong>three-layer Eval pipeline</strong> — it evaluates not just code, but all of an Agent's output.</p>
+<pre><code>Input ← task description + context
+
+Layer 1: Pre-Action Checks (before execution)
+  ├── Feasibility assessment → are current conditions right for this task?
+  ├── Permission check → does the Agent have permission to do this task?
+  └── Cost estimate → how many tokens is this task expected to consume?
+
+Execution → Agent executes the task
+
+Layer 2: Post-Action Checks (after execution)
+  ├── Format validation → does the output match the expected format?
+  ├── Completeness check → does the output cover all task requirements?
+  ├── Consistency check → does the output match the shared knowledge base?
+  └── Security scan → does the output contain sensitive info?
+
+Layer 3: Outcome Verification (result verification)
+  ├── Impact-domain analysis → which downstream systems does this change affect?
+  ├── Rollback plan → if something breaks, how do we restore the prior state?
+  └── Monitoring &amp; alerts → which metrics need watching after launch?
+</code></pre>
+<p>Each layer blocks progress if it doesn't pass — you don't move to the next stage. Yason's execution model is "funnel-shaped": the entry point is wide (accept all tasks), but each layer narrows the aperture, and only tasks that pass every check reach production.</p>
+<h2 id="community-evaluation-tools">Community Evaluation Tools</h2>
+<p>The three-layer review solved Yason's internal quality problem, but the community already has mature Agent-evaluation tools ready to use:</p>
+<ul>
+<li><strong>LangFuse Evaluation</strong>: an open-source LLM evaluation platform supporting LLM-as-a-Judge automated assessment. You define evaluation criteria (e.g., "is the answer accurate," "is the format correct"), and LangFuse automatically scores the Agent's output.</li>
+<li><strong>Braintrust Evaluations</strong>: Braintrust's experiment-management platform has built-in evaluation. It supports comparing different models and different prompts against the same evaluation criteria.</li>
+<li><strong>DeepEval</strong> (confident-ai.com): an open-source evaluation framework designed specifically for LLM apps. Supports 27+ evaluation metrics, including hallucination detection, context relevance, and answer completeness. Can be integrated directly into CI/CD pipelines.</li>
+<li><strong>promptfoo</strong>: an open-source prompt-evaluation tool supporting batch testing, regression detection, and model comparison. Especially good for "did this prompt change make things better or worse."</li>
+<li><strong>Galileo</strong>: an LLM observability and evaluation platform supporting continuous quality monitoring and hallucination detection in production.</li>
+</ul>
+<p>Yason integrated DeepEval into his Layer 1 auto checks — "DeepEval saved me from writing prompt-evaluation logic myself; 17 evaluation metrics work out of the box."</p>
+<h2 id="quality-is-designed-not-inspected">Quality Is Designed, Not Inspected</h2>
+<p>Yason's final word:</p>
+<blockquote>
+<p><strong>Don't count on "catching quality through review." Quality has to be designed starting from the System Prompt — telling the Agent "don't change the public interface signature" is ten thousand times better than "the reviewer catching that you changed it." A good review mechanism is a safety net, not a crutch.</strong></p>
+</blockquote>
+<h2 id="chapter-summary">Chapter Summary</h2>
+<ul>
+<li>An Agent's output needs review just like human code — Agents have no "common sense"</li>
+<li>Three-layer review pipeline: auto checks → Peer Agent review → human review as needed</li>
+<li>ACCEPT/REVISE/REJECT three-state protocol; feedback must include specific location and fix suggestion</li>
+<li>Humans only review three kinds of changes: CRITICAL-level, disputed, and first-in-new-domain</li>
+<li>Hard-won lessons get distilled into Skills that new Agents learn from — accelerate learning with "cautionary tales"</li>
+<li>After the review mechanism, Agent-caused production incidents dropped from 3/month to 0</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview:</strong> From "boss manages Agents" to "Agents self-govern" — only when your Agent team runs itself without you watching it daily have you truly gone from "manager" to "beneficiary."</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI', with the full series continuously updating:</em> <a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<p><img alt="Image shows the Review mechanism and feedback loops. It's divided into five stages — auto checks, AI review, human review, integration verification, and launch/release — each with corresponding content. It's also split into fast feedback (real-time), medium-speed feedback (hour-level), and slow feedback" src="../assets/diagrams/en_14_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

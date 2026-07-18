@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 560" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="820" height="560" fill="#f8fafc"/>
+  <rect x="20" y="20" width="780" height="56" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="55" fill="#ffffff" font-size="22" font-weight="700" text-anchor="middle">Multi-Agent Protocol Stack</text>
+
+  <!-- Layer 1: Emergency -->
+  <rect x="170" y="104" width="480" height="64" rx="12" fill="#d9534f"/>
+  <text x="410" y="132" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">Emergency Protocol</text>
+  <text x="410" y="152" fill="#ffffff" font-size="12" text-anchor="middle">Handles exceptions that cannot be processed</text>
+
+  <line x1="410" y1="170" x2="410" y2="190" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 2: Negotiation -->
+  <rect x="170" y="192" width="480" height="64" rx="12" fill="#e0a82e"/>
+  <text x="410" y="220" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">Negotiation Protocol</text>
+  <text x="410" y="240" fill="#ffffff" font-size="12" text-anchor="middle">Agent-to-Agent negotiation &amp; communication</text>
+
+  <line x1="410" y1="258" x2="410" y2="278" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 3: State -->
+  <rect x="170" y="280" width="480" height="64" rx="12" fill="#4a90d9"/>
+  <text x="410" y="308" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">State Protocol</text>
+  <text x="410" y="328" fill="#ffffff" font-size="12" text-anchor="middle">Each Agent broadcasts its status</text>
+
+  <line x1="410" y1="346" x2="410" y2="366" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 4: Communication -->
+  <rect x="170" y="368" width="480" height="64" rx="12" fill="#2e9e6b"/>
+  <text x="410" y="396" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">Communication Protocol</text>
+  <text x="410" y="416" fill="#ffffff" font-size="12" text-anchor="middle">Underlying message-passing specification</text>
+
+  <line x1="410" y1="434" x2="410" y2="454" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Layer 5: Task -->
+  <rect x="170" y="456" width="480" height="64" rx="12" fill="#1f3a5f"/>
+  <text x="410" y="484" fill="#ffffff" font-size="17" font-weight="700" text-anchor="middle">Task Protocol</text>
+  <text x="410" y="504" fill="#ffffff" font-size="12" text-anchor="middle">Task create / assign / execute / complete</text>
+
+  <text x="410" y="544" fill="#475569" font-size="13" text-anchor="middle">Each layer builds on the one below · based on Claude Code Agent Teams</text>
+</svg>

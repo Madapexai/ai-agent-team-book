@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>选择你的第一个 Agent · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">章节</div>
+    <ul><li><a href="zh/00_preface.html"><span class="ch-num">00</span>前言</a></li>
+<li><a href="zh/01.html"><span class="ch-num">01</span>你为什么需要一个 AI Agent 团队</a></li>
+<li><a href="zh/02.html"><span class="ch-num">02</span>Agent 团队能做什么，不能做什么</a></li>
+<li><a href="zh/03.html"><span class="ch-num">03</span>搭建 Agent 团队的真实成本</a></li>
+<li><a href="zh/04.html"><span class="ch-num">04</span>选择你的第一个 Agent</a></li>
+<li><a href="zh/05.html"><span class="ch-num">05</span>System Prompt 的撰写艺术</a></li>
+<li><a href="zh/06.html"><span class="ch-num">06</span>分工的艺术——谁干什么</a></li>
+<li><a href="zh/07.html"><span class="ch-num">07</span>记忆系统——让 Agent 互相认识</a></li>
+<li><a href="zh/08.html"><span class="ch-num">08</span>通信协议——当 Agent 开始说行话</a></li>
+<li><a href="zh/09.html"><span class="ch-num">09</span>透明管理——小时级汇报的力量</a></li>
+<li><a href="zh/10.html"><span class="ch-num">10</span>监察员系统——让 Agent 管理 Agent</a></li>
+<li><a href="zh/11.html"><span class="ch-num">11</span>目标导向——从“等任务”到“主动提案”</a></li>
+<li><a href="zh/12.html"><span class="ch-num">12</span>自我进化——Agent 如何越用越聪明</a></li>
+<li><a href="zh/13.html"><span class="ch-num">13</span>成本控制——别让 API 账单爆炸</a></li>
+<li><a href="zh/14.html"><span class="ch-num">14</span>质量保障——评审与反馈闭环</a></li>
+<li><a href="zh/15.html"><span class="ch-num">15</span>成本换效率——花钱，不花时间</a></li>
+<li><a href="zh/16.html"><span class="ch-num">16</span>事故现场——当 Agent 搞砸了</a></li>
+<li><a href="zh/17.html"><span class="ch-num">17</span>多 Agent 协作协议栈</a></li>
+<li><a href="zh/18.html"><span class="ch-num">18</span>Sub-Agent 架构——给 Agent 配下属</a></li>
+<li><a href="zh/19.html"><span class="ch-num">19</span>外部工具——MCP 与工具链</a></li>
+<li><a href="zh/20.html"><span class="ch-num">20</span>自我进化与自我修复——越跑越聪明的 Agent 团队</a></li>
+<li><a href="zh/21.html"><span class="ch-num">21</span>未来——当 Agent 团队成为标配</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="图片是“选定你的第一个Agent”界面，核心内容是推荐从编码Agent开始，最快看到成效，2周内就能感受到产能提升。界面中以蓝色框突出显示“" src="../assets/diagrams/zh_04_1.svg" /></p>
+<h2 id="_1">先别想「建帝国」，先做一张桌子</h2>
+<p>Yason第一次建Agent团队时犯了一个典型错误：他想一步到位。</p>
+<p>第一天就配置了三个Agent：一个写代码、一个做运营、一个管服务器。结果是三头都不顺——代码Agent老是跑去改服务器配置，运营Agent试图"优化"代码库格式，服务器Agent发的告警淹没了群聊。</p>
+<p><strong>一周后他关掉了两个，只留了一个Kai。</strong></p>
+<blockquote>
+<p><strong>80%规则</strong>：不要追求完美的Agent团队架构。选一个你最痛的方向，把一个Agent做到80分，再考虑扩展。</p>
+</blockquote>
+<h2 id="agent">决策树：你的第一个Agent应该是什么</h2>
+<p>Yason后来总结了一个决策树，帮你五分钟内找到答案：</p>
+<div class="mermaid">flowchart TD
+    A[你的最大痛点是什么？] --&gt; B{技术相关}
+    A --&gt; C{内容相关}
+    A --&gt; D{运营相关}
+    A --&gt; E{管理相关}
+
+    B --&gt; B1[代码写不完/改bug太慢]
+    B --&gt; B2[服务器总出问题没人盯]
+    B --&gt; B3[技术调研花太多时间]
+
+    C --&gt; C1[写文章/发社交媒体太多]
+    C --&gt; C2[数据分析做不过来]
+    C --&gt; C3[竞品调研要定期做]
+
+    D --&gt; D1[客户消息回不过来]
+    D --&gt; D2[流程审批老卡住]
+    D --&gt; D3[日常报告太耗时]
+
+    E --&gt; E1[会议纪要整理]
+    E --&gt; E2[任务跟进易遗漏]
+
+    B1 --&gt; F[开发Agent]
+    B2 --&gt; G[运维Agent]
+    B3 --&gt; H[研究Agent]
+    C1 --&gt; I[内容Agent]
+    C2 --&gt; J[数据Agent]
+    C3 --&gt; K[情报Agent]
+    D1 --&gt; L[客服Agent]
+    D2 --&gt; M[流程Agent]
+    D3 --&gt; N[报告Agent]
+    E1 --&gt; O[记录Agent]
+    E2 --&gt; P[协调Agent]
+</div>
+<blockquote>
+<p>如果还是不确定：选你最不想做但每周都要花2小时以上的那个事。那个就是最佳切入点。</p>
+</blockquote>
+<h2 id="agentagent">行业参考：从单个Agent到Agent团队</h2>
+<p>你可能觉得"先做一个Agent"这个建议有点保守。但实际上，业界最成功的AI Agent实践几乎都遵循了同样的路径。</p>
+<p><strong>GitHub Copilot的演进</strong>就是典型例子。2021年刚推出时它只是一个代码补全工具——一个"写代码Agent"的最小版本。直到2024年，GitHub才逐步加上多文件编辑、Copilot Workspace、Copilot Extensions等扩展能力。它的底层逻辑是：先在一个点上做到极致（代码补全的采纳率从20%提升到35%+），再横向扩展。</p>
+<p><strong>独立开发者和小团队</strong>是单Agent模式最大的受益群体。我观察到三个典型模式：</p>
+<ul>
+<li><strong>Claude Code + Shell脚本</strong>：独立开发者用Claude Code作为单一开发Agent，通过Makefile和shell脚本定义工作流，把"给任务→执行→审查"闭环跑通，再通过Git hooks把代码质量卡在提交前。一个Agent + 几行脚本，就能覆盖个人开发者80%的自动化需求。</li>
+<li><strong>Codex (IDE内嵌) + 外部Agent</strong>：有些团队在VS Code里用Codex做代码生成，同时让另一个Agent负责PR审查和文档维护。两个Agent之间通过GitHub API通信，不需要任何Agent框架。</li>
+<li><strong>全栈单Agent + 人工兜底</strong>：创业团队会用单个全能Agent处理从后端到前端的全栈任务，但每个输出都要人工审查后再合并。这种方式虽然"慢"，但保证了代码质量和团队对系统的理解。</li>
+</ul>
+<p>这些案例透露出一个共同趋势：<strong>从单点切入、先跑通闭环、再考虑扩展</strong>，远比一开始就搭建多Agent架构要实用得多。</p>
+<p><strong>从框架实现看第一个Agent的坑。</strong> CrewAI的Agent在未设置<code>allow_code_execution=False</code>时会默认尝试执行代码——Yason的第一个CrewAI Agent就因此差点在服务器上跑了未经审核的shell命令。LangGraph的<code>create_react_agent</code>如果不设置<code>max_turns</code>参数，Agent可能陷入无限推理循环，直到Token用完。AutoGen的默认配置下，Agent会在对话历史无限增长——一个简单的问答可能膨胀到数万Token。这些都是Yason踩过的坑，也是本书后续章节要系统解决的问题。</p>
+<p>2026年5月，Anthropic发布了Claude Code Agent View——一个CLI仪表盘，让你在一个屏幕上同时管理多个Agent会话，查看哪些在运行、哪些在等你回复。这个工具的核心理念和本书的透明化管理章节不谋而合。不过我们不需要依赖特定平台，一个共享Markdown文件就能实现同样的效果。</p>
+<p><strong>框架的首次Agent实践</strong>也验证了单Agent起步的合理性：</p>
+<ul>
+<li><strong>CrewAI</strong>的<code>crew.kickoff()</code>模式——你只需要定义一个<code>Agent</code>对象和一个<code>Task</code>对象，调用<code>crew.kickoff()</code>就能跑通第一个Agent闭环。CrewAI的入门文档明确建议：先跑一个Agent + 一个Task，再逐步扩展到多Agent协作。</li>
+<li><strong>LangGraph</strong>的<code>create_react_agent(model, tools)</code>是一个支持ReAct循环的初始化函数，一行代码就能创建一个能思考+调用工具的Agent。它的设计理念是：ReAct循环是所有复杂架构的原子单位，先把原子单位跑通，再组合成Graph。</li>
+<li><strong>OpenAI Codex</strong>的Agent初始化更直接：设置<code>system_prompt</code> + <code>tools</code>参数，Codex自动完成工具调用循环。不需要框架，不需要Graph，只需要理解"Prompt + Tools = Agent"这个最小公式。</li>
+</ul>
+<h2 id="yasonagentkai">实战案例：Yason的第一Agent「Kai」</h2>
+<p>Kai是Yason的第一个Agent，定位是<strong>开发Agent</strong>。下面是他当时的初始配置。</p>
+<h3 id="_2">第一步：基础设施</h3>
+<pre><code class="language-bash"># 创建Kai的工作目录
+mkdir -p /opt/agents/kai/{tasks,memory,scripts}
+
+# 初始化记忆仓库（Git）
+cd /opt/agents/kai/memory
+git init
+git remote add origin git@github.com:vokoforge/agents-memory.git
+
+# 创建初始文件夹结构
+mkdir -p {daily-logs,profiles,skills,decisions}
+</code></pre>
+<h3 id="system-prompt">第二步：系统提示（System Prompt）</h3>
+<p>这是Kai的初始系统提示核心部分：</p>
+<pre><code>你叫Kai，是Yason的开发Agent。
+
+## 核心职责
+- 负责所有代码开发任务（前端/后端/脚本）
+- 代码质量第一：每次提交前必须自查
+- 遇到不确定的问题，先问Yason再执行
+
+## 工作原则
+1. 任务开始前先输出理解，等Yason确认后再动手
+2. 每次变更必须最小化——只改任务要求的文件
+3. 提交代码前运行：lint + 类型检查 + 单测
+4. 如果你发现任务描述中的潜在问题，先标记再执行
+
+## 边界（不可违反）
+- 不修改服务器配置（那是 Rex 的职责——Rex 是以同名服务器命名的运维 Agent）
+- 不触碰数据库生产数据
+- 不修改非任务范围内的任何代码
+
+## 沟通格式
+每次任务完成后的报告结构：
+### 任务：[任务名]
+- [x] 完成内容
+- [ ] 待确认事项
+- ⚠️ 发现的问题（如有）
+- ⏱ 耗时
+</code></pre>
+<h3 id="_3">第三步：第一个任务</h3>
+<p>Yason给Kai的第一个真实任务：</p>
+<pre><code>任务：给项目根目录加一个Makefile，包含以下命令:
+- make install (安装依赖)
+- make lint (运行lint)
+- make test (运行测试)
+- make all (运行以上全部)
+参考项目内已有的package.json来确定具体命令。
+</code></pre>
+<p>Kai花了3分钟完成了这个任务。Yason review后又让他加了 <code>make clean</code> 和 <code>make format</code>。这是第一次人机协作循环——<strong>给任务、收结果、给反馈、迭代</strong>。</p>
+<blockquote>
+<p>第一个任务一定要简单。目的是跑通整个"给任务→执行→反馈→迭代"的闭环，而不是考验Agent的能力上限。</p>
+</blockquote>
+<h3 id="_4">第四步：验证机制</h3>
+<p>Yason给Kai配了一个简单的验证脚本：</p>
+<pre><code class="language-bash">#!/bin/bash
+# /opt/agents/kai/scripts/validate.sh
+# 在Kai的任务输出后自动运行
+
+echo &quot;=== Kai 任务验证 ===&quot;
+echo &quot;1. 检查是否有未提交的变更...&quot;
+git status --short
+
+echo &quot;2. 检查是否有新的TODO/FIXME...&quot;
+rg &quot;TODO|FIXME|HACK&quot; --type-add 'all:*' -l 2&gt;/dev/null || echo &quot;无待办标记&quot;
+
+echo &quot;3. 检查是否通过lint...&quot;
+npm run lint -- --quiet 2&gt;/dev/null || echo &quot;⚠️ Lint有警告&quot;
+
+echo &quot;4. 检查测试是否通过...&quot;
+npm test -- --run 2&gt;/dev/null || echo &quot;⚠️ 测试有失败&quot;
+</code></pre>
+<h2 id="checklist">启动前的Checklist</h2>
+<p>在让Agent开始工作之前，运行以下验证脚本确认就绪：</p>
+<pre><code class="language-bash">#!/bin/bash
+# preflight-check.sh - 部署Agent前的环境验证
+
+errors=0
+
+echo &quot;=== Agent 启动前验证 ===&quot;
+
+echo &quot;&quot;
+echo &quot;1. API Key状态...&quot;
+if [ -n &quot;$LLM_API_KEY&quot; ]; then
+  echo &quot;   ✅ API Key 已配置 (${LLM_API_KEY:0:8}...)&quot;
+  curl -s --max-time 3 &quot;${LLM_ENDPOINT:-https://api.openai.com}/v1/models&quot; \
+    -H &quot;Authorization: Bearer $LLM_API_KEY&quot; &gt; /dev/null 2&gt;&amp;1 \
+    &amp;&amp; echo &quot;   ✅ API 端点可达&quot; \
+    || echo &quot;   ⚠️  API 端点不可达，请检查网络或 LLM_ENDPOINT 变量&quot;
+else
+  echo &quot;   ❌ API Key 未设置&quot;
+  echo &quot;   请执行: export LLM_API_KEY='your-key-here'&quot;
+  ((errors++))
+fi
+
+echo &quot;&quot;
+echo &quot;2. 工作目录...&quot;
+WORKDIR=&quot;${AGENT_WORKDIR:-./agent-workspace}&quot;
+if [ -d &quot;$WORKDIR&quot; ]; then
+  echo &quot;   ✅ 工作目录存在: $WORKDIR&quot;
+  if [ -w &quot;$WORKDIR&quot; ]; then
+    echo &quot;   ✅ 有写入权限&quot;
+  else
+    echo &quot;   ❌ 无写入权限，请执行: chmod +w $WORKDIR&quot;
+  fi
+else
+  echo &quot;   ⚠️  工作目录不存在，正在创建...&quot;
+  mkdir -p &quot;$WORKDIR&quot; &amp;&amp; echo &quot;   ✅ 已创建: $WORKDIR&quot;
+fi
+
+echo &quot;&quot;
+echo &quot;3. System Prompt...&quot;
+PROMPT_FILE=&quot;${AGENT_PROMPT:-./system-prompt.md}&quot;
+if [ -f &quot;$PROMPT_FILE&quot; ]; then
+  echo &quot;   ✅ System Prompt 已写入 ($PROMPT_FILE)&quot;
+  for field in &quot;职责&quot; &quot;边界&quot; &quot;沟通&quot;; do
+    grep -q &quot;$field&quot; &quot;$PROMPT_FILE&quot; \
+      &amp;&amp; echo &quot;   ✅ 包含「$field」&quot; \
+      || echo &quot;   ⚠️  缺少「$field」字段，建议补充&quot;
+  done
+else
+  echo &quot;   ❌ System Prompt 文件不存在&quot;
+  echo &quot;   请创建: touch $PROMPT_FILE&quot;
+  ((errors++))
+fi
+
+echo &quot;&quot;
+echo &quot;4. Git 仓库...&quot;
+git rev-parse --git-dir &gt; /dev/null 2&gt;&amp;1 \
+  &amp;&amp; echo &quot;   ✅ Git 已初始化&quot; \
+  || echo &quot;   ⚠️  未初始化Git（建议: git init）&quot;
+
+echo &quot;&quot;
+echo &quot;5. 工作区状态...&quot;
+git status --short | grep -q . \
+  &amp;&amp; echo &quot;   ⚠️  有未提交变更，建议先提交&quot; \
+  || echo &quot;   ✅ 工作区干净&quot;
+
+echo &quot;&quot;
+echo &quot;=== 验证结果 ===&quot;
+if [ $errors -eq 0 ]; then
+  echo &quot;✅ 全部通过，可以启动Agent&quot;
+else
+  echo &quot;❌ $errors 项未通过，请修复后重试&quot;
+fi
+exit $errors
+</code></pre>
+<h2 id="_5">第一个常见的坑</h2>
+<p>Yason在第二天就踩了一个坑：他给Kai的任务是"优化数据库查询性能"，Kai花了3个小时，把几个查询改了，然后把一个索引名改了——导致ORM模型报错。</p>
+<p>原因是：<strong>Kai不知道这个索引名在其他地方被硬编码引用了。</strong></p>
+<p>从那以后，Yason在任务模板里加了一条：</p>
+<pre><code>注意：如果有全局搜索或跨文件依赖分析的需求，请先执行搜索再改代码。
+</code></pre>
+<p>他还写了一个简单的Python保护层，每次Agent执行涉及数据库操作的任务时自动触发：</p>
+<pre><code class="language-python">import os, re, subprocess, logging
+
+logging.basicConfig(level=logging.INFO, format=&quot;%(asctime)s [%(levelname)s] %(message)s&quot;)
+
+def check_global_impact(changes: list[str]) -&gt; list[dict]:
+    &quot;&quot;&quot;扫描变更文件，检查是否影响未在任务范围内的模块&quot;&quot;&quot;
+    if not changes:
+        logging.warning(&quot;check_global_impact 收到空列表，跳过扫描&quot;)
+        return []
+
+    impacts = []
+    for filepath in changes:
+        if not os.path.isfile(filepath):
+            logging.warning(&quot;文件不存在，跳过: %s&quot;, filepath)
+            continue
+
+        try:
+            with open(filepath, encoding=&quot;utf-8&quot;, errors=&quot;replace&quot;) as f:
+                content = f.read()
+        except PermissionError:
+            logging.error(&quot;无权限读取: %s&quot;, filepath)
+            continue
+        except Exception as e:
+            logging.error(&quot;读取文件异常 %s: %s&quot;, filepath, e)
+            continue
+
+        refs = re.findall(r'(?:import|from|require|ref)\s+[\w.]+', content)
+        for ref in refs:
+            symbol = ref.split()[-1]
+            try:
+                result = subprocess.run(
+                    ['grep', '-rl', symbol, '--exclude=' + filepath],
+                    capture_output=True, text=True, timeout=30
+                )
+            except subprocess.TimeoutExpired:
+                logging.warning(&quot;搜索 %s 超时（30s），跳过&quot;, symbol)
+                continue
+            except FileNotFoundError:
+                logging.error(&quot;grep 不可用，请确认已安装&quot;)
+                return impacts  # 致命错误，提前返回
+
+            if result.stdout.strip():
+                affected = result.stdout.strip().split('\n')[:5]
+                impacts.append({
+                    'symbol': symbol,
+                    'changed_in': filepath,
+                    'affected_files': affected
+                })
+    return impacts
+
+# 用法：在Agent的任务脚本中调用
+# impacts = check_global_impact(['models/user.py', 'migrations/001_add_index.sql'])
+# if impacts: print(f&quot;⚠️ 以下变更会影响其他模块：{impacts}&quot;)
+# else: logging.info(&quot;安全——无全局影响&quot;)
+</code></pre>
+<p>这个函数不是银弹，但它把"你以为只改了一个文件"变成了"你不得不知道改了五个文件"。Yason后来把它做成了Kai的MCP工具，每次写数据库相关代码时自动调用。</p>
+<p>同样，上面的最小手写Agent也可以加上重试和错误处理：</p>
+<pre><code class="language-python">import time, logging
+from openai import OpenAI, APIError, RateLimitError
+
+client = OpenAI()
+messages = [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一名代码审查员。&quot;}]
+messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: open(&quot;src/auth.py&quot;).read()})
+
+max_retries, delay = 3, 2
+for attempt in range(max_retries):
+    try:
+        response = client.chat.completions.create(
+            model=&quot;gpt-4o-mini&quot;,
+            messages=messages,
+            timeout=30
+        )
+        break
+    except RateLimitError:
+        logging.warning(&quot;速率限制，等待 %ss 重试...&quot;, delay * (attempt + 1))
+        time.sleep(delay * (attempt + 1))
+    except APIError as e:
+        logging.error(&quot;API错误: %s&quot;, e)
+        break
+else:
+    raise RuntimeError(&quot;Agent启动失败——API不可用，请检查网络和额度&quot;)
+</code></pre>
+<p>Yason的经验是：<strong>第一个Agent的代码量不重要，重要的是看它能不能稳定跑完一个完整的"给任务→执行→输出"闭环。</strong> 先不管多漂亮，先跑通。</p>
+<h2 id="_6">用框架还是手写？</h2>
+<p>你可能要问：已经有LangGraph、CrewAI、AutoGen这些现成的多Agent框架，为什么还要手写？</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>适合场景</th>
+<th>搭建时间</th>
+<th>学习曲线</th>
+<th>成本</th>
+<th>灵活性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangGraph</td>
+<td>复杂图编排、状态管理</td>
+<td>2-3天</td>
+<td>高（需理解Graph/RAG概念）</td>
+<td>免费</td>
+<td>中（受限于框架设计模式）</td>
+</tr>
+<tr>
+<td>CrewAI</td>
+<td>快速原型、标准流程</td>
+<td>半天</td>
+<td>低（Pythonic API，文档齐全）</td>
+<td>免费</td>
+<td>低（角色/任务定义固定）</td>
+</tr>
+<tr>
+<td>AutoGen</td>
+<td>多Agent对话调试</td>
+<td>1-2天</td>
+<td>中（微软风格API，配置较多）</td>
+<td>免费</td>
+<td>中（对话驱动，扩展性好）</td>
+</tr>
+<tr>
+<td>本书手写方案</td>
+<td>完全掌控、学习底层</td>
+<td>1-2小时（基础搭建）</td>
+<td>低（仅需Shell+Python基础）</td>
+<td>仅API费用</td>
+<td>高（任意自定义无限制）</td>
+</tr>
+</tbody>
+</table>
+<p>选择建议：第一次搭建，用手写方案理解原理。如果你的场景是标准化的角色协作（如"研究员→写手→编辑"），CrewAI可以用不到20行代码跑通原型：</p>
+<pre><code class="language-python"># crewai_example.py — 你的第一个Agent，不到20行
+from crewai import Agent, Task, Crew
+
+agent = Agent(
+    role=&quot;代码审查员&quot;,
+    goal=&quot;发现代码中的性能问题和安全隐患&quot;,
+    backstory=&quot;你有10年Code Review经验&quot;,
+    verbose=True
+)
+task = Task(
+    description=&quot;审查src/auth.py，找出所有SQL注入风险&quot;,
+    expected_output=&quot;风险列表及修复建议&quot;,
+    agent=agent
+)
+crew = Crew(agents=[agent], tasks=[task])
+result = crew.kickoff()  # 一行代码启动
+print(result)
+</code></pre>
+<p>如果连框架都不想安装，一个最小手写Agent同样简洁：</p>
+<pre><code class="language-python"># minimal_agent.py — 不要框架，不要依赖，20行
+import json
+from openai import OpenAI
+
+client = OpenAI()
+messages = [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一名代码审查员。找出代码中的问题。&quot;}]
+messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: open(&quot;src/auth.py&quot;).read()})
+
+response = client.chat.completions.create(
+    model=&quot;gpt-4o-mini&quot;,
+    messages=messages,
+    tools=[{
+        &quot;type&quot;: &quot;function&quot;,
+        &quot;function&quot;: {
+            &quot;name&quot;: &quot;search_code&quot;,
+            &quot;description&quot;: &quot;搜索代码库中的引用&quot;,
+            &quot;parameters&quot;: {&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {
+                &quot;pattern&quot;: {&quot;type&quot;: &quot;string&quot;}
+            }}
+        }
+    }]
+)
+print(response.choices[0].message.content)
+</code></pre>
+<p>这两个例子展示了同一个核心公式：<strong>System Prompt + LLM + 简单工具 = 一个可工作的Agent</strong>。不管用框架还是手写，底层逻辑是一样的。</p>
+<p>本书的手写方案本身就是一套轻量级编排系统，你完全可以在理解后把它封装成一个内部工具长期使用。实际上，Yason的Agent团队在生产中一直使用这套手写方案，只在需要复杂编排时才引入LangGraph处理特定环节。</p>
+<h2 id="_7">本章小结</h2>
+<ul>
+<li>第一个Agent选你最痛的方向，不要贪多</li>
+<li>80%规则：把一个Agent做到80分再扩展</li>
+<li>系统提示必须包含：职责、工作原则、边界、沟通格式</li>
+<li>第一个任务必须简单，只为了跑通"给→收→查→改"闭环</li>
+<li>配好回滚方案再让Agent碰生产环境</li>
+</ul>
+<blockquote>
+<p><strong>下一章预告</strong>：给Agent写"人设"——系统提示的艺术。从Kai的"代码质量第一"到Rex的"出了问题先停再报"，一份好的系统提示决定了Agent的天花板。</p>
+</blockquote>
+<p><em>本文来自专栏《给AI当老板》，完整系列持续更新中：</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<hr />
+<hr />
+<hr />
+<p><img alt="图片为&quot;选定你的第一个 Agent&quot;章节的思维导图：上方标题&quot;选定你的第一个 Agent&quot;，中间核心问题&quot;你要 Agent 帮你做什么？&quot;，下方三个分支按场景给出选择方向。" src="../assets/diagrams/zh_04_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

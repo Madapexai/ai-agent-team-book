@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Communication Protocols — When Agents Start Speaking Jargon · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="Diagram showing the hybrid communication system, divided into CLI mode (structured), NL mode (natural language), and hybrid mode. CLI mode fits routine Agent interactions, status sync, task assignment, etc., with advantages like precision, scriptability, and low token cost. NL mode fits requirement discussions, bug descriptions, etc., with advantages like rich expression and transmissible implicit info. Hybrid mode is the best practice, implemented as CLI sending structured requests + NL attaching context explanations. The diagram is closely tied to the context, visually presenting the traits and use cases of the different modes." src="../assets/diagrams/en_08_1.svg" /></p>
+<h2 id="do-it-asap-almost-took-down-the-server">"Do it ASAP" almost took down the server</h2>
+<p>Yason said "do it ASAP," and three minutes later a database migration began.</p>
+<p>Kai interpreted it as "right now, drop everything," and ran a migration script requiring table locks directly on production. There were still 200 active users online at the time.</p>
+<p>When Yason found out, his hands were shaking. "When I said 'ASAP' I meant within the day, not this instant!"</p>
+<p>This incident made Yason face a brutal fact: <strong>When you tell a human "ASAP," they combine it with context to judge "five minutes" versus "five hours." But an Agent won't — it takes things literally.</strong></p>
+<blockquote>
+<p><strong>The ambiguity of natural language gets squared when communicating with Agents. You're not talking to a person — you're feeding a logic engine. It won't guess your subtext.</strong></p>
+</blockquote>
+<h2 id="cli-vs-natural-language-two-roads-each-its-own">CLI vs. natural language: two roads, each its own</h2>
+<p>Yason later split all communication into two channels:</p>
+<pre><code>Precise commands (CLI):
+  yason → kai: --task deploy --env production --version v2.1.0 --dry-run
+  kai → yason: dry-run passed. 0 errors, 3 warnings. Deploy? [Y/n]
+
+Open-ended communication (NL):
+  yason → kai: &quot;Users say the login page often freezes — any idea why?&quot;
+  kai → yason: &quot;I checked today's error logs and found three possible causes...&quot;
+</code></pre>
+<p>CLI's strength is <strong>zero ambiguity</strong>. Every command's parameters, options, and expected output are explicit. The downside? Writing one command line is slower than saying one sentence. And when you're discussing architecture with an Agent, you can't use CLI — that's not a command, it's a conversation.</p>
+<p>Natural language's strength is <strong>flexibility</strong>. But every sentence can be understood three ways.</p>
+<p>Yason's rule is simple:</p>
+<blockquote>
+<p><strong>Use CLI for what you want the Agent to do. Use natural language for what you discuss with the Agent. Mix the two and both sides break.</strong></p>
+</blockquote>
+<h2 id="cross-agent-communication-protocol-turning-jargon-into-standard-speak">Cross-Agent communication protocol — turning "jargon" into "standard speak"</h2>
+<p>The communication problem isn't just between Yason and Agents. Agent-to-Agent communication is the real black hole.</p>
+<p>The classic case: Kai changed an API locally and told Max "the user-auth API has been modified." Max interpreted it as "already deployed," and directly sent an external announcement. In reality Kai hadn't pushed, let alone deployed.</p>
+<p>Where's the problem? <strong>Agents talk to each other in natural language, but natural language has no "status semantics."</strong></p>
+<p>"Modified" could mean three states:</p>
+<ul>
+<li>Local modification done (not committed)</li>
+<li>Branch pushed (not merged)</li>
+<li>Merged and deployed (live)</li>
+</ul>
+<p>Three states, one sentence.</p>
+<p>Yason's solution is a <strong>cross-Agent communication protocol</strong>, with just three core rules:</p>
+<h3 id="1-task-dispatch-uses-structured-messages">1. Task dispatch uses structured messages</h3>
+<pre><code class="language-yaml"># Cross-Agent task request standard format
+from: Kai
+to: Max
+type: task_request
+priority: P1
+subject: &quot;User auth API change notice&quot;
+payload:
+  change_type: api_modification
+  status: committed          # proposed | in_progress | committed | deployed | rolled_back
+  branch: feature/auth-v3
+  commit_hash: a3f2e9c
+  breaking_change: false
+  expected_deploy: 2025-06-20T14:00:00Z
+attachments:
+  - type: changelog
+    url: /memory/changes/2025-06-20-auth-v3.md
+</code></pre>
+<p>When Max receives such a message, it won't rush to announce. It only sees <code>status: committed</code>, so it knows it's not deployed yet. Once Kai changes <code>status</code> to <code>deployed</code>, Max acts.</p>
+<h3 id="2-status-sync-uses-a-unified-format">2. Status sync uses a unified format</h3>
+<p>Yason defined a global status enum that all Agents must obey:</p>
+<pre><code class="language-yaml"># /communication/status-protocol.yaml
+status_definitions:
+  proposed:    &quot;Proposal submitted, awaiting approval&quot;
+  approved:    &quot;Approved, ready to execute&quot;
+  in_progress: &quot;In progress — includes estimated completion time&quot;
+  blocked:     &quot;Blocked — includes the reason and a suggested fix&quot;
+  review:      &quot;Execution done, awaiting review&quot;
+  committed:   &quot;Review passed, change committed but not yet deployed&quot;
+  deployed:    &quot;Deployed to the target environment&quot;
+  rolled_back: &quot;Rolled back — includes the rollback reason&quot;
+  cancelled:   &quot;Execution cancelled — includes the cancellation reason&quot;
+</code></pre>
+<p>When reporting task status, every Agent must attach a status bit. "Done" is not allowed — you say "status: committed" or "status: deployed."</p>
+<h3 id="3-exception-notices-use-the-emergency-channel">3. Exception notices use the emergency channel</h3>
+<p>Normal tasks go through the protocol stack. But one class of info must use the emergency channel — <strong>straight to Yason</strong>, bypassing any protocol parsing:</p>
+<pre><code class="language-yaml"># Emergency channel config
+emergency_channel:
+  triggers:
+    - production_outage
+    - security_breach
+    - data_loss
+    - api_key_exhausted
+    - cost_anomaly
+  format:
+    alert_level: CRITICAL | HIGH | MEDIUM
+    summary: &quot;One-line description of the problem&quot;
+    impact: &quot;Scope of impact&quot;
+    suggested_action: &quot;Suggested way to handle it&quot;
+  routing:
+    - target: yason
+    - bypass_all_agents: true
+</code></pre>
+<p>After this went live, cross-Agent communication error rate dropped from 40% to near zero. Not because the Agents got smarter, but because <strong>the ambiguity was eliminated entirely.</strong></p>
+<h2 id="agent-group-chat-when-the-group-becomes-a-console">Agent group chat: when the group becomes a console</h2>
+<p>Yason initially allowed Agents to message each other freely. Then he witnessed an "AI argument":</p>
+<pre><code>Kai: This API design is unreasonable, should be changed.
+Max: Users report no problem, no need to change.
+Kai: You don't even write code, what do you know?
+Max: I talk to users directly, of course I know.
+</code></pre>
+<p>Yason immediately revoked Agents' direct-messaging permission. From then on, all cross-Agent communication had to go through the <strong>shared knowledge base</strong>:</p>
+<pre><code>Kai finds a problem → writes to /memory/requests/request-001.yaml
+Rex reads on a schedule → handles it within its own scope
+Rex finishes → sets status to resolved
+Kai on next sync → reads resolved status, knows the issue is handled
+</code></pre>
+<p>It's not that Agents can't converse — it's that <strong>async, structured, traceable communication fits Agent teams far better than instant chat.</strong></p>
+<h2 id="the-golden-rules-of-communication">The golden rules of communication</h2>
+<p>Yason recorded four rules in a Feishu doc; every new Agent reads them first on joining:</p>
+<ol>
+<li><strong>Address the task, not the person</strong> — when giving an Agent a requirement, say "what" not "how." An Agent's execution is better than you think; it needs a goal, not instructions.</li>
+<li><strong>One thing at a time</strong> — don't cram three tasks into one sentence. The Agent will do the last one and forget the first two. One task, one sentence — that sentence contains: what to do, why, and what counts as done.</li>
+<li><strong>Clear acceptance criteria</strong> — "write an API" vs. "write an API: returns JSON, has 304 validation, has error handling, logs" are two different qualities of communication.</li>
+<li><strong>Confirm receipt</strong> — after each instruction, wait for the Agent's confirmation reply before doing other things. This habit saved Yason countless "I thought you got it" mix-ups.</li>
+</ol>
+<h2 id="industry-standard-googles-a2a-protocol">Industry standard: Google's A2A protocol</h2>
+<p>In April 2025, Google released the Agent-to-Agent (A2A) protocol v1.0[^1] and donated it to the Linux Foundation. Over 150 organizations (including Salesforce, SAP, Box, and others) announced support on launch day.</p>
+<p>Why does A2A matter? Because it defines the industry standard for Agent-to-Agent communication:</p>
+<h3 id="a2as-core-concepts">A2A's core concepts</h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+<th>Yason's equivalent practice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Agent Card</strong></td>
+<td>The Agent's "ID card" — declares capabilities, identity, auth method</td>
+<td>Similar to Yason's role declaration + permission config</td>
+</tr>
+<tr>
+<td><strong>Task</strong></td>
+<td>The basic unit of Agent-to-Agent communication — not a message, a task</td>
+<td>Similar to Yason's cross-Agent request format</td>
+</tr>
+<tr>
+<td><strong>Artifact</strong></td>
+<td>The structured output of a task (code, docs, data)</td>
+<td>Similar to files in the shared knowledge base</td>
+</tr>
+<tr>
+<td><strong>Push Notification</strong></td>
+<td>Real-time notification of task status changes</td>
+<td>Similar to cron sync + status checks</td>
+</tr>
+</tbody>
+</table>
+<p>Yason's first reaction reading A2A: "I've written all of this myself, but Google turned it into a standard."</p>
+<h3 id="signed-agent-cards">Signed Agent Cards</h3>
+<p>The A2A design Yason admires most is the <strong>Agent Card</strong> — each Agent publishes a JSON identity declaration containing its capabilities, I/O formats, and auth method:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;Kai&quot;,
+  &quot;capabilities&quot;: {
+    &quot;skills&quot;: [&quot;code_implementation&quot;, &quot;testing&quot;, &quot;refactoring&quot;],
+    &quot;models&quot;: [&quot;deepseek-v4&quot;, &quot;claude-sonnet-4&quot;]
+  },
+  &quot;authentication&quot;: {
+    &quot;schemes&quot;: [&quot;bearer_token&quot;, &quot;mTLS&quot;]
+  },
+  &quot;rate_limits&quot;: {
+    &quot;max_concurrent_tasks&quot;: 2,
+    &quot;cost_per_hour&quot;: &quot;$5&quot;
+  }
+}
+</code></pre>
+<p>The beauty of the Agent Card is <strong>discoverability</strong> — a master Agent can automatically learn a subordinate's capabilities by reading its Agent Card, without hand-writing it into the System Prompt.</p>
+<blockquote>
+<p><strong>A2A upgrades Agent communication from "homegrown protocol" to "industry standard."</strong> Yason's own cross-Agent message format closely matches A2A's core pattern, but A2A adds an ecosystem — different Agent frameworks, different models, different organizations can interoperate.</p>
+</blockquote>
+<h2 id="mcp-and-a2a-arent-an-eitheror">MCP and A2A aren't an either/or</h2>
+<p>A lot of people ask Yason the same question: "MCP (Model Context Protocol) and A2A — which should I pick?"</p>
+<p>The answer: <strong>you need both.</strong></p>
+<p>These two protocols solve completely different problems:</p>
+<pre><code>MCP (vertical protocol)            A2A (horizontal protocol)
+    │                          │
+Agent ──► Tool              Agent ◄──► Agent
+    │                          │
+    │                          │
+File system   API   Database      Kai      Rex      Max
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>MCP</th>
+<th>A2A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direction</td>
+<td>Vertical: Agent → Tool</td>
+<td>Horizontal: Agent ↔ Agent</td>
+</tr>
+<tr>
+<td>Protocol</td>
+<td>JSON-RPC 2.0</td>
+<td>JSON-RPC + gRPC</td>
+</tr>
+<tr>
+<td>Analogy</td>
+<td>OS API</td>
+<td>Network protocol</td>
+</tr>
+<tr>
+<td>Problem solved</td>
+<td>How an Agent uses tools</td>
+<td>How Agents collaborate</td>
+</tr>
+<tr>
+<td>Released by</td>
+<td>Anthropic</td>
+<td>Google</td>
+</tr>
+<tr>
+<td>Ecosystem</td>
+<td>Milvus, Cloudflare, CodeGate</td>
+<td>Salesforce, SAP, Box</td>
+</tr>
+</tbody>
+</table>
+<p>Yason's analogy: <strong>MCP is the Agent's "OS system call," A2A is the Agent's "network protocol."</strong> Without OS calls, the Agent can't get data. Without a network protocol, Agents can't collaborate. The two don't conflict — they complement.</p>
+<blockquote>
+<p><strong>Don't fall into the "either/or" trap.</strong> Your Agent team needs MCP to access tools and data, and A2A to collaborate across Agents. Like your phone needing both OS APIs (to use the camera) and network protocols (to WeChat your friend) — they solve different layers.</p>
+</blockquote>
+<h2 id="cross-agent-context-compression">Cross-Agent context compression</h2>
+<p>Chapter 5 covered a single Agent's context compression. In an Agent team there's an extra problem: <strong>cross-Agent context transfer.</strong></p>
+<p>When Kai hands a task off to Rex, Kai's "full context" (all intermediate steps, decision rationale, failed attempts) shouldn't all be passed to Rex — Rex doesn't need to know the three approaches Kai tried. Rex only needs the final state and the info relevant to the current task.</p>
+<p>Yason added a context-compression field to the cross-Agent communication protocol:</p>
+<pre><code class="language-yaml"># Cross-Agent context compression example
+from: Kai
+to: Rex
+type: task_handoff
+context_compression:
+  keep:
+    - &quot;Current state: PR #142 committed, awaiting deployment&quot;
+    - &quot;Environment requirements: Node 20+, needs API key AUTH_SERVICE_KEY&quot;
+    - &quot;Risk note: this deploy will cause a ~30-second migration window&quot;
+  discard:
+    - &quot;The three failed approaches Kai tried during development&quot;
+    - &quot;Conversation history from intermediate code reviews&quot;
+    - &quot;Status of other tasks unrelated to this deployment&quot;
+</code></pre>
+<p>This compression spec boosted cross-Agent communication efficiency by ~40% — the receiving Agent's context usage dropped from 85% to 55%.</p>
+<blockquote>
+<p><strong>Communication between Agents is like communication between people: don't dump your raw mind-map on the other party — only pass what they need to know.</strong></p>
+</blockquote>
+<h2 id="open-source-agent-communication-tools">Open-source Agent communication tools</h2>
+<p>Beyond protocol standards, Yason also recommends some directly usable open-source communication tools:</p>
+<h3 id="a2a-sdks">A2A SDKs</h3>
+<p>Google open-sourced a reference implementation SDK for A2A:</p>
+<ul>
+<li><a href="https://github.com/google/A2A"><strong>A2A Python SDK</strong></a>: a complete Agent-to-Agent communication framework, including Agent Card registration, task routing, and Artifact transfer</li>
+<li><a href="https://github.com/google/A2A"><strong>A2A JS SDK</strong></a>: the Node.js version, suited for frontend Agents or lightweight scenarios</li>
+</ul>
+<p>Yason's take: "At least I don't have to write message serialization and deserialization myself."</p>
+<h3 id="lightweight-message-queues">Lightweight message queues</h3>
+<p>If you don't want the whole A2A stack, you can use lightweight message middleware for Agent communication:</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Type</th>
+<th>Strength</th>
+<th>Agent comms scenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NATS</strong></td>
+<td>Message queue</td>
+<td>Extremely lightweight, millisecond latency</td>
+<td>Async task distribution between Agents</td>
+</tr>
+<tr>
+<td><strong>Redis Pub/Sub</strong></td>
+<td>Pub/Sub</td>
+<td>Simplest to deploy, broadest ecosystem</td>
+<td>Broadcast notifications, status sync</td>
+</tr>
+<tr>
+<td><strong>RabbitMQ</strong></td>
+<td>Message queue</td>
+<td>Mature, stable, flexible routing</td>
+<td>Complex task orchestration</td>
+</tr>
+<tr>
+<td><strong>NATS JetStream</strong></td>
+<td>Stream processing</td>
+<td>Persistence + streaming, the beefed-up NATS</td>
+<td>Cross-Agent requests needing reliable delivery</td>
+</tr>
+</tbody>
+</table>
+<p>Yason's path: <strong>single-node → Redis Pub/Sub; need persistence and reliable delivery → NATS JetStream; large-scale production → consider the A2A SDK.</strong></p>
+<blockquote>
+<p><strong>Tools are a means, not an end.</strong> When your Agent team is only 3–5, a shared Git repo + Redis Pub/Sub is enough. Once you're at 10+, consider the A2A protocol or a heavier message queue. Like all engineering decisions — don't over-design.</p>
+</blockquote>
+<p>[^1]: Google A2A Protocol v1.0, April 2025. See <a href="https://github.com/google/A2A">https://github.com/google/A2A</a></p>
+<h2 id="chapter-summary">Chapter summary</h2>
+<ul>
+<li>The ambiguity of natural language is the #1 killer of Agent communication — use CLI for commands, NL for discussion</li>
+<li>Cross-Agent communication must be structured: unified message format, unified status enum, unified routing rules</li>
+<li>Agents don't talk directly — route through the shared knowledge base, every step traceable</li>
+<li>Exception info goes through the emergency channel, bypassing all Agents straight to the human</li>
+<li>Structured communication dropped cross-Agent error rate from 40% to near zero</li>
+<li><strong>Google's A2A protocol defines the industry standard for Agent communication — uses Signed Agent Cards for capability discovery</strong></li>
+<li><strong>MCP (vertical: Agent→Tool) and A2A (horizontal: Agent↔Agent) are complementary, not substitutes</strong></li>
+<li><strong>Compress context when passing it across Agents — only pass what the other side needs, don't dump the raw mind-map</strong></li>
+<li><strong>The community has open-source A2A SDKs and lightweight queues like NATS/Redis — don't reinvent the wheel</strong></li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview</strong>: When Agents start clocking in for work — how transparent management took Yason from "on tenterhooks" to "one glance and I'm reassured."</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI'. The full series is continuously updated:</em> <a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<hr />
+<hr />
+<p><img alt="Diagram showing the hybrid communication system, divided from left to right into CLI mode (structured), NL mode (natural language), and hybrid mode. CLI mode fits routine Agent interactions, status sync, task assignment, etc." src="../assets/diagrams/en_08_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

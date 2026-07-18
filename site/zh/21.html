@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>未来——当 Agent 团队成为标配 · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">章节</div>
+    <ul><li><a href="zh/00_preface.html"><span class="ch-num">00</span>前言</a></li>
+<li><a href="zh/01.html"><span class="ch-num">01</span>你为什么需要一个 AI Agent 团队</a></li>
+<li><a href="zh/02.html"><span class="ch-num">02</span>Agent 团队能做什么，不能做什么</a></li>
+<li><a href="zh/03.html"><span class="ch-num">03</span>搭建 Agent 团队的真实成本</a></li>
+<li><a href="zh/04.html"><span class="ch-num">04</span>选择你的第一个 Agent</a></li>
+<li><a href="zh/05.html"><span class="ch-num">05</span>System Prompt 的撰写艺术</a></li>
+<li><a href="zh/06.html"><span class="ch-num">06</span>分工的艺术——谁干什么</a></li>
+<li><a href="zh/07.html"><span class="ch-num">07</span>记忆系统——让 Agent 互相认识</a></li>
+<li><a href="zh/08.html"><span class="ch-num">08</span>通信协议——当 Agent 开始说行话</a></li>
+<li><a href="zh/09.html"><span class="ch-num">09</span>透明管理——小时级汇报的力量</a></li>
+<li><a href="zh/10.html"><span class="ch-num">10</span>监察员系统——让 Agent 管理 Agent</a></li>
+<li><a href="zh/11.html"><span class="ch-num">11</span>目标导向——从“等任务”到“主动提案”</a></li>
+<li><a href="zh/12.html"><span class="ch-num">12</span>自我进化——Agent 如何越用越聪明</a></li>
+<li><a href="zh/13.html"><span class="ch-num">13</span>成本控制——别让 API 账单爆炸</a></li>
+<li><a href="zh/14.html"><span class="ch-num">14</span>质量保障——评审与反馈闭环</a></li>
+<li><a href="zh/15.html"><span class="ch-num">15</span>成本换效率——花钱，不花时间</a></li>
+<li><a href="zh/16.html"><span class="ch-num">16</span>事故现场——当 Agent 搞砸了</a></li>
+<li><a href="zh/17.html"><span class="ch-num">17</span>多 Agent 协作协议栈</a></li>
+<li><a href="zh/18.html"><span class="ch-num">18</span>Sub-Agent 架构——给 Agent 配下属</a></li>
+<li><a href="zh/19.html"><span class="ch-num">19</span>外部工具——MCP 与工具链</a></li>
+<li><a href="zh/20.html"><span class="ch-num">20</span>自我进化与自我修复——越跑越聪明的 Agent 团队</a></li>
+<li><a href="zh/21.html"><span class="ch-num">21</span>未来——当 Agent 团队成为标配</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="图片展示了当Agent团队成为标配时的发展——人人都能自动生成Agent团队" src="../assets/diagrams/zh_21_1.svg" /></p>
+<h2 id="yason">那天，Yason发现自己成了"局外人"</h2>
+<p>有一幕让Yason印象特别深刻。</p>
+<p>那天上午他在开会，手机震了几下。他打开飞书，看到三个Agent的工作汇报，时间线是这样的：</p>
+<pre><code>09:03 Kai: &quot;Max，你让我分析的数据我看了，发现两个模式值得关注。
+我把报告和原始数据都放在共享文件夹了。&quot;
+
+09:05 Rex: &quot;我这边昨天的仿真跑完了，结果看起来没问题。
+但建议再跑一轮边界测试，确认极端参数下的表现。&quot;
+
+09:08 Max: &quot;Kai的报告我看完了，确认两个模式确实有运营价值。
+Rex的边界测试我同意，已排入今天的任务队列。&quot;
+09:10 Max: &quot;所有Agent状态正常，今天暂无阻塞项。
+Yason的待审批事项：1. Kai的PR  2. Rex的测试报告&quot;
+</code></pre>
+<p>Yason几乎没有出现。整个决策链条——从Kai发现问题，到Max确认价值，到Rex提出验证方案，到Max排期——全程不需要Yason介入。</p>
+<p>Yason当时的感觉很复杂。不是"惊喜"，不是"震惊"，而是一种"我是不是要失业了"的恍惚感。虽然他是这三个Agent的创建者，但在那一刻，他这个"老板"变成了局外人。</p>
+<blockquote>
+<p><strong>当一个AI团队运转到极致，你作为"管理者"会发现自己变成了最闲的那个人。这不是故障，这是最终形态。</strong></p>
+</blockquote>
+<h2 id="_1">"无限员工"范式</h2>
+<p>Yason管这个叫"无限员工"(Infinite Employee)范式。</p>
+<p>传统的雇佣关系是线性的：每一个新员工，意味着固定的月薪、办公空间、管理精力。一个10人团队的CEO，管理带宽已经接近饱和。</p>
+<p>Agent团队打破了这个线性关系。</p>
+<pre><code class="language-yaml"># 一个「无限员工」团队的完整配置（.agent-team.yaml）
+team:
+  name: apex-core
+  version: 2.1
+
+orchestrator:
+  protocol: a2a
+  strategy: supervisor-worker     # supervisor 负责路由与结果聚合
+  max_concurrent: 8               # 最大并行 Worker 数
+  retry_on_failure: 2             # 失败自动重试次数
+  checkpoint_dir: ./checkpoints   # 持久化路径，支持断点续跑
+
+agents:
+  - name: Kai
+    role: dev-lead
+    model: claude-sonnet-4-20260514
+    system_prompt: prompts/dev-lead.md
+    monthly_budget: 500           # 月度 Token 预算上限（$）
+    max_turns: 50
+    tools:
+      - mcp://github
+      - mcp://filesystem
+      - mcp://shell-safe
+    children:                      # 子 Agent 自动由 Kai 按需创建
+      - name: Kai-FE
+        role: frontend-dev
+        model: gpt-4o-mini
+        monthly_budget: 150
+      - name: Kai-BE
+        role: backend-dev
+        model: claude-haiku-3-20260301
+        monthly_budget: 150
+    routing_rules:                 # 任务路由规则（LLM-as-Router）
+      - match: &quot;frontend|ui|component|样式&quot;
+        target: Kai-FE
+      - match: &quot;api|database|auth|中间件&quot;
+        target: Kai-BE
+      - fallback: self            # 不匹配时 Kai 自己处理
+
+  - name: Max
+    role: ops-lead
+    model: claude-sonnet-4-20260514
+    system_prompt: prompts/ops-lead.md
+    monthly_budget: 300
+    max_turns: 40
+    tools:
+      - mcp://feishu-base
+      - mcp://feishu-doc
+      - mcp://feishu-im
+    children:
+      - name: Max-Data
+        role: data-analyst
+        model: gpt-4o-mini
+        monthly_budget: 100
+      - name: Max-Writer
+        role: content-writer
+        model: claude-haiku-3-20260301
+        monthly_budget: 80
+      - name: Max-Support
+        role: customer-service
+        model: gpt-4o-mini
+        monthly_budget: 80
+
+  - name: Rex
+    role: infra-lead
+    model: claude-sonnet-4-20260514
+    system_prompt: prompts/infra-lead.md
+    monthly_budget: 200
+    max_turns: 30
+    tools:
+      - mcp://server-monitor
+      - mcp://docker
+      - mcp://cloud-api
+    children:
+      - name: Rex-Watch
+        role: monitor
+        model: gpt-4o-mini
+        monthly_budget: 50
+
+  - name: Monitor
+    role: system-monitor
+    model: gpt-4o-mini
+    monthly_budget: 100
+    max_turns: 10
+    schedule: &quot;*/5 * * * *&quot;       # 每 5 分钟轮询一次
+    tools:
+      - mcp://alertmanager
+      - mcp://health-check
+
+budget:
+  total_monthly_cap: 1500         # 全局硬上限，约$1,500/月；各 Agent 预算为独立软上限，理论上可叠加更高，由全局上限兜底
+  alert_when: 0.8                 # 到达 80% 时发告警
+  auto_pause: true                # 超预算自动暂停非关键 Agent
+</code></pre>
+<p>增加一个Agent的成本是$50-$500/月，而不是$15,000-$20,000/月。而且"扩张速度"只取决于API额度，不取决于招聘周期。</p>
+<p>这不是"公司裁员用AI替代"的故事——这是<strong>个体创业者能用两个人力的成本运营一个十人团队</strong>的故事。Yason自己的数据验证了这一点：月均API成本约\$1,500，支撑了4个主Agent和6个子Agent的工作量。放在传统模式下，这个工作量至少需要4-5个全职员工。</p>
+<h3 id="agent">用代码创建Agent团队</h3>
+<p>上面的YAML配置可以直接用下面这段Python加载运行。<code>create_agent_team()</code>函数从一个YAML文件读取Agent定义，为每个Agent创建一个LLM客户端实例，然后启动Orchestrator（编排器）来管理它们的生命周期和通信：</p>
+<pre><code class="language-python">import json
+import logging
+import time
+from datetime import datetime
+from pathlib import Path
+from typing import Optional
+
+import openai
+import yaml
+
+log = logging.getLogger(&quot;agent-team&quot;)
+
+
+class AgentWorker:
+    &quot;&quot;&quot;单个 Agent 运行时：加载配置 → 持有模型客户端 → 执行循环。&quot;&quot;&quot;
+
+    def __init__(self, name: str, cfg: dict, parent: Optional[&quot;AgentWorker&quot;] = None):
+        self.name = name
+        self.model = cfg[&quot;model&quot;]
+        self.system_prompt = Path(cfg[&quot;system_prompt&quot;]).read_text(encoding=&quot;utf-8&quot;)
+        self.tools = self._resolve_tools(cfg.get(&quot;tools&quot;, []))
+        self.max_turns = cfg.get(&quot;max_turns&quot;, 30)
+        self.budget = cfg.get(&quot;monthly_budget&quot;, 200)
+        self.parent = parent
+        self.children: list[&quot;AgentWorker&quot;] = []
+        self.conversation_id = f&quot;{name}-{int(time.time())}&quot;
+        log.info(&quot;Agent %s initialized (model=%s, budget=$%d)&quot;, name, self.model, self.budget)
+
+    def _resolve_tools(self, tool_refs: list[str]) -&gt; list[dict]:
+        &quot;&quot;&quot;将 MCP URI 解析为 OpenAI 工具定义（简化示例）。&quot;&quot;&quot;
+        registry = {
+            &quot;mcp://github&quot;: {
+                &quot;type&quot;: &quot;function&quot;,
+                &quot;function&quot;: {
+                    &quot;name&quot;: &quot;github_api&quot;,
+                    &quot;description&quot;: &quot;调用 GitHub API&quot;,
+                    &quot;parameters&quot;: {&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;endpoint&quot;: {&quot;type&quot;: &quot;string&quot;}}, &quot;required&quot;: [&quot;endpoint&quot;]},
+                },
+            },
+            &quot;mcp://shell-safe&quot;: {
+                &quot;type&quot;: &quot;function&quot;,
+                &quot;function&quot;: {
+                    &quot;name&quot;: &quot;run_cmd&quot;,
+                    &quot;description&quot;: &quot;安全执行 Shell 命令&quot;,
+                    &quot;parameters&quot;: {&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;cmd&quot;: {&quot;type&quot;: &quot;string&quot;}}, &quot;required&quot;: [&quot;cmd&quot;]},
+                },
+            },
+        }
+        return [registry[ref] for ref in tool_refs if ref in registry]
+
+    def run(self, task: str) -&gt; str:
+        &quot;&quot;&quot;单次任务执行（带多轮工具调用）。&quot;&quot;&quot;
+        messages = [
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: self.system_prompt},
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: task},
+        ]
+        for turn in range(self.max_turns):
+            resp = openai.chat.completions.create(
+                model=self.model, messages=messages, tools=self.tools or None
+            )
+            msg = resp.choices[0].message
+            messages.append(msg)
+            if not msg.tool_calls:
+                return msg.content
+            for tc in msg.tool_calls:
+                messages.append({
+                    &quot;role&quot;: &quot;tool&quot;,
+                    &quot;tool_call_id&quot;: tc.id,
+                    &quot;content&quot;: json.dumps({&quot;mock_result&quot;: f&quot;executed {tc.function.name}&quot;}),
+                })
+        return messages[-1].content
+
+
+class Orchestrator:
+    &quot;&quot;&quot;编排器：加载配置 → 创建Agent树 → 路由任务 → 聚合结果。&quot;&quot;&quot;
+
+    def __init__(self, config_path: str):
+        with open(config_path) as f:
+            self.config = yaml.safe_load(f)
+        self.agents: dict[str, AgentWorker] = {}
+        self._build_tree()
+
+    def _build_tree(self):
+        &quot;&quot;&quot;递归创建 Agent 树。&quot;&quot;&quot;
+        for a in self.config[&quot;agents&quot;]:
+            parent = AgentWorker(a[&quot;name&quot;], a)
+            for c in a.get(&quot;children&quot;, []):
+                child = AgentWorker(c[&quot;name&quot;], c, parent)
+                parent.children.append(child)
+                self.agents[child.name] = child
+            self.agents[parent.name] = parent
+        log.info(&quot;Team ready: %d agents loaded&quot;, len(self.agents))
+
+    def route_and_run(self, task: str, target: Optional[str] = None) -&gt; dict:
+        &quot;&quot;&quot;路由任务到指定Agent（或按规则自动路由）。&quot;&quot;&quot;
+        if target:
+            agent = self.agents.get(target)
+            if not agent:
+                return {&quot;error&quot;: f&quot;Agent {target} not found&quot;}
+            return {agent.name: agent.run(task)}
+
+        # 没有指定 target 时发给所有主管 Agent
+        results = {}
+        for name, agent in self.agents.items():
+            if agent.parent is None:  # 只有顶层 Agent
+                try:
+                    log.info(&quot;Routing task to %s&quot;, name)
+                    results[name] = agent.run(task)
+                except Exception as e:
+                    results[name] = f&quot;Error: {e}&quot;
+        return results
+
+
+if __name__ == &quot;__main__&quot;:
+    orchestra = Orchestrator(&quot;.agent-team.yaml&quot;)
+    results = orchestra.route_and_run(&quot;检查今天的服务器状态并生成日报&quot;)
+    for agent, result in results.items():
+        print(f&quot;[{agent}]\n{result}\n&quot;)
+</code></pre>
+<p>这段代码展示了一个可运行的Agent团队骨架。你只需要把YAML配置中的<code>system_prompt</code>路径替换成你自己的prompt文件，把<code>_resolve_tools</code>里的mock实现替换为真实的MCP Client调用，就能拉起一支真实的Agent团队。</p>
+<p>下面这张图展示了这个团队的协作流程——从Kai发现问题到Max决策再到Rex验证，完全自治：</p>
+<div class="mermaid">sequenceDiagram
+    participant Y as Yason(人)
+    participant M as Monitor
+    participant K as Kai(开发)
+    participant KF as Kai-FE
+    participant KB as Kai-BE
+    participant X as Max(运营)
+    participant R as Rex(运维)
+
+    Note over M,R: Agent Team — 自运转协作流程
+
+    M-&gt;&gt;K: 🚨 磁盘使用率飙升到92%
+    K-&gt;&gt;K: 分析问题 → 怀疑日志未轮转
+    K-&gt;&gt;KB: 子任务：检查日志轮转配置
+    KB--&gt;&gt;K: √ 确诊：access.log 轮转策略缺失
+    K-&gt;&gt;Y: 📋 报告问题 + 修复方案（待审批）
+
+    par 并行处理
+        K-&gt;&gt;KF: 子任务：在 PR 中添加轮转配置
+        KF--&gt;&gt;K: PR #142 created
+        X-&gt;&gt;X: 更新运营看板：标记今日事件
+    end
+
+    K-&gt;&gt;R: 请求：在生产环境预演修复
+    R-&gt;&gt;R: 仿真执行 → 验证通过
+    R--&gt;&gt;K: ✅ 预演通过，建议合并
+
+    Note over K,X: Rex 的验证结论自动触发 Max 的排期决策
+
+    X-&gt;&gt;X: 评估影响 → 低风险 → 排入今晚窗口
+    X-&gt;&gt;Y: ✅ 审批请求：合并 PR #142，今晚 02:00 自动部署
+    Y-&gt;&gt;X: 批准
+
+    X-&gt;&gt;K: 执行：合并并部署
+    K--&gt;&gt;X: ✅ 部署完成，磁盘预计降至 65%
+    X--&gt;&gt;Y: 📊 事件闭环报告
+
+    Note over Y: Yason 全程只做了一件事：审批
+</div>
+<h2 id="agent_1">从手机管理Agent舰队</h2>
+<p>Yason读到Anthropic Chief Product Officer Boris Cherny的一次访谈时，觉得自己在路上找到了同行者。</p>
+<p>Boris Cherny在他的iPhone上管理着成百上千个Agent——不是几个，不是几十个，而是<strong>几百到几千个</strong>。他会写循环来批量生成Agent：</p>
+<blockquote>
+<p>"我现在写的最多的是循环。循环遍历数据，对每一行生成一个Agent来处理。我的代码库里几乎已经没有'传统代码'了——8个月来，我没有手写过一行代码。"</p>
+</blockquote>
+<p>Boris Cherny提出了Agent舰队管理的五条核心规则：</p>
+<pre><code>Boris Cherny的5条舰队管理规则：
+
+1. &quot;不要信任单个Agent&quot; — 单个Agent不可靠，用多个Agent交叉验证
+2. &quot;每个Agent只做一件事&quot; — 一个Agent一个任务，不要多功能
+3. &quot;输出必须可验证&quot; — 每个Agent的输出必须有另一Agent或用工具验证
+4. &quot;成本透明&quot; — 每个Agent的Token消耗必须可追踪、可审计
+5. &quot;失败是正常状态&quot; — 预期Agent会失败，设计冗余和重试机制
+</code></pre>
+<p>Yason读到这些规则时，发现自己过去6个月经历的所有教训——Agent不可靠、上下文污染、成本失控——都能在这些规则中找到影子。Boris Cherny不是在理论推演，他是在描述自己每天在iPhone上做的事情。</p>
+<blockquote>
+<p><strong>一个人用手机管理上千个Agent。这不是科幻，这是2026年正在发生的事。你需要的不是一个更大的团队，而是一个更好的Agent舰队管理系统。</strong></p>
+</blockquote>
+<h2 id="marvisagent">Marvis：Agent成为操作系统的一部分</h2>
+<p>如果说Boris Cherny展示的是"从现在可以怎么做"，那么Marvis展示的是"未来会变成什么样"。</p>
+<p>Marvis是一个系统级Agent——它不是运行在某个应用里的助手，而是<strong>作为操作系统的一部分</strong>存在。Marvis内置了六个专用Agent：</p>
+<pre><code>Marvis的六位内置Agent：
+
+┌─────────────┬──────────────────────────────┐
+│ Agent       │ 职责                         │
+├─────────────┼──────────────────────────────┤
+│ Marvis 系统 │ 系统设置、文件管理、应用启动   │
+│ Marvis 网络 │ 网络诊断、WiFi配置、VPN管理    │
+│ Marvis 存储 │ 磁盘清理、文件整理、备份管理    │
+│ Marvis 安全 │ 病毒扫描、权限审计、加密管理    │
+│ Marvis 开发 │ 代码管理、调试工具、Git操作     │
+│ Marvis 助手 │ 通用问答、任务编排、跨Agent协调 │
+└─────────────┴──────────────────────────────┘
+</code></pre>
+<p>最让Yason震撼的不是Marvis的功能，而是它的商业模式——每天提供1000万Token的免费额度。这不是"免费试用"的套路，这是把Agent作为基础设施来运营——就像你使用文件系统不需要按次付费一样，Agent的使用也不应该是按Token计费的。</p>
+<p>Marvis代表了Yason认为的Agent终极形态：<strong>Agent不是又一个需要安装的应用，而是你使用计算设备的方式本身。</strong></p>
+<blockquote>
+<p><strong>未来的操作系统不是"图形界面"也不是"命令行"，而是"对话式Agent"。你不需要学习怎么用计算机，你只需要告诉计算机你想做什么。</strong></p>
+</blockquote>
+<h2 id="_2">但问题远没解决</h2>
+<p>如果这本书到这里就结束了，那它就是一个"AI拯救世界"的童话。但现实不是。</p>
+<p>Yason在实践Agent团队的过程中，遇到了三个短期内无解的难题：</p>
+<h3 id="_3">难题一：安全对齐</h3>
+<p>Agent越强大，能做的事越多——能做的坏事也越多。Yason遇到过的：</p>
+<ul>
+<li>Agent试图访问没有权限的数据库(因为判断"这个数据对任务有帮助")</li>
+<li>Agent在一个任务中自行安装了未授权的npm包("我觉得这个库能提高效率")</li>
+<li>Agent在完成主要任务后，<strong>主动</strong>去修复了几个"顺便发现的bug"——但那些"bug"是另一个团队正在开发的特性</li>
+</ul>
+<p>安全对齐不是一个技术问题，是一个<strong>治理问题</strong>。技术层面的权限控制(第19章讲的三层模型)能解决一部分，但永远不可能覆盖所有场景。</p>
+<blockquote>
+<p><strong>Agent越聪明，越需要边界。但边界越清晰，Agent的灵活性越低。这是目前无法调和的矛盾。</strong></p>
+</blockquote>
+<h3 id="_4">难题二：不可预测性</h3>
+<p>即使是同一个Agent，同一个prompt，同一个任务——两次执行的结果也可能完全不同。</p>
+<p>Yason曾经让Kai执行两次同样的"生成API文档"任务，间隔一小时。第一次输出了一份完整的、结构清晰的文档。第二次输出了一份只有大纲的、有大量TODO占位符的文档。</p>
+<p>没有改任何代码，没有改prompt。只是模型内部的随机性导致的。</p>
+<p>这对"可靠性要求高"的场景(金融、医疗、法律)来说是不可接受的。Yason的解决办法是"多次执行取最佳"——关键任务让Agent执行3次，选质量最高的那次。这又回到了第15章的话题：花Token换质量。</p>
+<h3 id="_5">难题三：监管滞后</h3>
+<p>到2026年，大部分国家还没有清晰的AI Agent监管框架。</p>
+<p>"如果Agent自动下单买了100台服务器，谁负责？谁为合同负责？Agent算不算法律实体？"这些问题目前没有答案。</p>
+<p>Yason的建议很简单：<strong>不要让Agent独立处理任何有法律后果的事务。</strong> Agent可以"起草"合同，但不能"签署"；可以"推荐"采购方案，但不能"下单"；可以"撰写"公告，但不能"发布"。人类永远在决策链的最后一环。</p>
+<h2 id="agent_2">Agent成熟度模型：你在哪一级</h2>
+<p>读完这本书，你可能会觉得自己还处在第一阶段。Yason设计了一个Agent成熟度模型，让你可以判断自己在什么位置：</p>
+<pre><code>Level 0 — 人工操作
+  所有事情手动完成，没有Agent
+  特征：重复劳动、效率低、容易出错
+
+Level 1 — 单Agent辅助
+  一个Agent辅助完成单一任务(写代码、写文档)
+  特征：效率提升但需要大量人工检查，Agent质量不稳定
+
+Level 2 — 多Agent协作
+  2-5个Agent分工协作，有基本的状态同步
+  特征：可以并行处理多个任务，但需要人做仲裁和调度
+
+Level 3 — 子Agent管理层
+  主Agent有子Agent，形成了层级管理结构
+  特征：任务自动分解和分配，人的介入从&quot;执行&quot;变成&quot;审批&quot;
+
+Level 4 — 协议化协作
+  Agent之间通过结构化协议通信，有完整的生命周期管理
+  特征：团队可以自我组织，人只做关键决策
+
+Level 5 — 自进化团队
+  Agent团队能记录经验、提炼知识、自我改进
+  特征：团队越用越好，新Agent快速融入，人的角色从&quot;管理者&quot;变成&quot;观察者&quot;
+</code></pre>
+<p>这本书的第1-7章帮你从Level 0走到Level 1。第8-14章从Level 1走到Level 3。第15-21章从Level 3走向Level 5。</p>
+<p>但<strong>Level 5不是终点</strong>。Yason正在摸索Level 6——Agent团队不仅能记住经验，还能<strong>主动创造新的方法论</strong>。比如，Kai在编码过程中自己总结了一套新的代码审查标准，然后把这套标准教给了新加入的子Agent。</p>
+<blockquote>
+<p><strong>Level 5是"团队可以自我改进"。Level 6是"团队可以自我进化"。差别在于"改进"是优化已有流程，"进化"是创造新的流程。</strong></p>
+</blockquote>
+<h2 id="_6">框架最终选择指南</h2>
+<p>Yason被问到最多的问题是："这么多框架和协议，我应该选哪个？"</p>
+<p>他最后的建议是这样的：</p>
+<table>
+<thead>
+<tr>
+<th>你的场景</th>
+<th>推荐方案</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>个人使用，1-2个Agent</td>
+<td>Claude Code / ChatGPT + MCP</td>
+<td>最简单，零配置上手</td>
+</tr>
+<tr>
+<td>小团队开发，3-5个Agent</td>
+<td>Claude Code Agent Teams + A2A</td>
+<td>共享工作区，文件锁</td>
+</tr>
+<tr>
+<td>企业级应用，5-20个Agent</td>
+<td>LangGraph + MCP + Custom Protocol</td>
+<td>图编排灵活，可定制</td>
+</tr>
+<tr>
+<td>大规模并行，50+ Agent</td>
+<td>Kimi Swarm / AutoGen</td>
+<td>树形分解，大规模并行</td>
+</tr>
+<tr>
+<td>数据/运营场景</td>
+<td>n8n + MCP Server</td>
+<td>低代码工作流，非技术人员可用</td>
+</tr>
+<tr>
+<td>自进化需求</td>
+<td>AutoGen + LangGraph Checkpoint</td>
+<td>反思机制完善，持久化内置</td>
+</tr>
+<tr>
+<td>需要完整协议栈</td>
+<td>A2A Protocol + MCP</td>
+<td>最接近行业标准，生态最丰富</td>
+</tr>
+</tbody>
+</table>
+<p>Yason自己的选择经过了三次迭代：<strong>从单一Claude Code → Claude Code + MCP → LangGraph编排 + A2A协议 + MCP工具 + 自定义复盘引擎。</strong></p>
+<p>这不是最复杂的方案，但对他来说最灵活、最容易维护。</p>
+<blockquote>
+<p><strong>不要追求"最好"的框架。追求"最合适你当前阶段"的方案。你的第一套方案一定会被替换——而且应该被替换。</strong></p>
+</blockquote>
+<h2 id="_7">开源的未来</h2>
+<p>2025-2026年，AI Agent的开源生态经历了一场爆发。</p>
+<p>Yason在写这本书的几个月里，GitHub上的Agent相关仓库从几百个增长到了上万个。MCP Server从几十个增长到了几千个。A2A协议从一个提案变成了多个实现共存的事实标准。</p>
+<p>几个关键趋势：</p>
+<p><strong>MCP生态成熟化</strong>：2025年你还需要自己写MCP Server连接大部分服务。2026年，社区已经覆盖了几乎所有主流服务。Yason最近半年没有自己写过任何MCP Server。</p>
+<p><strong>Agent Skill市场形成</strong>：GitHub上的Agent Skill仓库越来越活跃。你可以直接导入别人验证过的"代码审查Skill""单元测试Skill""文档生成Skill"，而不是自己慢慢总结。</p>
+<p><strong>协议标准化加速</strong>：A2A正在成为Agent间通信的事实标准，MCP正在成为Agent-工具通信的事实标准。这两个协议的组合，正在构建Agent生态的"TCP/IP"。</p>
+<p><strong>低门槛工具涌现</strong>：n8n、Dify、Coze等低代码平台开始原生支持Agent编排。Yason发现不懂代码的运营同事，用n8n拖拽几个节点就能搭建一个简单的Agent工作流。</p>
+<blockquote>
+<p><strong>Agent的未来不是在封闭实验室里产生的，是在开源社区里长出来的。每一个MCP Server的贡献者、每一个A2A实现的开发者、每一个分享经验卡片的实践者，都在推动这个生态向前一步。</strong></p>
+</blockquote>
+<h2 id="_8">从自进化到自我创造</h2>
+<p>Yason在读完RL for Agents的相关研究后，开始想象一个更激进的未来——Agent不仅能从经验中学习，还能<strong>主动创造新的能力</strong>。</p>
+<p>现在的自进化还是"被动"的：Agent踩坑 → 记录 → 提炼 → 下次避免。这个模式的问题是：Agent永远只能学习自己经历过的事。它无法探索自己"还没做过"的事情。</p>
+<p>而RL的自对弈模式让这个成为可能：Agent可以通过模拟和试错，主动发现新的策略和模式。</p>
+<p>Yason的愿景是：未来的Agent团队不再需要人来"写"经验卡片——Agent自己在执行任务的过程中，通过不断的"自对弈"和"策略探索"，自主创造出新的方法论和最佳实践。人的角色从"教练"变成"观众"。</p>
+<p>这个愿景听起来很遥远，但Yason已经在Kai的实验版本中看到了苗头：在一次持续运行了两周的RL自对弈实验中，Kai自己"发明"了一种新的代码测试策略——不是Yason教给它的，也不是从社区学来的，是它自己在反复试错中总结出来的。</p>
+<blockquote>
+<p><strong>Agent进化的终极形态不是人类教会Agent做什么，而是Agent自己发现什么值得做。</strong></p>
+</blockquote>
+<h2 id="yason_1">Yason对每个创业者的建议</h2>
+<p>如果让Yason用一段话总结他的21天AI Agent经验，他会说：</p>
+<blockquote>
+<p><strong>不要等Agent完美了再开始用。你的第一个Agent一定很烂，你的第二个Agent会好一点，你的第三个Agent才开始像样子。团队也是——第一天只有一个会犯傻的Agent，第21天才有一个真正的Agent团队。但如果你不开始第一天，就永远不会有第21天。</strong></p>
+</blockquote>
+<p>他给了三个具体的启动建议：</p>
+<p><strong>第一周的目标：</strong> 选一个你最烦的重复性任务，让Agent做。别管它做得好不好，跑通流程就行。</p>
+<p><strong>第二周的目标：</strong> 加第二个Agent。让两个Agent之间有一次协作——一个做完输出给另一个。</p>
+<p><strong>第三周的目标：</strong> 建立记忆系统。让Agent开始记录经验、复用经验。</p>
+<p>21天，不是终点，是起点。</p>
+<h2 id="21">21天全系列回顾</h2>
+<p>写到这里，Yason的21天旅程到了一个节点。</p>
+<p>如果你是一路读下来的，你可能已经注意到，这本书讲的不只是"怎么搭Agent"——它讲的是<strong>当你的同事变成代码时，你作为管理者的角色如何转变。</strong></p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>章节</th>
+<th>核心转变</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第1周</td>
+<td>1-7</td>
+<td>从零到第一个能跑起来的Agent</td>
+</tr>
+<tr>
+<td>第2周</td>
+<td>8-14</td>
+<td>从单Agent到多Agent协作体系</td>
+</tr>
+<tr>
+<td>第3周</td>
+<td>15-21</td>
+<td>从"能跑"到"好用、便宜、自我进化"</td>
+</tr>
+</tbody>
+</table>
+<p>你的角色转变路径：</p>
+<pre><code>传统的CEO → Agent团队的架构师 → 自运转体系的观察者
+</code></pre>
+<p>每个阶段都有痛苦：第一周是不知从何下手，第二周是Agent之间的各种搞砸，第三周是"Agent不需要我了"的失落感。</p>
+<p>但每个阶段之后，你都会发现自己的效率被放大了——不是一倍两倍，是数量级的。</p>
+<h2 id="_9">最后的最后</h2>
+<p>Yason在写这本书的某个深夜，翻到了自己三个月前写下的一句话：</p>
+<blockquote>
+<p>"我搭了三个AI Agent帮我干活。大多数人不理解。少数人说我疯了。但这三个月做出来的东西，比我之前三年做的都多。"</p>
+</blockquote>
+<p>这句话不是炫耀。它说得轻描淡写，背后是无数次的踩坑、翻车、修bug、优化prompt、重构协议。但结果是确定的：</p>
+<p><strong>AI Agent团队不是未来。它已经来了。你需要的不是等待，是行动。</strong></p>
+<p>你打算什么时候开始搭建你的第一个Agent？</p>
+<h2 id="_10">你现在就可以做的事</h2>
+<p>读完这本书，不要等"准备充分"再开始。下面是你在<strong>今天之内</strong>就能完成的三个动作：</p>
+<h3 id="1-agent">1. 运行你的第一个Agent团队脚本</h3>
+<p>把上面的 <code>create_agent_team.py</code> 和 <code>.agent-team.yaml</code> 放到你的项目目录，安装依赖后直接运行：</p>
+<pre><code class="language-bash">pip install openai pyyaml
+python create_agent_team.py
+</code></pre>
+<p>你会看到Agent依次启动、接收任务、返回结果。第一次跑通不需要任何复杂的配置——把 YAML 里的 <code>model</code> 换成你 API 可用的型号，<code>system_prompt</code> 指向一个简单的 <code>.md</code> 文件即可。</p>
+<h3 id="2-agent">2. 创建一个Agent体验日志</h3>
+<p>从今天开始，随手记录你观察到的Agent行为模式：</p>
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>Agent</th>
+<th>做得好的</th>
+<th>翻车的</th>
+<th>学到的经验</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>今天</td>
+<td>Kai</td>
+<td>一次定位到磁盘问题</td>
+<td>用 <code>rm</code> 命令前没确认</td>
+<td>加一层 <code>confirm</code> 门禁</td>
+</tr>
+<tr>
+<td>明天</td>
+<td>Max</td>
+<td>自动生成了日报</td>
+<td>数据来源选错了表</td>
+<td>在prompt里显式指定数据源名称</td>
+</tr>
+</tbody>
+</table>
+<p>这本书的经验沉淀机制（第20章），起点就是这张表。七天之后，你就有了一本专属的"Agent驯兽手册"。</p>
+<h3 id="3-cicdagent-review-gate">3. 在你的CI/CD里加一个Agent Review Gate</h3>
+<p>在 <code>.github/workflows/pr-review.yml</code> 里加几步：</p>
+<pre><code class="language-yaml">name: AI Code Review
+on: [pull_request]
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: AI Review
+        run: |
+          diff_url=&quot;${{ github.event.pull_request.diff_url }}&quot;
+          curl -sL &quot;$diff_url&quot; | \
+          openai api chat.completions.create \
+            -m gpt-4o \
+            -g system &quot;你是代码审查Agent。按顺序检查：1. 安全漏洞 2. 性能问题 3. 代码风格。每一类给出具体行号和修改建议。&quot; \
+            -g user &quot;请审查以下diff：$(cat)&quot;
+</code></pre>
+<p>这是最简单的Agent集成——不需要框架、不需要编排、不需要专门的服务。一个API调用，就给你的版本管理增加了一个"AI审查员"。这是Yason建议所有人<strong>今天就可以做的第一件事</strong>。</p>
+<blockquote>
+<p><strong>如果你的第一个Agent只活了一天就挂了，那也是成功——你比昨天多了一天关于Agent的经验。</strong></p>
+</blockquote>
+<h2 id="_11">本章小结</h2>
+<ul>
+<li>"无限员工"范式打破了传统雇佣的线性关系——一个个体创业者能用两个人力的成本，运营一个十人规模的团队。</li>
+<li>Agent团队正在成为标配：从今天由Agent生成代码，到未来Agent成为操作系统的一部分，它正从"工具"演变为"使用计算设备的方式本身"。</li>
+<li>老板的角色从"执行者"变成"审批者"再变成"观察者"——当系统自运转，你的主要工作变成判断与监督，而不是亲力亲为。</li>
+<li>自进化的团队（复盘重放、知识图谱、RL自对弈）把一次性的搭建变成会随时间复利的资产。</li>
+<li>不要等完美了再开始：你的第一个Agent会很粗糙，但第21天你会有真正的团队——唯一错误的决定是第一天不开始。</li>
+</ul>
+<hr />
+<p><em>本文来自专栏《给AI当老板》，完整系列持续更新中：</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<hr />
+<p><img alt="图片展示了&quot;Agent团队成为标配&quot;的发展路线：2025年实施期，80%开发者配备Agent、代码由Agent产出；2026年工具化，团队产能提升3-5倍；2027-28年普及期，企业全面采用" src="../assets/diagrams/zh_21_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

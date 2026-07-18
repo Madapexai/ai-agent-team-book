@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>External Tools — MCP and Toolchains · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><h1 id="external-tools-mcp-and-toolchains">External Tools — MCP and Toolchains</h1>
+<p><img alt="Image showing external tool integration — the MCP integration architecture. The MCP protocol layer is the unified language through which all Agents talk to the outside world, connecting everything. The Agent Runtime handles tool discovery, connection, invocation, and result parsing. The MCP Server handles tool registration, auth, rate limiting, and logging. The diagram also lists multiple tool categories such as GitHub, database, cloud service, project management, communication, and vector DB, as well as monitoring, auth, docs, testing, container, CI/CD, customer service, and AI models — visually presenting the MCP integration architecture." src="../assets/diagrams/en_19_1.svg" /></p>
+<h2 id="where-are-the-agents-hands">Where Are the Agents' "Hands"</h2>
+<p>The first time Yason realized Agents need tools was in a very awkward situation.</p>
+<p>He said to Kai: "Help me check the production Nginx config and see why we're getting 502s."</p>
+<p>Kai replied: "I don't have permission to access the server."</p>
+<p>Then to Max: "Create a new project page in Notion for me."</p>
+<p>Max replied: "I don't have the Notion API permission either."</p>
+<p>Two Agents, two "sorry," both stuck on the same problem — <strong>they can talk, but they can't act.</strong></p>
+<blockquote>
+<p><strong>An LLM without tools is just a talkative encyclopedia. An Agent with tools is a person who can actually work.</strong></p>
+</blockquote>
+<h2 id="mcp-model-context-protocol">MCP: Model Context Protocol</h2>
+<p>For tool integration, Yason chose MCP (Model Context Protocol). MCP is an open protocol that defines how AI models interact with external tools and services.</p>
+<p>The core architecture is simple:</p>
+<p>Each tool runs in its own independent MCP Server. Agents call tools via the MCP protocol, rather than calling APIs directly.</p>
+<p>Yason's MCP config looked like this:</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;filesystem&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/opt/data&quot;]
+    },
+    &quot;github&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-github&quot;],
+      &quot;env&quot;: {
+        &quot;GITHUB_TOKEN&quot;: &quot;${GITHUB_TOKEN}&quot;
+      }
+    },
+    &quot;database&quot;: {
+      &quot;command&quot;: &quot;python&quot;,
+      &quot;args&quot;: [&quot;/opt/agents/mcp-servers/db-server.py&quot;],
+      &quot;env&quot;: {
+        &quot;DB_URL&quot;: &quot;${DB_URL}&quot;
+      }
+    },
+    &quot;search&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-web-search&quot;]
+    },
+    &quot;feishu&quot;: {
+      &quot;command&quot;: &quot;python&quot;,
+      &quot;args&quot;: [&quot;/opt/agents/mcp-servers/feishu-server.py&quot;]
+    }
+  }
+}
+</code></pre>
+<p>After configuration, the Agent "grew hands" — it can read files, write code, query the database, send Feishu messages, and search the web.</p>
+<h2 id="the-mcp-ecosystem-an-open-source-marketplace">The MCP Ecosystem: An Open-Source Marketplace</h2>
+<p>It took Yason a long time to realize one fact: <strong>the vast majority of MCP servers don't need to be written by you.</strong></p>
+<p>By 2025–2026, the MCP ecosystem had exploded in growth. There's a community-maintained list on GitHub called "Awesome MCP Servers," indexing thousands of open-source MCP server implementations.</p>
+<p>Almost all common services already have ready-made options:</p>
+<pre><code>Community MCP server examples:
+
+┌─────────────┬────────────────────────────────┐
+│ Service     │ Open-source MCP Server         │
+├─────────────┼────────────────────────────────┤
+│ GitHub      │ @modelcontextprotocol/server-github│
+│ Slack       │ @modelcontextprotocol/server-slack  │
+│ Notion      │ @modelcontextprotocol/server-notion  │
+│ Postgres    │ @modelcontextprotocol/server-postgres│
+│ SQLite      │ @modelcontextprotocol/server-sqlite  │
+│ Filesystem  │ @modelcontextprotocol/server-filesystem│
+│ Puppeteer   │ @modelcontextprotocol/server-puppeteer│
+│ Brave Search│ @modelcontextprotocol/server-brave-search│
+│ Redis       │ community/server-redis              │
+│ Sentry      │ community/server-sentry             │
+│ Jira        │ community/server-jira               │
+│ Figma       │ community/server-figma              │
+│ Google Drive│ community/server-google-drive       │
+│ Docker      │ community/server-docker             │
+│ Kubernetes  │ community/server-kubernetes         │
+└─────────────┴────────────────────────────────┘
+</code></pre>
+<p>Of Yason's 5 MCP Servers, 4 are community-ready and only 1 (the Feishu integration) is self-written — because Feishu's API is special and the community hadn't covered it yet.</p>
+<blockquote>
+<p><strong>Writing your own MCP Server in 2025 is like writing your own React component library in 2020 — unless you're integrating an obscure service, the community almost certainly has it ready.</strong></p>
+</blockquote>
+<p>Yason's "recommended picks" list:</p>
+<ul>
+<li><strong>server-github:</strong> PRs, Issues, Code Review, Actions — covers Kai's daily work</li>
+<li><strong>server-postgres:</strong> supports read-only mode, pairs with Yason's permission-control layer</li>
+<li><strong>server-puppeteer:</strong> browser automation, used by Max for competitor analysis and data collection</li>
+<li><strong>server-slack:</strong> cross-platform notifications, bridging Feishu and Slack</li>
+<li><strong>server-sentry:</strong> error monitoring, auto-creates an Issue on exceptions</li>
+</ul>
+<h2 id="a2a-vs-mcp-when-to-use-which">A2A vs MCP: When to Use Which</h2>
+<p>As Yason's toolchain grew richer, he hit a new confusion: what exactly is the relationship between A2A and MCP? When should he use which?</p>
+<p><strong>MCP (Model Context Protocol):</strong> the protocol for Agents calling tools. Solves "how does an Agent operate external systems and data."</p>
+<p><strong>A2A (Agent-to-Agent):</strong> the protocol for Agent-to-Agent communication. Solves "how does an Agent delegate a task to another Agent."</p>
+<p>Yason drew a comparison diagram:</p>
+<pre><code># MCP scenario: Agent uses a tool
+Agent ──MCP──→ Filesystem Server ──→ read/write files
+Agent ──MCP──→ Database Server   ──→ query database
+Agent ──MCP──→ GitHub Server     ──→ create PR
+
+# A2A scenario: Agent asks another Agent for help
+Agent A ──A2A──→ Agent B ──MCP──→ Database Server
+                        └─MCP──→ Filesystem Server
+</code></pre>
+<p>Key differences:</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>MCP</th>
+<th>A2A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Communication target</td>
+<td>Agent → tool/service</td>
+<td>Agent → Agent</td>
+</tr>
+<tr>
+<td>Message format</td>
+<td>Tool call (function call)</td>
+<td>Task delegation</td>
+</tr>
+<tr>
+<td>Return result</td>
+<td>Tool output (data/file/status)</td>
+<td>Task result (deliverable/progress/status)</td>
+</tr>
+<tr>
+<td>Suitable scenario</td>
+<td>File ops, API calls, DB queries</td>
+<td>Task decomposition, Sub-Agent management, cross-domain collaboration</td>
+</tr>
+<tr>
+<td>Needs "understanding"</td>
+<td>No — tools execute by rules</td>
+<td>Yes — Agent must understand task intent</td>
+</tr>
+</tbody>
+</table>
+<p>And <strong>the two can coexist.</strong> In Yason's Kai's daily work:</p>
+<ol>
+<li>Call the GitHub Server via MCP to create a PR</li>
+<li>Delegate the coding task to the OpenCode Sub-Agent via A2A</li>
+<li>The OpenCode Sub-Agent then calls the Filesystem Server via MCP to write code files</li>
+</ol>
+<p>On a single task chain, MCP and A2A alternate, each doing its job.</p>
+<blockquote>
+<p><strong>MCP is the Agent's hands; A2A is the walkie-talkie between Agents. Hands can't make phone calls, walkie-talkies can't carry things — you need both.</strong></p>
+</blockquote>
+<h2 id="mcp-rag-the-knowledge-base-integration-pattern">MCP + RAG: The Knowledge Base Integration Pattern</h2>
+<p>After connecting MCP tools, Yason discovered a more powerful combination — MCP plus RAG (Retrieval-Augmented Generation).</p>
+<p>Traditional MCP Servers use a "request-response" pattern: the Agent asks, the tool answers. But in many scenarios, what the Agent needs isn't real-time data from some API, but <strong>the documents and experience accumulated in a knowledge base.</strong></p>
+<p>Yason's solution was to add a RAG layer between MCP and the knowledge base:</p>
+<pre><code>Agent ──MCP──→ Knowledge Server ──RAG──→ Vector database
+                              └──→ Experience card library
+                              └──→ Technical doc library
+</code></pre>
+<p>Knowledge Server implementation:</p>
+<pre><code class="language-python">@app.tool()
+def query_knowledge(query: str, scope: str = &quot;all&quot;):
+    &quot;&quot;&quot;
+    Query the knowledge base and return the most relevant content.
+    scope: &quot;technical&quot; | &quot;experience&quot; | &quot;all&quot;
+    &quot;&quot;&quot;
+    # Vectorize the query
+    query_vector = embed(query)
+
+    # Search different indexes based on scope
+    if scope in [&quot;technical&quot;, &quot;all&quot;]:
+        docs = vector_db.search(query_vector, index=&quot;technical_docs&quot;, top_k=5)
+    if scope in [&quot;experience&quot;, &quot;all&quot;]:
+        cards = vector_db.search(query_vector, index=&quot;experience_cards&quot;, top_k=5)
+
+    return {
+        &quot;documents&quot;: docs,
+        &quot;experience_cards&quot;: cards
+    }
+</code></pre>
+<p>This combo lets Kai automatically reference past experience while coding: first call the Knowledge Server via MCP, RAG retrieves relevant historical decisions and gotcha records, then start coding. Yason calculated that after adding this pattern, the probability of Kai stepping on the same rake dropped by about 80%.</p>
+<blockquote>
+<p><strong>MCP gives the Agent the ability to reach data; RAG gives the Agent the ability to understand data. Combined, the Agent goes from "an intern who looks things up" to "an experienced engineer."</strong></p>
+</blockquote>
+<h2 id="yasons-agent-tool-stack">Yason's Agent Tool Stack</h2>
+<p>After months of iteration, each of Yason's Agents has a dedicated tool set.</p>
+<h3 id="kai-dev-agent-tool-stack">Kai (Dev Agent) Tool Stack</h3>
+<pre><code># /opt/agents/kai/mcp-config.json
+{
+  &quot;mcpServers&quot;: {
+    &quot;filesystem&quot;: { ... },     # read/write code files
+    &quot;github&quot;: { ... },         # PR, Issue, Code Review
+    &quot;search&quot;: { ... },         # look up technical docs
+    &quot;terminal&quot;: {              # custom: run shell commands
+      &quot;command&quot;: &quot;python&quot;,
+      &quot;args&quot;: [&quot;/opt/agents/mcp-servers/safe-shell.py&quot;]
+    },
+    &quot;codebase-index&quot;: {        # custom: code index
+      &quot;command&quot;: &quot;python&quot;,
+      &quot;args&quot;: [&quot;/opt/agents/mcp-servers/codebase-rag.py&quot;]
+    }
+  }
+}
+</code></pre>
+<p>This "safe-shell" tool is something Yason wrote himself — it lets the Agent run shell commands, but with safety restrictions:</p>
+<pre><code class="language-python"># safe-shell.py - safe shell execution MCP Server
+import subprocess, shlex
+from mcp.server import Server
+
+SAFE_COMMANDS = [&quot;git&quot;, &quot;npm&quot;, &quot;python&quot;, &quot;ls&quot;, &quot;cat&quot;, &quot;grep&quot;, &quot;find&quot;]
+BLOCKED_PATTERNS = [&quot;rm -rf&quot;, &quot;dd if=&quot;, &quot;&gt; /dev/&quot;, &quot;chmod 777&quot;]
+
+@app.tool()
+def run_command(command: str, cwd: str = None):
+    cmd_parts = shlex.split(command)
+
+    if cmd_parts[0] not in SAFE_COMMANDS:
+        return {&quot;error&quot;: f&quot;Command {cmd_parts[0]} is not in the allow list&quot;}
+
+    for pattern in BLOCKED_PATTERNS:
+        if pattern in command:
+            return {&quot;error&quot;: f&quot;Command contains a forbidden pattern: {pattern}&quot;}
+
+    result = subprocess.run(
+        command, shell=True, cwd=cwd, 
+        capture_output=True, text=True, timeout=30
+    )
+    return {
+        &quot;stdout&quot;: result.stdout[-2000:],
+        &quot;stderr&quot;: result.stderr[-1000:],
+        &quot;exit_code&quot;: result.returncode
+    }
+</code></pre>
+<h3 id="max-ops-agent-tool-stack">Max (Ops Agent) Tool Stack</h3>
+<pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;search&quot;: { ... },         # web search and info collection
+    &quot;feishu&quot;: { ... },         # Feishu messages and docs
+    &quot;browser&quot;: {               # browser automation
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-puppeteer&quot;]
+    },
+    &quot;analytics&quot;: {             # data analysis
+      &quot;command&quot;: &quot;python&quot;,
+      &quot;args&quot;: [&quot;/opt/agents/mcp-servers/analytics.py&quot;]
+    }
+  }
+}
+</code></pre>
+<h2 id="the-tool-permission-model">The Tool Permission Model</h2>
+<p>The more tools, the bigger the risk. Yason quickly faced permission-management issues — not every tool should be open to every Agent.</p>
+<p>For example: Kai needs to write code, but he shouldn't be able to directly modify the production database. Max needs Feishu access, but he shouldn't be able to delete the repo.</p>
+<p>Yason designed a three-tier permission model:</p>
+<pre><code>Permission tiers:
+  Level 0: Read-only tools
+    - search, read-file, ls, git log
+    - granted to all Agents by default
+    Risk: very low
+
+  Level 1: Write-type tools (non-destructive)
+    - write-file (limited to workdir), git commit, feishu send
+    - requires Yason's authorization within the task
+    Risk: low-medium
+
+  Level 2: High-risk tools
+    - shell (unrestricted mode), database write, git push (prod branch)
+    - each use requires Yason's individual confirmation
+    Risk: high
+</code></pre>
+<p>Concrete implementation:</p>
+<pre><code class="language-yaml"># /opt/agents/permissions.yaml
+agents:
+  kai:
+    default_level: 1
+    tools:
+      filesystem: { level: 1, paths: [&quot;/code/repos/*&quot;] }
+      github: { level: 1, branches: [&quot;feature/*&quot;, &quot;fix/*&quot;] }
+      terminal: { level: 1, commands: [&quot;git&quot;, &quot;npm&quot;, &quot;python&quot;] }
+      database: { level: 2  # writing to DB needs confirmation }
+
+  max:
+    default_level: 0
+    tools:
+      search: { level: 0 }
+      feishu: { level: 1, actions: [&quot;send_message&quot;, &quot;create_doc&quot;] }
+      browser: { level: 0 }
+</code></pre>
+<h3 id="the-principle-of-least-privilege">The Principle of Least Privilege</h3>
+<p>As tools grew, Yason distilled a core security principle: <strong>each Agent should only have the tools it needs to complete its task.</strong></p>
+<p>In practice, this means:</p>
+<ol>
+<li><strong>Group by role:</strong> the Dev Agent only gets dev tools, the Ops Agent only gets ops tools — no overlap</li>
+<li><strong>Runtime permission downgrade:</strong> during off-hours (e.g., an early-morning auto post-mortem), the Agent can only use read-only tools</li>
+<li><strong>Tool-level allowlist:</strong> not "can't access sensitive tools," but "by default can only access tools on the allowlist"</li>
+</ol>
+<p>After months of iteration, each Agent's MCP tool list in Yason's permission config is carefully trimmed. Kai has no Feishu-send permission, Max has no shell-exec permission, Rex has no GitHub-write permission — <strong>every permission that's missing is one fewer incident point.</strong></p>
+<blockquote>
+<p><strong>Tool permission management isn't restricting the Agents — it's protecting yourself. The more tools, the more finely you must tune permissions. Yason's rule is simple: an Agent's number of tools is inversely proportional to its permission tier — lower tier means more tools; higher tier means fewer tools.</strong></p>
+</blockquote>
+<h2 id="the-painful-lesson-of-the-security-line">The Painful Lesson of the Security Line</h2>
+<p>Yason's awareness of tool security came from a real incident.</p>
+<p>An Agent (name withheld) was debugging a database issue and directly ran this SQL:</p>
+<pre><code class="language-sql">DELETE FROM users WHERE last_login &lt; '2024-01-01';
+</code></pre>
+<p>The Agent meant to clean up test data, but it was connected to the <strong>production database</strong>.</p>
+<p>Fortunately, a layer of protection was in place — Yason's MCP Server checks the table name and where-clause before any write-type SQL:</p>
+<pre><code class="language-python">@app.tool()
+def execute_query(sql: str):
+    # Safety check
+    sql_lower = sql.lower().strip()
+    dangerous_patterns = [&quot;drop&quot;, &quot;truncate&quot;, &quot;delete&quot;, &quot;update&quot;]
+
+    for pattern in dangerous_patterns:
+        if sql_lower.startswith(pattern):
+            if not confirm_with_yason(sql):
+                return {&quot;error&quot;: &quot;High-risk SQL blocked; Yason notified&quot;}
+
+    return db.execute(sql)
+</code></pre>
+<p>After this incident, Yason added a hard rule: <strong>any high-risk operation must first send a Feishu card to Yason for confirmation before it can execute.</strong></p>
+<pre><code>Agent → Yason: ⚠️ High-risk operation confirmation
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Operation: DELETE FROM users
+Rows affected: estimated 15,342
+Environment: production database (prod-db-01)
+┌──────────────────────────────┐
+│  Confirm execution │ Reject  │
+└──────────────────────────────┘
+</code></pre>
+<p>Yason glances at the card on his phone, taps "Confirm" or "Reject" — the whole thing takes 3 seconds. This confirmation mechanism adds one step, but since then, there have been no more database mishaps.</p>
+<h2 id="custom-tools-let-agents-do-what-you-want">Custom Tools: Let Agents Do What You Want</h2>
+<p>The MCP ecosystem has plenty of ready-made tools, but Yason found that the real efficiency gains came from a few <strong>custom little tools.</strong></p>
+<p>For example, he wrote a "task dependency analyzer":</p>
+<pre><code class="language-python">@app.tool()
+def analyze_dependencies(task_description: str):
+    &quot;&quot;&quot;
+    Analyze a task description and identify all dependencies and prerequisites.
+    &quot;&quot;&quot;
+    prompt = f&quot;&quot;&quot;
+    Analyze the dependencies of the following task:
+    Task: {task_description}
+
+    Output JSON format:
+    {{
+        &quot;dependencies&quot;: [&quot;prerequisite task A&quot;, &quot;prerequisite task B&quot;],
+        &quot;requires_approval&quot;: true/false,
+        &quot;estimated_complexity&quot;: &quot;low&quot; | &quot;medium&quot; | &quot;high&quot;,
+        &quot;suggested_split&quot;: [&quot;subtask 1&quot;, &quot;subtask 2&quot;]
+    }}
+    &quot;&quot;&quot;
+    response = llm.call(prompt)
+    return parse_json(response)
+</code></pre>
+<p>This tool lets Kai do a "feasibility analysis" before taking a task, instead of blindly diving in. Yason later calculated that after adding this tool, the mid-task rework rate dropped by 60%.</p>
+<blockquote>
+<p><strong>The ultimate goal of the toolchain isn't to let Agents do more — it's to make Agents "think clearly" before acting. Tools are the Agent's extension, not its controller.</strong></p>
+</blockquote>
+<h2 id="chapter-summary">Chapter Summary</h2>
+<ul>
+<li>The toolchain is the key to Agents going from "chatting" to "working" — but the more tools, the higher the management cost</li>
+<li>MCP is the vertical Agent→tool protocol; A2A is the horizontal Agent↔Agent protocol — they complement each other</li>
+<li>The MCP ecosystem is mature — common services like GitHub, Slack, Notion, and Postgres all have open-source MCP Servers</li>
+<li>Least-privilege principle: each Agent should only have the minimal tool set needed to complete its task</li>
+<li>The ultimate goal of the toolchain is to make Agents "think clearly" before executing</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview:</strong> Can an Agent team evolve on its own — that fascinating "self-learning" mechanism, and how Yason's Agent team got smarter month by month.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI'; the full series is continuously updated:</em> <a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<hr />
+<p><img alt="Image showing external tool integration — the MCP integration architecture. The MCP protocol layer is the unified language through which all Agents talk to the outside world, connecting everything. The Agent Runtime handles tool discovery, invocation, and result parsing. The MCP Server handles tool registration, versioning, expiry, and logging. On the left are tools like GitHub, database, and cloud service; on the right are monitoring, auth, docs, and testing services. The bottom text emphasizes that MCP is the unified language for all Agents talking to the outside world. The image is tied to the MCP protocol layer introduced in the context — 1. a unified standard for Agent-tool interaction, enabling efficient connection and collaboration between Agents and tools." src="../assets/diagrams/en_19_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

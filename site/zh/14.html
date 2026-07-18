@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>质量保障——评审与反馈闭环 · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">章节</div>
+    <ul><li><a href="zh/00_preface.html"><span class="ch-num">00</span>前言</a></li>
+<li><a href="zh/01.html"><span class="ch-num">01</span>你为什么需要一个 AI Agent 团队</a></li>
+<li><a href="zh/02.html"><span class="ch-num">02</span>Agent 团队能做什么，不能做什么</a></li>
+<li><a href="zh/03.html"><span class="ch-num">03</span>搭建 Agent 团队的真实成本</a></li>
+<li><a href="zh/04.html"><span class="ch-num">04</span>选择你的第一个 Agent</a></li>
+<li><a href="zh/05.html"><span class="ch-num">05</span>System Prompt 的撰写艺术</a></li>
+<li><a href="zh/06.html"><span class="ch-num">06</span>分工的艺术——谁干什么</a></li>
+<li><a href="zh/07.html"><span class="ch-num">07</span>记忆系统——让 Agent 互相认识</a></li>
+<li><a href="zh/08.html"><span class="ch-num">08</span>通信协议——当 Agent 开始说行话</a></li>
+<li><a href="zh/09.html"><span class="ch-num">09</span>透明管理——小时级汇报的力量</a></li>
+<li><a href="zh/10.html"><span class="ch-num">10</span>监察员系统——让 Agent 管理 Agent</a></li>
+<li><a href="zh/11.html"><span class="ch-num">11</span>目标导向——从“等任务”到“主动提案”</a></li>
+<li><a href="zh/12.html"><span class="ch-num">12</span>自我进化——Agent 如何越用越聪明</a></li>
+<li><a href="zh/13.html"><span class="ch-num">13</span>成本控制——别让 API 账单爆炸</a></li>
+<li><a href="zh/14.html"><span class="ch-num">14</span>质量保障——评审与反馈闭环</a></li>
+<li><a href="zh/15.html"><span class="ch-num">15</span>成本换效率——花钱，不花时间</a></li>
+<li><a href="zh/16.html"><span class="ch-num">16</span>事故现场——当 Agent 搞砸了</a></li>
+<li><a href="zh/17.html"><span class="ch-num">17</span>多 Agent 协作协议栈</a></li>
+<li><a href="zh/18.html"><span class="ch-num">18</span>Sub-Agent 架构——给 Agent 配下属</a></li>
+<li><a href="zh/19.html"><span class="ch-num">19</span>外部工具——MCP 与工具链</a></li>
+<li><a href="zh/20.html"><span class="ch-num">20</span>自我进化与自我修复——越跑越聪明的 Agent 团队</a></li>
+<li><a href="zh/21.html"><span class="ch-num">21</span>未来——当 Agent 团队成为标配</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="图片展示了Review机制" src="../assets/diagrams/zh_14_1.svg" /></p>
+<h2 id="4">那次重构让整个系统停了4小时</h2>
+<p>Kai说要做一次"架构层面的重构"。</p>
+<p>Yason看了一眼方案，觉得可行——把用户模块的缓存层从Redis迁移到本地内存缓存，减少网络延迟。Kai分析的数据显示，这个改动可以让API响应时间降低40%。Yason批了。</p>
+<p>12分钟后，Kai提交了PR。</p>
+<p>Yason那天在开会，扫了一眼PR描述 "缓存层重构完成，测试通过"，就点了合并。</p>
+<p>然后系统开始报错。</p>
+<p>不是小错——<strong>整个用户模块返回500，持续了4小时。</strong></p>
+<p>问题出在哪？Kai的确改了缓存层，测试也的确通过了。但Kai在重构过程中修改了一个公共接口的签名——<code>getUser(id)</code> 改成了 <code>getUser(id, cachePolicy)</code>，第二个参数是必填的。测试文件里所有调用都传了第二个参数，所以测试通过。但生产环境上还有6个没被测试覆盖的服务在调用旧的<code>getUser(id)</code>——它们全部崩溃了。</p>
+<p>Yason后来复盘时写了三个原因：</p>
+<ol>
+<li><strong>Kai没全局搜索所有调用方</strong> — 它以为只有测试文件里那几处</li>
+<li><strong>Review流于形式</strong> — Yason只看了PR描述，没看代码</li>
+<li><strong>没有"兼容性检查"环节</strong> — API签名变更需要额外的审计</li>
+</ol>
+<blockquote>
+<p><strong>Agent的输出和人类代码一样需要review。不，更需要。因为Agent没有"常识"——它不会直觉地知道"改公共接口签名要先查所有调用方"——除非你明确告诉它。</strong></p>
+</blockquote>
+<h2 id="review">Review流水线：三层防线</h2>
+<p>这次事故后，Yason建了一套三层review流水线：</p>
+<div class="mermaid">flowchart LR
+    A[Agent 提交] --&gt; B{第一层&lt;br&gt;自动检查}
+    B --&gt;|❌ 未通过| C[退回修改]
+    B --&gt;|✅ 通过| D{第二层&lt;br&gt;Peer Agent Review}
+    D --&gt;|REVISE/REJECT| E[退回修改&lt;br&gt;附带具体建议]
+    D --&gt;|ACCEPT| F{第三层&lt;br&gt;人类 Review}
+    F --&gt;|按需审查| G[仅审查：&lt;br&gt;① CRITICAL级变更&lt;br&gt;② 有分歧的Peer review&lt;br&gt;③ 新领域第一次任务]
+    F --&gt;|无需审查| H[✅ 直接上线]
+
+    style A fill:#e6f3ff,stroke:#1a6bb5
+    style B fill:#fff3cd,stroke:#856404
+    style C fill:#f8d7da,stroke:#721c24
+    style D fill:#fff3cd,stroke:#856404
+    style E fill:#f8d7da,stroke:#721c24
+    style F fill:#d1e7dd,stroke:#0f5132
+    style G fill:#e6ffe6,stroke:#2d8a2d
+    style H fill:#d1e7dd,stroke:#0f5132
+</div>
+<h3 id="5">第一层：自动检查（5秒以内）</h3>
+<p>Agent在提交任何输出之前，必须先跑一组自动检查脚本。检查不过，不准提交。</p>
+<pre><code class="language-yaml"># /opt/agents/config/auto-checks.yaml
+checks:
+  # 代码变更
+  code_change:
+    - name: lint
+      command: &quot;npm run lint -- --quiet&quot;
+      fail_on: warning
+    - name: type_check
+      command: &quot;npm run typecheck&quot;
+      fail_on: error
+    - name: test
+      command: &quot;npm test -- --run&quot;
+      fail_on: failure
+    - name: breaking_change_detection
+      script: |
+        # 检查是否有公共接口签名变更
+        check_public_api_changes() {
+          changed_files=$(git diff --name-only HEAD~1)
+          for f in $changed_files; do
+            if grep -q &quot;export.*function\|export.*class\|export interface&quot; &quot;$f&quot;; then
+              echo &quot;⚠️ 检测到公共接口变更，需要兼容性检查&quot;
+              return 1
+            fi
+          done
+        }
+      fail_on: warning
+
+  # 配置变更
+  config_change:
+    - name: syntax_validate
+      command: &quot;yq eval '.' $file &gt; /dev/null&quot;
+      fail_on: error
+    - name: cross_reference
+      script: |
+        # 检查配置变更是否影响其他服务
+        check_config_impact() { ... }
+      fail_on: warning
+
+  # 文档变更
+  doc_change:
+    - name: link_check
+      command: &quot;markdown-link-check $file&quot;
+      fail_on: error
+    - name: format_check
+      command: &quot;prettier --check $file&quot;
+      fail_on: error
+</code></pre>
+<p>这些自动检查不是建议性的——<strong>通不过就不准提交</strong>。Agent在CI/CD管道里第一步就卡住。</p>
+<h3 id="peer-agent-review5">第二层：Peer Agent Review（5分钟以内）</h3>
+<p>自动检查通过后，输出分配给另一个Agent做code review。</p>
+<p>规则是：<strong>做开发的不做review，做review的不做开发。</strong></p>
+<pre><code>Kai写代码 → Rex做review
+Rex改配置 → Kai做review
+Max写文档 → Kai或Rex做review
+</code></pre>
+<p>Peer review的格式也是结构化的：</p>
+<pre><code class="language-yaml"># Review报告格式
+reviewer: Rex
+target: Kai
+task: &quot;缓存层重构 PR #142&quot;
+result: REVISE  # ACCEPT | REVISE | REJECT
+
+issues_found:
+  - severity: CRITICAL
+    location: &quot;src/services/user.ts:42&quot;
+    description: &quot;getUser函数签名变更(addParam: cachePolicy)，
+                  需要检查所有调用方是否同步更新&quot;
+    suggestion: &quot;全局搜索getUser(的调用，补全必填参数&quot;
+
+  - severity: MINOR
+    location: &quot;src/cache/local-cache.ts:15&quot;
+    description: &quot;缓存TTL写死为300秒，建议改为可配置&quot;
+    suggestion: &quot;从环境变量读取CACHE_TTL&quot;
+
+summary: &quot;核心逻辑没问题，但接口兼容性是硬伤。
+          修复CRITICAL问题后重新提交。&quot;
+</code></pre>
+<p>Rex在review中直接发现了Kai没全局搜索调用方的问题——这正好是Yason踩过的那个坑。<strong>让另一个Agent做review的价值就在于此：它没有"我写的就一定是好的"这种心理偏见。</strong></p>
+<p>如果review结果是REVISE或REJECT，任务退回给原Agent修改。</p>
+<p>如果结果是ACCEPT，进入第三层。</p>
+<h2 id="review_1">第三层：人类Review（按需）</h2>
+<p>Yason不做所有review。他只review三种情况：</p>
+<ol>
+<li><strong>CRITICAL级别的变更</strong> — 生产环境配置、数据迁移、安全策略</li>
+<li><strong>Peer review存在分歧</strong> — 两个Agent的意见不一致</li>
+<li><strong>新领域的第一次任务</strong> — Agent第一次做这类事，Yason要确认方向</li>
+</ol>
+<p>这就够了。Yason从以前"每行代码都要看"变成了"只看有风险的变更"——他的review时间从每任务15分钟降到了每任务不到1分钟。</p>
+<blockquote>
+<p><strong>人类的注意力是稀缺资源。不要把它花在Agent能搞定的自动检查上。只review那些"错了会很麻烦"的东西。</strong></p>
+</blockquote>
+<h2 id="accept-revise-reject">ACCEPT / REVISE / REJECT 协议</h2>
+<p>Yason定义了一个三态review协议，所有Agent必须遵守：</p>
+<p><strong>ACCEPT</strong>：输出合格，可以直接使用或合并。</p>
+<p><strong>REVISE</strong>：有明确的问题需要修改。reviewer必须给出具体的问题定位和修改建议。不允许只说"这里不行"不说"怎么改"。</p>
+<p><strong>REJECT</strong>：整个方向错了。reviewer必须说明为什么方向错了，并给出替代方案。不允许只说"重新做"不说"做什么"。</p>
+<p>反馈格式：</p>
+<pre><code class="language-yaml">result: REVISE
+feedback:
+  - what: &quot;问题是什么&quot;
+  - where: &quot;精确位置（文件+行号）&quot;
+  - why: &quot;为什么这是问题&quot;
+  - how: &quot;建议怎么改&quot;
+follow_up:
+  - &quot;修改完成后重新提交检查点2和3&quot;
+  - &quot;如果对review意见有异议，注释中说明原因&quot;
+</code></pre>
+<p>注意 <code>follow_up</code>——不是改完就完事。改完之后要重新跑指定检查点，确保修改本身没有引入新问题。</p>
+<h2 id="kai">真实故事：Kai的教训变成团队的规范</h2>
+<p>那次重构事故后，Yason做了一件事：他把这个教训写入了一个Skill文件——<code>skills/breaking-change-protocol.md</code>：</p>
+<pre><code class="language-markdown"># 破坏性变更协议
+
+## 适用场景
+当需要修改公共接口（export function/class/interface）的签名时
+
+## 强制流程
+1. 全局搜索所有调用方（不限于测试文件）
+2. 评估调用方数量：
+   - 少于5处：全部修改
+   - 5-20处：全部修改 + 添加兼容性注释
+   - 20+处：考虑保留原接口（加deprecated标记）+ 新增接口
+3. 提交前在PR描述中列出所有受影响的服务
+4. 提交后通知所有调用方服务的owner
+
+## 常见陷阱
+- 测试文件覆盖不等于生产环境覆盖
+- 接口签名变更可能影响编译但不会影响运行时（直到触发）
+- TypeScript可能不会在引用类型变更时报错
+
+## 来源
+2025-06-10: Kai在重构缓存层时修改getUser接口签名，
+导致6个未覆盖服务崩溃，系统停摆4小时
+</code></pre>
+<p>这个故事变成了一个"反面教材式"的Skill。新Agent加入时先读这个，就会知道"改公共接口签名有多危险"。</p>
+<h2 id="_1">用大数据衡量质量</h2>
+<p>Yason统计了一个月度质量指标：</p>
+<pre><code>4月（无review机制）：
+   Agent提交后需要回滚的比率: 17%
+   生产事故归因于Agent: 3次
+   平均修复时间: 2.5小时
+
+5月（自动检查上线）：
+   Agent提交后需要回滚的比率: 8%
+   生产事故归因于Agent: 1次
+   平均修复时间: 45分钟
+
+6月（三层review全上线）：
+   Agent提交后需要回滚的比率: 3%
+   生产事故归因于Agent: 0次
+   平均修复时间: 20分钟（主要是自动回滚）
+</code></pre>
+<p>数据说得很清楚：<strong>没有review的Agent团队，事故率相当于一个没有测试的软件开发团队。那不是"敏捷"，那是"裸奔"。</strong></p>
+<h2 id="agent">交叉验证：双Agent独立验证关键任务</h2>
+<p>三层review流水线上线后，Yason还加了一层保障——<strong>交叉验证</strong>。</p>
+<p>对于关键任务（支付相关的代码变更、数据库schema修改、生产配置变更），Yason要求两个Agent<strong>独立</strong>执行同一个任务。</p>
+<p>流程是这样的：</p>
+<pre><code>任务: &quot;修改用户表的email索引类型&quot;
+
+Agent A (Kai) → 独立完成改动 + 输出验证报告A
+Agent B (Max) → 独立完成改动 + 输出验证报告B
+
+对比阶段
+  ├── 结果一致 → 采用任何一个，记录&quot;双Agent验证通过&quot;
+  └── 结果不一致 → 自动标记差异点，升级到Yason人工裁决
+</code></pre>
+<p>这不是"一个人写代码另一个人review"——这是<strong>两个Agent从零开始独立做同一件事</strong>。它们的prompt是隔离的，System Prompt版本可能不同，使用的模型也可能不同（比如Kai用DeepSeek，Max用Claude）。</p>
+<p>为什么这有效？因为两个不同的模型、在不同的prompt框架下，同时犯同一个错误的概率极低。<strong>如果两个Agent的输出一致，你可以对结果的正确性有极高置信度。</strong></p>
+<p>代价呢？Token消耗翻倍。但Yason的账是这么算的：</p>
+<blockquote>
+<p>"一个生产事故的修复成本是$50-$500的心理代价加时间代价，而双Agent验证的成本是$0.40-$2.00的额外Token费。哪个更划算，心里有数。"</p>
+</blockquote>
+<p>他只对最高风险的20%任务启用双验证。80%的普通任务走标准三层review就够了。</p>
+<h2 id="eval">三层Eval流水线的具体实现</h2>
+<p>Yason的三层review实际上是一个更广义的<strong>三层Eval流水线</strong>——它不仅评价代码，还评价Agent的所有产出。</p>
+<pre><code>输入 ← 任务描述 + 上下文
+
+第一层：Pre-Action Checks（执行前）
+  ├── 任务可行性评估 → 这个任务当前条件是否具备？
+  ├── 权限检查 → Agent是否有权限做这个任务？
+  └── 成本预估 → 这个任务预计消耗多少Token？
+
+执行 → Agent执行任务
+
+第二层：Post-Action Checks（执行后）
+  ├── 格式校验 → 输出是否符合预期格式？
+  ├── 完整性检查 → 输出是否覆盖了所有任务要求？
+  ├── 一致性检查 → 输出是否与共享知识库中的信息一致？
+  └── 安全扫描 → 输出中是否包含敏感信息？
+
+第三层：Outcome Verification（结果验证）
+  ├── 影响域分析 → 这个改动会影响哪些下游系统？
+  ├── 回滚方案 → 如果出问题，怎么恢复到之前的状态？
+  └── 监控告警 → 上线后需要关注哪些指标？
+</code></pre>
+<p>每一层检查不通就卡住，不进入下一阶段。Yason的执行模型是"漏斗式"的：入口宽（接受所有任务），但每层检查都在缩小口径，只有通过所有检查的任务才能进入生产环境。</p>
+<h2 id="_2">社区的评测工具</h2>
+<p>三层review解决了Yason团队内部的质量问题，但社区中已经有成熟的Agent评测工具可以直接用：</p>
+<ul>
+<li><strong>LangFuse Evaluation</strong>：开源的LLM评测平台，支持LLM-as-a-Judge的自动化评估。你可以定义评估标准（如"回答是否准确"、"格式是否正确"），LangFuse会自动对Agent的产出评分。</li>
+<li><strong>Braintrust Evaluations</strong>：Braintrust的实验管理平台内建了评估功能。支持对比不同模型、不同prompt在同一评估标准下的表现。</li>
+<li><strong>DeepEval</strong>（confident-ai.com）：专门为LLM应用设计的开源评估框架。支持27+种评估指标，包括幻觉检测、上下文相关性、答案完整性等。可以直接集成到CI/CD管道里。</li>
+<li><strong>promptfoo</strong>：开源prompt评测工具，支持批量测试、回归检测、模型对比。特别适合"这个prompt改了之后效果是变好了还是变差了"这类问题。</li>
+<li><strong>Galileo</strong>：LLM可观测性和评估平台，支持生产环境的持续质量监控和幻觉检测。</li>
+</ul>
+<p>Yason把DeepEval集成到了自己的第一层自动检查中——"DeepEval帮我省了写prompt评估逻辑的功夫，17个评估指标开箱即用。"</p>
+<h2 id="_3">质量是设计出来的，不是检查出来的</h2>
+<p>Yason的最后一句话：</p>
+<blockquote>
+<p><strong>不要指望"靠review把质量查出来"。质量要从System Prompt开始设计——告诉Agent"不要改公共接口签名"比"review的人发现你改了"要好一万倍。好的Review机制是安全网，不是拐杖。</strong></p>
+</blockquote>
+<h2 id="_4">本章小结</h2>
+<ul>
+<li>Agent的输出和人类代码一样需要review——Agent没有"常识"</li>
+<li>三层Review流水线：自动检查 → Peer Agent review → 人类按需review</li>
+<li>ACCEPT/REVISE/REJECT三态协议，feedback必须有具体位置和修改建议</li>
+<li>人类只review三类变更：CRITICAL级别、有分歧的、新领域第一次</li>
+<li>踩坑经历沉淀为Skill，新Agent入门就学到——用"反面教材"加速学习</li>
+<li>有了review机制后，Agent导致的生产事故从3次/月降到了0次</li>
+</ul>
+<blockquote>
+<p><strong>下一章预告</strong>：从"老板管Agent"到"Agent自治"——当你的Agent团队不需要你每天盯着也能自己运转的时候，你才算真正从"管理者"变成了"受益者"。</p>
+</blockquote>
+<p><em>本文来自专栏《给AI当老板》，完整系列持续更新中：</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<p><img alt="图片展示了Review机制和反馈回路。分为自动检查、AI Review、人工Review、集成验证、上线发布五个环节，每个环节有对应内容。还分为快速反馈（实时）、中速反馈（小时级）、慢速" src="../assets/diagrams/zh_14_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

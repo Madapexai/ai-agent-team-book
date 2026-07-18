@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memory Systems — Getting Agents to Know Each Other · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="Diagram showing the shared-memory architecture that lets Agents know each other. At the center is a shared memory repo (Git), containing structured-memory/, decisions/, and other directories, with git commit &amp; push and git pull &amp; merge operations. Around it are different Agents like the Coding Agent and Review Agent, each responsible for writing, reading, etc. At the bottom it explains the shared memory is persisted as a Git repo with Markdown data structures, and the Agents collaborate in one shared knowledge space. This diagram is closely tied to the context, visually presenting how the Agents in the text collaborate through shared memory." src="../assets/diagrams/en_07_1.svg" /></p>
+<h2 id="the-night-a-file-got-edited-by-two-people-at-once">The night a file got edited by two people at once</h2>
+<p>Kai and Rex worked on the same timeline.</p>
+<p>Kai was writing <code>daily-log/2025-06-15.md</code>, logging the two code tasks finished today. At the same time, Rex was writing the same file, reporting today's server alert he handled.</p>
+<p>The result is easy to guess — <strong>the later write overwrote the earlier one.</strong></p>
+<p>Kai's log content was lost. The next day Yason found Kai's daily report said "finished two tasks," but the log only had Rex's one entry.</p>
+<p>This wasn't Kai's fault, nor Rex's. It was <strong>the consequence of having no shared memory system.</strong></p>
+<blockquote>
+<p>An Agent's working memory is isolated by default. If nobody deliberately designs sharing, every Agent lives in its own world — no different from several people each writing their own docs and keeping their own notes on one project.</p>
+</blockquote>
+<h2 id="shared-memory-architecture-design">Shared memory architecture design</h2>
+<p>Yason's solution sounds plain, but works great: <strong>one Git repo, shared by all Agents.</strong></p>
+<pre><code>/memory/
+├── daily-logs/          # Daily work logs
+│   ├── 2025-06-15-kai.md
+│   ├── 2025-06-15-rex.md
+│   └── 2025-06-16-kai.md
+├── profiles/            # Agent profiles
+│   ├── kai.yaml
+│   ├── rex.yaml
+│   └── max.yaml
+├── skills/              # Skill files
+│   ├── deploy-flow.md
+│   └── rollback-procedure.md
+├── decisions/           # Decision records (ADR)
+│   ├── agent-routing-decision-001.md
+│   └── model-select-002.md
+├── requests/            # Cross-Agent requests
+│   └── 2025-06-16-kai-to-rex.yaml
+└── knowledge/           # Shared knowledge
+    ├── project-map.md
+    └── common-issues.md
+</code></pre>
+<div class="mermaid">flowchart LR
+    A[&quot;Agent A
+Writes work log&quot;] --&gt; B[&quot;daily-logs/
+File system&quot;]
+    B --&gt; C[&quot;git add + commit
+Local repo&quot;]
+    C --&gt; D[&quot;git push
+Remote repo&quot;]
+    D --&gt; E[&quot;git pull --rebase
+Sync script (every 30 min)&quot;]
+    E --&gt; F[&quot;Agent B
+Reads latest memory&quot;]
+
+    G[Cron job] -.-&gt; C
+    G -.-&gt; E
+
+    style A fill:#e1f5fe,stroke:#0288d1
+    style F fill:#e1f5fe,stroke:#0288d1
+    style C fill:#fff3e0,stroke:#f57c00
+    style D fill:#fff3e0,stroke:#f57c00
+    style E fill:#f3e5f5,stroke:#7b1fa2
+</div>
+<p>Every Agent loads the entire memory directory on startup, and knows:</p>
+<ul>
+<li>Which files are its own (write access)</li>
+<li>Which files belong to others (read-only)</li>
+<li>Which files are shared (read-write)</li>
+</ul>
+<p>Permission config example:</p>
+<pre><code class="language-yaml"># /memory/.access-rules.yaml
+agents:
+  kai:
+    write:
+      - daily-logs/kai-*.md
+      - skills/*.md
+      - requests/*.yaml
+    read:
+      - daily-logs/*
+      - profiles/*
+      - decisions/*
+      - knowledge/*
+  rex:
+    write:
+      - daily-logs/rex-*.md
+      - decisions/*.md
+      - knowledge/common-issues.md
+    read:
+      - daily-logs/*
+      - profiles/*
+      - skills/*
+</code></pre>
+<h2 id="cron-sync-every-30-minutes">Cron sync: every 30 minutes</h2>
+<p>The memory-sync mechanism is straightforward — a scheduled task:</p>
+<pre><code class="language-bash"># Sync memory every 30 minutes
+*/30 * * * * /opt/agents/sync-memory.sh
+
+# Archive the previous day's logs every morning
+0 1 * * * /opt/agents/archive-logs.sh
+</code></pre>
+<p>Core logic of the sync script:</p>
+<pre><code class="language-bash">#!/bin/bash
+# /opt/agents/sync-memory.sh
+
+MEMORY_DIR=&quot;/opt/agents/memory&quot;
+LOCK_FILE=&quot;/tmp/agent-memory-sync.lock&quot;
+
+# Guard against concurrent runs
+if [ -f &quot;$LOCK_FILE&quot; ]; then
+  echo &quot;Another process is syncing, skipping&quot;
+  exit 0
+fi
+
+trap 'rm -f &quot;$LOCK_FILE&quot;' EXIT
+touch &quot;$LOCK_FILE&quot;
+
+cd &quot;$MEMORY_DIR&quot;
+
+# Pull latest data
+git pull --rebase origin main
+
+# If any Agent wrote new content this cycle, commit it
+if [ -n &quot;$(git status --porcelain)&quot; ]; then
+  git add -A
+  git commit -m &quot;Memory sync $(date '+%Y-%m-%d %H:%M')&quot;
+  git push origin main
+fi
+</code></pre>
+<blockquote>
+<p><strong>Key detail</strong>: use <code>git pull --rebase</code>, not <code>git pull</code>. Because if there's a conflict, rebase surfaces it in the sync script rather than making the Agent handle a Git conflict — Agents are terrible at handling Git conflicts.</p>
+</blockquote>
+<h2 id="the-lock-problem-two-agents-writing-the-same-file">The lock problem: two Agents writing the same file</h2>
+<p>Yason used the simplest solution for concurrent writes: <strong>write per-Agent files, not per-directory.</strong></p>
+<p>Note the file-naming rule above: <code>daily-logs/2025-06-15-kai.md</code>, each Agent writes its own file. If Kai and Rex write logs at the same time, they're writing two different files and will never conflict.</p>
+<p>But what if you really do need to share-write a file? Like <code>knowledge/common-issues.md</code>, which both Kai and Rex might update.</p>
+<p>Yason's approach — <strong>designate a "file owner":</strong></p>
+<pre><code class="language-yaml"># /memory/.file-ownership.yaml
+files:
+  knowledge/common-issues.md:
+    owner: rex                # Rex owns this file
+    contributors: [kai, max]  # Kai and Max may suggest changes, but only Rex writes
+  skills/deploy-flow.md:
+    owner: kai
+    contributors: [rex]
+</code></pre>
+<p>The Agent's flow when writing a shared file:</p>
+<ol>
+<li>If not the file owner, write the change to the <code>requests/</code> directory</li>
+<li>The owner sees the request on the next sync</li>
+<li>The owner reviews and decides whether to merge</li>
+</ol>
+<p>It sounds a bit clunky, but Yason tried letting Agents edit shared files directly — conflicts within three days, guaranteed.</p>
+<blockquote>
+<p><strong>Shared writing is the Achilles' heel of Agent teams. The fix isn't technical — it's convention: everyone (every Agent) has their own notebook, and shared content is maintained by one person.</strong></p>
+</blockquote>
+<h2 id="memory-query-and-retrieval">Memory query and retrieval</h2>
+<p>Storing alone isn't enough — you have to be able to find it.</p>
+<p>Yason gave each Agent a simple retrieval tool — semantic search based on Embeddings:</p>
+<pre><code class="language-python"># /opt/agents/tools/memory_search.py
+# Search the memory store via Embedding
+
+import sys
+import json
+from pathlib import Path
+
+MEMORY_DIR = Path(&quot;/opt/agents/memory&quot;)
+
+def search(query: str, top_k: int = 5):
+    &quot;&quot;&quot;
+    Search the memory store for content related to the query.
+    Scope: daily-logs, decisions, knowledge, skills
+    &quot;&quot;&quot;
+    # Use a local Embedding model for semantic search
+    # Simple implementation: keyword match + sort by most recent modification
+    results = []
+    for f in MEMORY_DIR.rglob(&quot;*.md&quot;):
+        content = f.read_text()
+        if query.lower() in content.lower():
+            score = content.lower().count(query.lower())
+            results.append({
+                &quot;file&quot;: str(f.relative_to(MEMORY_DIR)),
+                &quot;snippet&quot;: content[:200],
+                &quot;score&quot;: score
+            })
+
+    results.sort(key=lambda x: x[&quot;score&quot;], reverse=True)
+    return results[:top_k]
+
+if __name__ == &quot;__main__&quot;:
+    q = sys.argv[1]
+    print(json.dumps(search(q), indent=2, ensure_ascii=False))
+</code></pre>
+<p>Before executing a task, the Agent searches the memory store to see if there's already a relevant decision or piece of knowledge.</p>
+<h2 id="the-value-of-memory-is-in-continuous-accumulation">The value of memory is in continuous accumulation</h2>
+<p>Yason's proudest achievement isn't how capable the Agents are — it's that <strong>the memory store became the team's "second brain."</strong></p>
+<p>After 6 months, the memory store held:</p>
+<ul>
+<li>400+ daily logs (traceable to what happened each day)</li>
+<li>37 decision records (ADR)</li>
+<li>15 skill files (deployment, rollback, common-issue handling)</li>
+<li>200+ shared knowledge entries</li>
+</ul>
+<p>Any time a new Agent joins, just give it the memory store and it understands all the context from the previous 6 months within minutes.</p>
+<blockquote>
+<p><strong>The point of a memory store isn't storage — it's inheritance.</strong> In a human team, onboarding takes weeks. In an Agent team, onboarding takes one <code>git clone</code>.</p>
+</blockquote>
+<h2 id="maintaining-the-memory-system">Maintaining the memory system</h2>
+<p>Yason spends 15 minutes a week on memory-system maintenance:</p>
+<ol>
+<li><strong>Clear expired info</strong>: mark P3 decisions older than 3 months as "history"</li>
+<li><strong>Merge duplicates</strong>: check if multiple Agents recorded the same thing</li>
+<li><strong>Fill missing decision records</strong>: if something happened but wasn't logged, log it</li>
+</ol>
+<p>The frequency needn't be high, but it must be done — otherwise the memory store turns into a junkyard where the Agent can't find anything valuable.</p>
+<h2 id="from-simple-git-memory-to-rag-architecture">From simple Git memory to RAG architecture</h2>
+<p>Once memory files passed a few hundred, Yason found simple keyword search stopped being enough. An Agent looking for "the decision about the DB connection pool three months ago," searching 400+ files for "DB connection pool" — returned far too many irrelevant results.</p>
+<p>RAG (Retrieval-Augmented Generation) solves this. The core idea is simple:</p>
+<pre><code>Traditional search:
+  Keyword match → return all files containing the term → Agent filters itself
+
+RAG search:
+  Embedding vectorization → semantic match → return the 3-5 most relevant files → Agent uses directly
+</code></pre>
+<h3 id="when-to-upgrade-to-rag">When to upgrade to RAG</h3>
+<p>Yason's rule of thumb:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Threshold</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number of memory files</td>
+<td>&gt; 500</td>
+<td>Need a vector index</td>
+</tr>
+<tr>
+<td>Single-search recall</td>
+<td>&lt; 60%</td>
+<td>Embedding gives a big boost</td>
+</tr>
+<tr>
+<td>Agent can't find history</td>
+<td>≥3 times/week</td>
+<td>Must adopt RAG</td>
+</tr>
+<tr>
+<td>Memory store size</td>
+<td>&gt; 100MB</td>
+<td>Consider sharding and caching</td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-vector-databases">Optional vector databases</h3>
+<table>
+<thead>
+<tr>
+<th>Database</th>
+<th>Deployment</th>
+<th>Best for</th>
+<th>Ease of use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Milvus</strong></td>
+<td>Distributed</td>
+<td>Large-scale production (millions of vectors)</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Chroma</strong></td>
+<td>Embedded</td>
+<td>Small-to-mid scale (tens of thousands of vectors), fast prototyping</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><strong>Qdrant</strong></td>
+<td>Single-node / distributed</td>
+<td>Mid scale, Rust-based, high performance</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><strong>Pgvector</strong></td>
+<td>Plugin</td>
+<td>Teams already on PostgreSQL</td>
+<td>Low</td>
+</tr>
+</tbody>
+</table>
+<p>Yason's path: <strong>prototype with Chroma → scale up to Qdrant → go Milvus when you need strong consistency and permission management.</strong></p>
+<h2 id="community-open-source-memory-solutions">Community open-source memory solutions</h2>
+<p>After building the first version of the Git memory system, Yason found the community already had mature open-source solutions ready to use. His hand-rolled Git repo + RAG worked, but the community solutions were far more complete in features and ecosystem.</p>
+<h3 id="mem0">Mem0</h3>
+<p><a href="https://github.com/mem0ai/mem0">Mem0</a> is a memory layer built for AI Agents, supporting:</p>
+<ul>
+<li><strong>User memory management</strong>: maintains an independent memory history per user</li>
+<li><strong>Semantic search</strong>: built-in Embedding, works out of the box</li>
+<li><strong>Memory updates</strong>: Agents can proactively update and refine memory</li>
+<li><strong>Memory enhancement</strong>: automatically extracts key info from conversations to enrich memory</li>
+</ul>
+<h3 id="langmem">LangMem</h3>
+<p><a href="https://github.com/langchain-ai/langmem">LangMem</a> is the memory component in the LangChain ecosystem, with strengths in:</p>
+<ul>
+<li>Deep integration with LangGraph, dropping seamlessly into existing Agent frameworks</li>
+<li>Supports multiple memory types (conversation memory, entity memory, summary memory)</li>
+<li>Mature memory persistence and retrieval APIs</li>
+</ul>
+<h3 id="memgpt-now-called-letta">MemGPT (now called Letta)</h3>
+<p><a href="https://github.com/letta-ai/letta">Letta</a> (formerly MemGPT) is a more radical approach — it folds the LLM's own context management into the memory system:</p>
+<ul>
+<li><strong>Virtual context management</strong>: the Agent's context window is "virtual," effectively infinite in practice</li>
+<li><strong>Layered memory</strong>: working memory (current session) + archival memory (long-term storage)</li>
+<li><strong>Self-reflection</strong>: the Agent automatically decides what's worth remembering and what can be forgotten</li>
+</ul>
+<blockquote>
+<p>Yason's summary: <strong>Under 10 Agents, Git + RAG is enough. To scale up (10+ Agents, 1000+ files), pick a community solution directly — Mem0 for lightweight integration, Letta for deep memory management.</strong></p>
+</blockquote>
+<h3 id="open-source-embedding-model-comparison">Open-source Embedding model comparison</h3>
+<p>The heart of RAG is the Embedding model. Yason tested several common open-source Embedding models:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Vector dim</th>
+<th>Chinese quality</th>
+<th>Recommended use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BGE-small-zh-v1.5</strong></td>
+<td>512</td>
+<td>⭐⭐⭐⭐</td>
+<td>Lightweight, low resource cost, runs on CPU</td>
+</tr>
+<tr>
+<td><strong>BGE-base-zh-v1.5</strong></td>
+<td>768</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>Best overall balance, recommended first choice</td>
+</tr>
+<tr>
+<td><strong>BGE-large-zh-v1.5</strong></td>
+<td>1024</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>Highest precision, but needs a GPU</td>
+</tr>
+<tr>
+<td><strong>text2vec-base-chinese</strong></td>
+<td>768</td>
+<td>⭐⭐⭐⭐</td>
+<td>Chinese-specific, active community</td>
+</tr>
+<tr>
+<td><strong>gte-Qwen2-1.5B-instruct</strong></td>
+<td>1536</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>Newest, based on Qwen2, excellent Chinese</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>There's no absolutely best Embedding choice — only the most fitting one.</strong> With ample resources, pick BGE-large or gte-Qwen2; on edge devices, pick BGE-small. Yason's experience: BGE-base-zh-v1.5 is the most balanced on the "precision / speed / resources" triangle.</p>
+</blockquote>
+<h2 id="chapter-summary">Chapter summary</h2>
+<ul>
+<li>Shared memory is the Agent team's nervous system: one Git repo solves it</li>
+<li>Write per-Agent files to avoid concurrency conflicts</li>
+<li>For shared files, designate an owner; other Agents propose changes via requests</li>
+<li>Cron sync every 30 minutes; use rebase to avoid conflicts</li>
+<li><strong>Once files exceed 500, upgrade to RAG + vector database</strong></li>
+<li><strong>The community has mature open-source memory solutions like Mem0, LangMem, Letta — reuse first</strong></li>
+<li><strong>BGE-base-zh-v1.5 is the overall first choice among open-source Embedding models</strong></li>
+<li>The memory store is the team's second brain; a new Agent is productive after one git clone</li>
+<li>15 minutes of maintenance per week keeps the memory store tidy</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview</strong>: The communication system — when Agents start reporting in group chat, @-mentioning, and sending cards, the group chat becomes a console. How to get Agents to "talk nicely," plus the rueful "model busy, try again later" story.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI'. The full series is continuously updated:</em> <a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<hr />
+<p><img alt="Diagram showing the shared-memory architecture that lets Agents know each other. At the center is a shared memory repo (Git), containing structured-memory/, decisions/, progress/, context/, references/, and other directories, with git commit &amp; push and git pull &amp; merge operations. Around it are multiple Agents — Coding Agent, Review Agent, Testing Agent, Docs Agent, DevOps Agent, Supervisor, Research Agent, Future Agents — each responsible for different tasks, like reading/writing memory per interaction, depending on memory context, fetching test strategy, extracting changes, writing deploy status, coordinating from a global view, archiving research results, and memory APIs. The diagram is closely tied to the context, visually presenting how each Agent interacts with and collaborates around the shared memory repo." src="../assets/diagrams/en_07_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

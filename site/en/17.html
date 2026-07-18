@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-Agent Collaboration Protocol Stack · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><h1 id="multi-agent-collaboration-protocol-stack">Multi-Agent Collaboration Protocol Stack</h1>
+<p><img alt="Image showing the layered structure of the multi-Agent collaboration protocol stack. From top to bottom: emergency protocol, negotiation protocol, status protocol, communication protocol, and task protocol. The emergency protocol handles exceptions that cannot be processed; the negotiation protocol is the Agent-to-Agent communication protocol; the status protocol lets each Agent broadcast its status; the communication protocol is the underlying specification for message passing between Agents; the task protocol is the standard format and flow for task creation, assignment, execution, and completion. The image is closely tied to the context, visually illustrating the Claude Code Agent Teams architecture that Yason drew on when designing his protocol stack." src="../assets/diagrams/en_17_1.svg" /></p>
+<h2 id="when-two-agents-start-arguing">When Two Agents Start "Arguing"</h2>
+<p>The first time Kai and Max had a "falling out," Yason was in a meeting.</p>
+<p>Feishu notifications kept popping up one after another. He glanced at them:</p>
+<pre><code>Kai → Max: &quot;The API for the user-auth module is done; deployed to staging.&quot;
+Max → Kai: &quot;Great, I'll post an announcement to the users.&quot;
+Kai → Max: &quot;Wait, it's not live yet.&quot;
+Max → Kai: &quot;You said it's deployed.&quot;
+Kai → Max: &quot;Deployed to staging, not production.&quot;
+Max → Kai: &quot;You didn't say staging.&quot;
+Kai → Max: &quot;When I say 'deploy,' it defaults to staging.&quot;
+Max → Kai: &quot;My default is production.&quot;
+</code></pre>
+<p>Yason almost laughed out loud in the meeting room — two AI Agents arguing over the semantics of "deploy," exactly like human colleagues bickering over "I thought you meant…"</p>
+<p>After this incident, Yason learned a lesson: <strong>When Agents communicate in natural language, it's as good as no communication at all.</strong></p>
+<h2 id="the-claude-code-agent-teams-architecture">The Claude Code Agent Teams Architecture</h2>
+<p>When Yason designed his own protocol stack, he found a mature reference already existed in industry — Claude Code's Agent Teams model.</p>
+<p>The core design of Claude Code Agent Teams is "coordinated Sub-Agents." Unlike Yason's flat Agents, the Claude Code team uses a tighter collaboration model: multiple Sub-Agents share a task list and avoid conflicts via a file-locking mechanism.</p>
+<pre><code>┌─────────────────────────────────────────┐
+│            Claude Code Teams              │
+│                                          │
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐  │
+│  │ Agent A │  │ Agent B │  │ Agent C │  │
+│  │(coding) │  │(testing)│  │ (docs)  │  │
+│  └────┬────┘  └────┬────┘  └────┬────┘  │
+│       │             │             │       │
+│       └──────┬──────┴──────┬─────┘       │
+│              │  Shared task list │        │
+│              └──────────────┘             │
+│              ┌──────────────┐             │
+│              │  File-lock system│          │
+│              └──────────────┘             │
+└─────────────────────────────────────────┘
+</code></pre>
+<p>From Claude Code Teams, Yason distilled a few key parameters: 3–5 teammates is the optimal size, and each teammate is most efficient handling 5–6 tasks concurrently. Beyond that, the wait overhead from file locks starts eating the parallel gains.</p>
+<blockquote>
+<p><strong>Shared task list + file locks = multiple Agents working like one development team. Not each doing their own thing, but genuine collaborators.</strong></p>
+</blockquote>
+<h2 id="openai-codex-sub-agents">OpenAI Codex Sub-Agents</h2>
+<p>Another design that caught Yason's eye was OpenAI's Codex Sub-Agents model.</p>
+<p>Codex can spin up to 8 parallel Sub-Agents at once, each running in an isolated cloud sandbox with its own isolated worktree. The Sub-Agents don't communicate directly — each modifies its own copy of the code, and the changes are eventually merged into the main branch via Pull Request.</p>
+<pre><code>Codex Manager
+    │
+    ├─ Sub-Agent 1 (worktree: feature/auth)    ─┐
+    ├─ Sub-Agent 2 (worktree: feature/api)      │
+    ├─ Sub-Agent 3 (worktree: feature/tests)    ├─→ PR → Merge
+    ├─ Sub-Agent 4 (worktree: feature/docs)     │
+    ├─ Sub-Agent 5 (worktree: feature/config)   │
+    ├─ Sub-Agent 6 (worktree: feature/db)       │
+    ├─ Sub-Agent 7 (worktree: feature/ci)       ─┘
+    └─ Sub-Agent 8 (worktree: feature/deploy)
+</code></pre>
+<p>What surprised Yason most was the Token efficiency — because each Sub-Agent only loads the context its specific task needs, rather than the entire project's context, Token consumption is roughly 4x lower than having a single Agent handle all tasks.</p>
+<blockquote>
+<p><strong>8 Sub-Agents running concurrently, each only seeing its own little patch — total Token consumption is lower than one Agent reading everything. That's the power of isolation.</strong></p>
+</blockquote>
+<h2 id="kimi-k26-swarm-routing-tree">Kimi K2.6 Swarm Routing Tree</h2>
+<p>Kimi K2.6's Swarm mode represents the other extreme — massive parallelism. It can manage up to 300 Sub-Agents, using a Tree Decomposition pattern.</p>
+<pre><code>              ┌─────────────┐
+              │ Orchestrator│
+              └──────┬──────┘
+                     │
+        ┌────────────┼────────────┐
+        │            │            │
+   ┌────┴────┐  ┌────┴────┐  ┌────┴────┐
+   │ Worker  │  │ Worker  │  │ Worker  │
+   │ Group 1 │  │ Group 2 │  │ Group N │
+   └────┬────┘  └────┬────┘  └────┬────┘
+        │            │            │
+   ┌────┴────┐  ┌────┴────┐  ┌────┴────┐
+   │ 10-30   │  │ 10-30   │  │ 10-30   │
+   │ Agents  │  │ Agents  │  │ Agents  │
+   └─────────┘  └─────────┘  └─────────┘
+</code></pre>
+<p>The Orchestrator breaks down tasks; each Worker Group handles one sub-problem, and the Agents within a group explore different approaches in parallel. This mode is especially suited to scenarios requiring large-scale exploration — like code search, data mining, or architecture option evaluation.</p>
+<p>Yason didn't use the 300-Agent configuration (his scenario didn't need it), but he took the core idea of "Tree Decomposition" from Kimi Swarm: <strong>Break a big task into N sub-problems first, then hand each sub-problem to a cluster of Agents to explore.</strong> He later applied this pattern in Rex's chip-simulation project.</p>
+<h2 id="choosing-among-three-topology-patterns">Choosing Among Three Topology Patterns</h2>
+<p>Different collaboration scenarios call for different protocol topologies. Yason summarized a selection matrix:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Recommended topology</th>
+<th>Suitable protocol</th>
+<th>Typical scale</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code development</td>
+<td>Hierarchy</td>
+<td>Claude Code Teams</td>
+<td>3-5 Agents</td>
+<td>File lock + shared task list fits the coding flow best</td>
+</tr>
+<tr>
+<td>Data crawling / exploration</td>
+<td>Graph</td>
+<td>Kimi Swarm</td>
+<td>50-300 Agents</td>
+<td>Large-scale parallel exploration, tree decomposition</td>
+</tr>
+<tr>
+<td>Daily operations</td>
+<td>Hierarchy</td>
+<td>Yason's three-layer protocol</td>
+<td>3-8 Agents</td>
+<td>Status sync + emergency channel, fits continuous service</td>
+</tr>
+<tr>
+<td>Research &amp; analysis</td>
+<td>Swarm</td>
+<td>Codex Sub-Agents</td>
+<td>2-8 Agents</td>
+<td>Isolated sandbox parallel experiments, PR to merge results</td>
+</tr>
+<tr>
+<td>Complex system design</td>
+<td>Graph</td>
+<td>A2A + custom</td>
+<td>5-15 Agents</td>
+<td>Cross-domain Agents need a flexible communication topology</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>There's no "best topology," only "the topology that best fits the current scenario." Yason's team uses Hierarchy day-to-day, and switches to Swarm mode when doing research exploration.</strong></p>
+</blockquote>
+<h2 id="community-open-source-protocol-implementations">Community Open-Source Protocol Implementations</h2>
+<p>Yason's three-layer protocol stack is about 200 lines of Python he wrote himself, but if you don't want to start from scratch, the community already has mature open-source implementations.</p>
+<p><strong>A2A Protocol (Agent-to-Agent):</strong> Google's A2A protocol, released in 2025, is currently the most complete Agent-to-Agent communication standard. It defines core mechanisms like capability discovery, task delegation, and status sync. After reading A2A's spec, Yason aligned his three-layer protocol stack to A2A's message format — so that in the future he can interoperate directly with third-party Agents that support A2A.</p>
+<p><strong>LangGraph's Orchestration:</strong> LangChain's LangGraph provides full graph orchestration capabilities, supporting conditional branches, loops, parallel execution, and state persistence. If you need a more flexible protocol orchestration engine, LangGraph is a mature choice.</p>
+<p><strong>Temporal + Agent:</strong> For long-running tasks ("run a simulation for a day," "monitor a data pipeline for a week"), Temporal's Workflow engine is a natural Agent protocol infrastructure. When Yason's Rex runs chip-simulation tasks, it uses Temporal under the hood to manage task lifecycle and resumable checkpoints.</p>
+<pre><code class="language-python"># Use Temporal to manage Agent task lifecycle
+@temporal.workflow.defn
+class AgentWorkflow:
+    @temporal.workflow.run
+    async def run(self, task: AgentTask):
+        # Task decomposition
+        subtasks = await workflow.execute_activity(
+            decompose_task, task, 
+            start_to_close_timeout=&quot;30s&quot;
+        )
+        # Parallel dispatch
+        results = []
+        for sub in subtasks:
+            result = await workflow.execute_child_workflow(
+                Sub-AgentWorkflow.run, sub,
+                id=f&quot;sub-{sub.id}&quot;
+            )
+            results.append(result)
+        # Result aggregation
+        return await workflow.execute_activity(
+            aggregate_results, results,
+            start_to_close_timeout=&quot;30s&quot;
+        )
+</code></pre>
+<p><strong>Awesome A2A &amp; MCP:</strong> There are already community-maintained Awesome lists on GitHub that aggregate all open-source A2A implementations and MCP servers. Every time Yason needs a new protocol feature, his first instinct is to browse these lists rather than write it himself.</p>
+<blockquote>
+<p><strong>In 2025–2026, the Agent protocol ecosystem is rapidly converging. A2A is becoming the de facto standard for Agent-to-Agent communication; MCP is becoming the de facto standard for Agent-to-tool communication. Your protocol stack doesn't need to be built from scratch — stand on the community's shoulders.</strong></p>
+</blockquote>
+<h3 id="the-three-layer-protocol-stack">The Three-Layer Protocol Stack</h3>
+<p>Yason's design was inspired by the network protocol stack — TCP/IP is reliable because it has clear layers and a unified message format. Agent-to-Agent communication needs a similar "protocol."</p>
+<p>His cross-Agent protocol stack has three layers:</p>
+<div class="mermaid">flowchart TD
+    subgraph &quot;Three-layer protocol stack&quot;
+        direction TB
+        APP[📋 Application Layer&lt;br&gt;Task content&lt;br&gt;What / How / Deliverable]
+        TRANS[🔄 Transport Layer&lt;br&gt;Status sync&lt;br&gt;Done / In progress / Blocked / Waiting]
+        CTRL[🚨 Control Layer&lt;br&gt;Emergency channel&lt;br&gt;Stop / Degrade / Escalate]
+    end
+
+    MSG[Structured message] --&gt; APP
+    APP --&gt; TRANS
+    TRANS --&gt; CTRL
+
+    style APP fill:#e6f3ff,stroke:#1a6bb5
+    style TRANS fill:#fff3cd,stroke:#856404
+    style CTRL fill:#f8d7da,stroke:#721c24
+    style MSG fill:#d4edda,stroke:#155724
+</div>
+<h3 id="layer-1-task-dispatch-application-layer">Layer 1: Task Dispatch (Application Layer)</h3>
+<p>All cross-Agent task dispatch uses a unified message structure — natural-language task descriptions are forbidden.</p>
+<pre><code>Message {
+  from: &quot;Yason&quot; | &quot;Kai&quot; | &quot;Max&quot; | &quot;Rex&quot;,
+  to: &quot;Kai&quot; | &quot;Max&quot; | &quot;Rex&quot; | &quot;all&quot;,
+  type: &quot;task&quot; | &quot;sync&quot; | &quot;query&quot; | &quot;alert&quot;,
+  task_id: &quot;TASK-2025-06-15-001&quot;,
+  priority: &quot;critical&quot; | &quot;high&quot; | &quot;medium&quot; | &quot;low&quot;,
+  deadline: &quot;2025-06-15T18:00:00+08:00&quot;,
+  action: &quot;deploy&quot; | &quot;review&quot; | &quot;report&quot; | &quot;investigate&quot;,
+  target: &quot;user-auth-module&quot;,
+  constraints: [&quot;staging-only&quot;, &quot;no-db-changes&quot;],
+  body: &quot;Deploy the user-auth module to staging; report back after verifying the login flow&quot;
+}
+</code></pre>
+<p>Yason wrote this Schema into a JSON Schema file; before any Agent dispatches a task, it validates the message format first.</p>
+<pre><code class="language-json">{
+  &quot;$schema&quot;: &quot;http://json-schema.org/draft-07/schema#&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [&quot;from&quot;, &quot;to&quot;, &quot;type&quot;, &quot;task_id&quot;, &quot;priority&quot;, &quot;action&quot;],
+  &quot;properties&quot;: {
+    &quot;from&quot;: { &quot;enum&quot;: [&quot;Yason&quot;, &quot;Kai&quot;, &quot;Max&quot;, &quot;Rex&quot;] },
+    &quot;to&quot;: { &quot;type&quot;: &quot;string&quot; },
+    &quot;type&quot;: { &quot;enum&quot;: [&quot;task&quot;, &quot;sync&quot;, &quot;query&quot;, &quot;alert&quot;] },
+    &quot;priority&quot;: { &quot;enum&quot;: [&quot;critical&quot;, &quot;high&quot;, &quot;medium&quot;, &quot;low&quot;] },
+    &quot;action&quot;: { &quot;type&quot;: &quot;string&quot; },
+    &quot;deadline&quot;: { &quot;type&quot;: &quot;string&quot;, &quot;format&quot;: &quot;date-time&quot; }
+  }
+}
+</code></pre>
+<h3 id="layer-2-status-sync-transport-layer">Layer 2: Status Sync (Transport Layer)</h3>
+<p>All Agent status info uses a unified set of status codes — no room for ambiguity.</p>
+<pre><code>STATUS_CODES = {
+  &quot;done&quot;: &quot;Task complete; deliverable ready&quot;,
+  &quot;in_progress&quot;: &quot;Task is being executed&quot;,
+  &quot;blocked&quot;: &quot;Blocked; external intervention needed&quot;,
+  &quot;waiting&quot;: &quot;Waiting for a prerequisite to finish&quot;,
+  &quot;paused&quot;: &quot;Task paused; awaiting rescheduling&quot;,
+  &quot;failed&quot;: &quot;Task failed; cannot continue&quot;,
+  &quot;cancelled&quot;: &quot;Task cancelled&quot;
+}
+</code></pre>
+<p>Every Agent broadcasts a summary of its status every 5 minutes:</p>
+<pre><code class="language-json">{
+  &quot;from&quot;: &quot;Kai&quot;,
+  &quot;type&quot;: &quot;sync&quot;,
+  &quot;timestamp&quot;: &quot;2025-06-15T14:30:00+08:00&quot;,
+  &quot;status&quot;: {
+    &quot;active_tasks&quot;: [
+      {&quot;id&quot;: &quot;TASK-001&quot;, &quot;status&quot;: &quot;in_progress&quot;, &quot;progress&quot;: &quot;60%&quot;},
+      {&quot;id&quot;: &quot;TASK-002&quot;, &quot;status&quot;: &quot;blocked&quot;, &quot;reason&quot;: &quot;Waiting for Max's API docs&quot;}
+    ],
+    &quot;idle_since&quot;: null,
+    &quot;token_used_today&quot;: 284712
+  }
+}
+</code></pre>
+<p>This status-sync mechanism solved one of Yason's big pain points — "What's Kai doing?" "Is Max done yet?" "Is Rex stuck?" Before, he had to ask one by one; now a single glance at the status summary tells him everything.</p>
+<h3 id="layer-3-emergency-channel-control-layer">Layer 3: Emergency Channel (Control Layer)</h3>
+<p>This is the most important layer, and the channel through which Agents cannot "make their own judgment calls" within the three-layer protocol.</p>
+<p>Emergency messages bypass the normal protocol stack and go straight to the target Agent's "interrupt handler" module.</p>
+<pre><code>Alert {
+  type: &quot;stop&quot; | &quot;pause&quot; | &quot;reroute&quot; | &quot;escalate&quot;,
+  from: &quot;Yason&quot; | &quot;monitor-agent&quot;,
+  target: &quot;kai&quot; | &quot;max&quot; | &quot;all&quot;,
+  reason: &quot;Staging DB anomaly; all write operations paused&quot;,
+  severity: &quot;critical&quot; | &quot;warning&quot;,
+  acknowledge_required: true
+}
+</code></pre>
+<p>Key design: <strong>Emergency-channel messages take priority over any task currently executing.</strong> Upon receiving an emergency message, the Agent must immediately pause its current task, handle the emergency message, then reply with an acknowledgement.</p>
+<pre><code class="language-python">def handle_emergency(alert):
+    # Immediately pause the current task
+    current_task.suspend()
+    # Save the checkpoint
+    checkpoint = save_checkpoint()
+    # Handle the emergency message
+    process_alert(alert)
+    # Send acknowledgement
+    send_ack(alert.id, &quot;All write operations paused&quot;)
+</code></pre>
+<h2 id="from-40-to-0">From 40% to 0%</h2>
+<p>Before the protocol stack went live, Yason recorded the cross-Agent communication error rate.</p>
+<p><strong>Before launch (pure natural-language communication):</strong></p>
+<ul>
+<li>Observation window: 2 weeks</li>
+<li>Total cross-Agent messages: 347</li>
+<li>Problems: 139 (misunderstandings, omissions, execution errors)</li>
+<li>Error rate: <strong>40%</strong></li>
+</ul>
+<blockquote>
+<p>40% means 2 out of every 5 messages had a problem. Yason was effectively a translator, spending 2 hours a day on "Kai meant this" and "Max, you misunderstood."</p>
+</blockquote>
+<p><strong>After launch (three-layer protocol stack):</strong></p>
+<ul>
+<li>Observation window: 2 weeks</li>
+<li>Total cross-Agent messages: 412</li>
+<li>Problems: 2 (both caused by bugs in the Agent-side protocol implementation)</li>
+<li>Error rate: <strong>0.48%</strong></li>
+</ul>
+<p>Yason attributed that 0.48% to engineering bugs, not protocol design. After fixing the bugs, the error rate hit zero.</p>
+<blockquote>
+<p><strong>Structured communication doesn't limit the Agents' capabilities — it eliminates the ambiguity between Agents.</strong></p>
+</blockquote>
+<h2 id="structured-debate-when-agents-disagree">Structured Debate: When Agents Disagree</h2>
+<p>The protocol stack has a hidden feature — structured debate.</p>
+<p>Yason found that Agents "arguing" is actually useful, but they can't argue in natural language. So he designed a "debate protocol":</p>
+<pre><code>Debate {
+  topic: &quot;Microservices or monolith?&quot;,
+  participants: [&quot;Kai&quot;, &quot;Rex&quot;],
+  rounds: 3,
+  format: {
+    round_1: &quot;Each states their approach + rationale&quot;,
+    round_2: &quot;Challenge the other's approach + respond to challenges&quot;,
+    round_3: &quot;Final recommendation&quot;
+  },
+  decision_maker: &quot;Yason&quot;
+}
+</code></pre>
+<p>Kai and Rex don't "blow up" — they each output structured arguments that Yason can compare clearly:</p>
+<pre><code>Kai - Round 1:
+  Approach: Microservices
+  Reason 1: Independent deployment, lower release risk
+  Reason 2: Team can develop different services in parallel
+  Cost: Higher ops complexity; needs a service mesh
+
+Rex - Round 1:
+  Approach: Monolith first
+  Reason 1: Current team size doesn't need microservices
+  Reason 2: Limited hardware resources; microservices overhead is high
+  Cost: May need refactoring later
+</code></pre>
+<p>After reading both sides' arguments, Yason made a decision in 5 minutes (he chose Rex's approach). In a human team, that decision could have taken an hour-long meeting.</p>
+<blockquote>
+<p><strong>A hidden advantage of AI teams is "zero-emotion debate." An Agent won't get upset when its approach is rejected, won't hold a grudge, won't sabotage the next collaboration.</strong></p>
+</blockquote>
+<h2 id="putting-a2a-into-production">Putting A2A into Production</h2>
+<p>After Yason's three-layer protocol stack was working, he aligned a few key improvements to the A2A protocol:</p>
+<ol>
+<li><strong>Capability discovery:</strong> When an Agent starts up, it broadcasts its capabilities, so other Agents don't need to hard-code each Agent's responsibilities.</li>
+<li><strong>Task negotiation:</strong> An Agent can "accept" or "decline" a task — if its current load is too high or its capabilities don't match, it can reject the task and recommend a more suitable Agent.</li>
+<li><strong>Incremental status sync:</strong> Instead of syncing the full state every time, only sync the changed parts, reducing bandwidth and Token consumption.</li>
+</ol>
+<p>These improvements took Yason's protocol stack from "works" to "production-grade" — especially once the Agent count exceeded 10, the performance gains from incremental sync became very noticeable.</p>
+<div class="mermaid">sequenceDiagram
+    participant Y as Yason
+    participant Kai as Kai (Dev)
+    participant OpenCode as OpenCode Worker
+    participant Kimi as Kimi Worker
+    participant Monitor as Monitor Agent
+
+    Y-&gt;&gt;Kai: Task: &quot;Implement the user registration module&quot;
+    activate Kai
+
+    Kai-&gt;&gt;Kai: Task decomposition
+
+    par Parallel dispatch
+        Kai-&gt;&gt;OpenCode: A2A delegation: write registration code
+        Note over Kai,OpenCode: type: task / action: code
+    and
+        Kai-&gt;&gt;Kimi: A2A delegation: security analysis
+        Note over Kai,Kimi: type: task / action: analyze
+    end
+
+    activate OpenCode
+    activate Kimi
+
+    OpenCode--&gt;&gt;Kai: Sync: in progress (60%)
+    Note over OpenCode,Kai: status: in_progress
+    Kimi--&gt;&gt;Kai: Sync: in progress (40%)
+
+    OpenCode--&gt;&gt;Kai: Done: registration code ready
+    deactivate OpenCode
+    Kimi--&gt;&gt;Kai: Done: security report ready
+    deactivate Kimi
+
+    Kai-&gt;&gt;Kai: Gather: merge results + conflict detection
+
+    alt Critical issue detected
+        Monitor-&gt;&gt;Kai: 🚨 Emergency: staging DB anomaly
+        Note over Monitor,Kai: type: alert / severity: critical
+        Kai-&gt;&gt;Kai: Pause current task, handle emergency message
+        Kai--&gt;&gt;Monitor: ACK: all write operations paused
+    else All good
+        Kai--&gt;&gt;Y: Report: registration module done, security passed
+    end
+
+    deactivate Kai
+</div>
+<h2 id="deploying-the-protocol-stack">Deploying the Protocol Stack</h2>
+<p>Yason didn't build a complex protocol engine — he just wrote a ~200-line Python message router.</p>
+<pre><code class="language-python">class AgentProtocol:
+    def dispatch(self, message):
+        self.validate(message)
+        if message.type == &quot;alert&quot;:
+            self.emergency_channel(message)
+        else:
+            self.normal_channel(message)
+
+    def validate(self, message):
+        # Validate message format
+        try:
+            jsonschema.validate(message, self.schema)
+        except ValidationError as e:
+            raise ProtocolError(f&quot;Invalid message format: {e}&quot;)
+
+    def normal_channel(self, message):
+        # Write to the message queue
+        self.queue.put(message)
+        # Notify the target Agent
+        self.notify_target(message.to, message.task_id)
+
+    def emergency_channel(self, message):
+        # Bypass the queue; interrupt the target Agent directly
+        self.interrupt_target(message.target, message)
+</code></pre>
+<p>This router runs as a standalone microservice; all Agent messages are routed through it — Agents don't communicate directly, which reduces coupling and makes auditing easy.</p>
+<h2 id="chapter-summary">Chapter Summary</h2>
+<ul>
+<li>Natural-language communication between Agents is as good as no communication — protocols turn "bickering" into "structured discussion"</li>
+<li>Three-layer protocol stack: application layer → transport layer → control layer; none can be omitted</li>
+<li>Industry has formed three major solutions: Claude Code Teams / OpenAI Codex Sub-Agents / Kimi Swarm</li>
+<li>A2A protocol (v1.0) is the industry standard, suited for future integration with external Agent ecosystems</li>
+<li>Open-source implementations: A2A SDK, LangGraph, and Temporal can all be reused directly</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview:</strong> What happens when Agents get subordinates — the design philosophy of Sub-Agent architecture, and how Kai simultaneously manages two "interns," OpenCode and Kimi.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI'; the full series is continuously updated:</em> <a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<p><img alt="Image showing the layered structure of the multi-Agent collaboration protocol stack. From top to bottom: emergency protocol, negotiation protocol, status protocol, communication protocol, and task protocol. The emergency protocol handles unhandled exceptions; the negotiation protocol is the Agent-to-Agent communication protocol; the status protocol lets each Agent broadcast its status; the communication protocol is the underlying specification for message passing; the task protocol is the standard format and flow for task creation and so on. The image is closely tied to the context, visually presenting each layer of the protocol stack" src="../assets/diagrams/en_17_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

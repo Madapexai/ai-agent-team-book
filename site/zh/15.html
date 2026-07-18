@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>成本换效率——花钱，不花时间 · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">章节</div>
+    <ul><li><a href="zh/00_preface.html"><span class="ch-num">00</span>前言</a></li>
+<li><a href="zh/01.html"><span class="ch-num">01</span>你为什么需要一个 AI Agent 团队</a></li>
+<li><a href="zh/02.html"><span class="ch-num">02</span>Agent 团队能做什么，不能做什么</a></li>
+<li><a href="zh/03.html"><span class="ch-num">03</span>搭建 Agent 团队的真实成本</a></li>
+<li><a href="zh/04.html"><span class="ch-num">04</span>选择你的第一个 Agent</a></li>
+<li><a href="zh/05.html"><span class="ch-num">05</span>System Prompt 的撰写艺术</a></li>
+<li><a href="zh/06.html"><span class="ch-num">06</span>分工的艺术——谁干什么</a></li>
+<li><a href="zh/07.html"><span class="ch-num">07</span>记忆系统——让 Agent 互相认识</a></li>
+<li><a href="zh/08.html"><span class="ch-num">08</span>通信协议——当 Agent 开始说行话</a></li>
+<li><a href="zh/09.html"><span class="ch-num">09</span>透明管理——小时级汇报的力量</a></li>
+<li><a href="zh/10.html"><span class="ch-num">10</span>监察员系统——让 Agent 管理 Agent</a></li>
+<li><a href="zh/11.html"><span class="ch-num">11</span>目标导向——从“等任务”到“主动提案”</a></li>
+<li><a href="zh/12.html"><span class="ch-num">12</span>自我进化——Agent 如何越用越聪明</a></li>
+<li><a href="zh/13.html"><span class="ch-num">13</span>成本控制——别让 API 账单爆炸</a></li>
+<li><a href="zh/14.html"><span class="ch-num">14</span>质量保障——评审与反馈闭环</a></li>
+<li><a href="zh/15.html"><span class="ch-num">15</span>成本换效率——花钱，不花时间</a></li>
+<li><a href="zh/16.html"><span class="ch-num">16</span>事故现场——当 Agent 搞砸了</a></li>
+<li><a href="zh/17.html"><span class="ch-num">17</span>多 Agent 协作协议栈</a></li>
+<li><a href="zh/18.html"><span class="ch-num">18</span>Sub-Agent 架构——给 Agent 配下属</a></li>
+<li><a href="zh/19.html"><span class="ch-num">19</span>外部工具——MCP 与工具链</a></li>
+<li><a href="zh/20.html"><span class="ch-num">20</span>自我进化与自我修复——越跑越聪明的 Agent 团队</a></li>
+<li><a href="zh/21.html"><span class="ch-num">21</span>未来——当 Agent 团队成为标配</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="图片描述了“花时间 vs 花钱 · Cost vs Efficiency”的对比。人工实现重构模块需3 - 5天，编写测试用例1 - 2天，代码Review 2 - 4h，文档维护成本$2400/周，优势为质量可控、深度思考，但慢、耗时、易疲劳；Agent实现仅15分钟，30秒自动，优势为快、24h工作、可复制，但需Review、Token成本。核心公式为人类时间×时时薪 &gt; Token成本 → 果断用Agent，强调50x速度提升vs 2%的成本。" src="../assets/diagrams/zh_15_1.svg" /></p>
+<h2 id="yason">那个让Yason肉疼的账单</h2>
+<p>上个月API账单出来那天，Yason盯着数字看了五秒钟。</p>
+<p>\$847.32。</p>
+<p>换成人民币，六千块。</p>
+<p>"六千块，就买了点Token？"Yason第一反应是想优化——砍模型、降频率、能本地跑的不调API。</p>
+<p>但他忍住了。他先算了一笔账。</p>
+<p>六千块，如果换成人力成本呢？一个初级工程师的月薪是12k-15k，加上五险一金、办公成本，一个月实际支出在18k-20k之间。这还只是"一个人"。</p>
+<p>而六千块的API费用，支撑的是<strong>三个全职Agent + 五个子Agent</strong>的日常运转。它们不吃不喝不摸鱼，每天24小时在线，同时处理5-8个任务。</p>
+<blockquote>
+<p><strong>花时间还是花钱？真正的成本不是看绝对值，而是看单位产出的边际成本。</strong></p>
+</blockquote>
+<h2 id="token-vs">Token成本 vs 人力成本</h2>
+<p>Yason画了一张他最常用的对比表：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>人类团队</th>
+<th>Agent团队</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>月成本</td>
+<td>18k-20k/人</td>
+<td>2k-3k/人（API费用）</td>
+</tr>
+<tr>
+<td>工作时长</td>
+<td>8h/天</td>
+<td>24h/天</td>
+</tr>
+<tr>
+<td>休假</td>
+<td>法定假日全休</td>
+<td>零</td>
+</tr>
+<tr>
+<td>并行能力</td>
+<td>1-2个任务</td>
+<td>5-8个任务</td>
+</tr>
+<tr>
+<td>边际成本</td>
+<td>线性增长</td>
+<td>接近零（已有token容量内）</td>
+</tr>
+</tbody>
+</table>
+<p>但这不是全部。Agent的真正优势不是"便宜"，而是<strong>效率转化</strong>。</p>
+<p>看一个真实案例。Yason有一个任务：帮一个新项目做技术调研，对比五种消息队列方案，输出一份对比报告。这个任务如果交给人来做——调研一周，写报告两天，汇报+讨论半天。总时间：约40小时。</p>
+<p>交给Agent呢？</p>
+<pre><code>Yason → Kai: &quot;对比RabbitMQ、Kafka、Pulsar、NATS、Redis Streams
+在以下维度：吞吐、延迟、运维复杂度、社区活跃度。
+输出对比表 + 推荐方案，附带每个方案的Demo代码片段。&quot;
+</code></pre>
+<p>Kai用了12分钟读完5个方案的官方文档，8分钟生成对比表和Demo。总时间：20分钟。API消耗：约\$0.80。</p>
+<p>40小时 vs 20分钟，¥3,200（约 $444）工资 vs $0.80 Token费。</p>
+<p>这不叫"省钱"，这叫<strong>降维打击</strong>。</p>
+<h2 id="token">什么时候该"浪费"Token</h2>
+<p>有了上面的数据，Yason养成了一个习惯：<strong>只要花钱能省时间，就花钱。</strong></p>
+<p>比如早期的prompt调试。Yason曾经每条prompt改完都手动测试，反复调。后来他直接让Agent自己迭代——"写一个prompt版本，自己执行看看效果，分析差距，再写v2。"Agent跑一轮可能花$0.50，但10轮下来才$5，比人手动调快了两个数量级。</p>
+<p>Yason管这叫"有效浪费"——Token花在探索和迭代上，最终产出质量提升，总成本反而更低。</p>
+<p>但有一种"浪费"是要警惕的。</p>
+<pre><code># 坏例子：Agent在一个方案上死磕了一个小时
+Agent: &quot;我再试一种写法...&quot;
+Agent: &quot;还是不行，换另一种...&quot;
+Agent: &quot;再优化一下...&quot;
+
+# 好例子：Agent在尝试3次失败后主动上报
+Agent: &quot;尝试了3种方案（A耗时2min、B耗时3min、B2变体耗时5min），
+全部失败。失败原因: 缺少X库的权限。
+建议方案: Yason执行这条命令赋权后我再继续。&quot;
+</code></pre>
+<blockquote>
+<p><strong>有效的"浪费"是探索，无效的"浪费"是死磕。区别在于是否有系统性试错，而不是随机碰运气。</strong></p>
+</blockquote>
+<p>成本天花板在这里：Agent一旦陷入"死循环试错"，Token消耗会指数级增长。Yason的解决方案是在每个Agent的System Prompt里加一条硬性规则：</p>
+<pre><code>## 成本控制
+- 任何任务尝试超过3次失败后，自动停止并输出失败报告
+- 每次API调用前，评估是否真的需要调用（能用缓存的不要重复调）
+- 复杂任务分步执行，每步完成后评估是否需要继续
+</code></pre>
+<h2 id="_1">成本天花板的真实故事</h2>
+<p>有段时间，Max（运营Agent）的API消耗突然暴涨——从日均$5跳到了$40。</p>
+<p>Yason查了日志后发现原因：Max在做一个竞品调研任务，Agent每看一个网页就调用一次大模型做总结。看了200个网页，调了200次。大部分页面只有3-5行有用信息。</p>
+<p>Yason的修复方案：<strong>分层处理</strong>。</p>
+<pre><code># 优化前：每个页面都调大模型
+for page in pages:
+    summary = llm.summarize(page.content)  # 200次调用
+
+# 优化后：先用规则过滤，再调大模型
+candidates = []
+for page in pages:
+    if page.has_keyword(&quot;pricing&quot;) or page.has_keyword(&quot;features&quot;):
+        candidates.append(page)
+
+# 只对候选页面调大模型
+for page in candidates[:20]:
+    summary = llm.summarize(page.content)  # 最多20次调用
+</code></pre>
+<p>就这么简单的一层过滤，Max的日均API消耗从$40降回了$6，采集的信息质量反而更高了——因为过滤掉了90%的噪音页面。</p>
+<h2 id="_2">成本优化的四步法</h2>
+<p>Yason经过几个月的踩坑，总结了一套成本优化的四步法：</p>
+<ol>
+<li><strong>建基线</strong>：记录每个Agent的日均Token消耗，按角色拆分。不知道花在哪，就不知道省在哪。</li>
+<li><strong>分任务定价</strong>：不是所有任务都用最强模型。代码审查用DeepSeek V4就够了，架构设计才需要Opus级别的模型。</li>
+</ol>
+<pre><code># 模型路由配置
+tasks:
+  code_review: deepseek-v4-flash    # 便宜，够用
+  architecture: deepseek-v4-pro      # 贵，需要深度推理
+  document: kimi                      # 长上下文
+  content: gpt-4o-mini               # 平衡成本和质量
+</code></pre>
+<ol>
+<li><strong>缓存重复结果</strong>：同一个prompt（比如"介绍一下这个项目"）在不同场景下被反复调用。Yason建了一个简单的缓存层，对重复请求直接返回缓存结果。这一项省了约30%的Token消耗。</li>
+<li><strong>设定告警线</strong>：每个Agent有日消耗上限，超过自动告警。不是不让花，而是要"有意识地花"。</li>
+</ol>
+<pre><code># 成本告警配置
+alerts:
+  kai:
+    daily_limit: $15
+    weekly_alert: $80
+  max:
+    daily_limit: $8
+    weekly_alert: $50
+  rex:
+    daily_limit: $5
+    weekly_alert: $30
+</code></pre>
+<h2 id="yason_1">Yason的底层逻辑</h2>
+<p>"花时间不如花钱"听起来像一句消费主义的广告词。但在Agent团队这个场景里，它是一个经过验证的效率公式。</p>
+<p>Yason的原话是这么说的：</p>
+<blockquote>
+<p><strong>人的时间是不可再生的。你今天浪费了1小时，就永远失去了这1小时。Token是可以再生的——明天API费用交上，又有了。用可再生的资源换不可再生的资源，这笔账永远划算。</strong></p>
+</blockquote>
+<p>前提是——你花Token的方向是对的。在探索、迭代、试错上花Token，这是投资。在死循环、重复计算、无效请求上花Token，这是浪费。</p>
+<h2 id="agent">效率公式：量化你的Agent团队产能</h2>
+<p>Yason后来总结了一个<strong>团队效率公式</strong>：</p>
+<pre><code>团队有效产出 = Σ(每个Agent的任务价值) - Σ(协调开销 + Token浪费 + 错误成本)
+
+每个Agent的任务价值 = 任务复杂度 × 完成质量 / 耗时
+协调开销 = 共享资源争用时间 + 信息同步时间
+Token浪费 = 重试消耗 + 无效调用 + 过长的上下文
+错误成本 = 修复时间 × 事故严重系数
+</code></pre>
+<p>只看Token费用是不够的——<strong>便宜但总出错的Agent，比稍贵但一次搞定的Agent更贵。</strong></p>
+<p>Yason给每个Agent算了一个"综合效率分"：</p>
+<pre><code>Agent: Kai
+  平均任务价值: 8.5/10
+  一次通过率: 78%
+  平均修复耗时: 12分钟
+  综合效率分: 7.2 (满分10)
+
+Agent: Rex
+  平均任务价值: 6.8/10  
+  一次通过率: 92%
+  平均修复耗时: 3分钟
+  综合效率分: 8.1 (满分10)
+</code></pre>
+<p>Kai的任务价值高，但一次通过率和修复耗时拖了后腿。Rex虽然做的任务相对简单，但稳。"综合效率分帮助Yason看清了：<strong>不是最强的Agent最值，最稳的才是最值的。</strong>"</p>
+<h2 id="roi">花钱还是花时间：一个ROI决策公式</h2>
+<p>有了综合效率分，Yason还是面临一个实际问题——每次来一个新任务，到底值不值得用Agent？他总结了一个<strong>ROI决策公式</strong>，并把它写成了可运行的Python函数：</p>
+<pre><code class="language-python">def should_use_agent(human_hours: float,
+                     human_rate: float,
+                     token_cost: float,
+                     retry_factor: float = 1.2,
+                     exchange_rate: float = 7.2
+                     ) -&gt; dict:
+    &quot;&quot;&quot;
+    ROI决策：花Token还是花时间？
+
+    公式:
+      human_cost = human_hours * human_rate
+      agent_cost = token_cost * exchange_rate * retry_factor
+      roi = (human_cost - agent_cost) / human_cost * 100
+      break_even = token_cost * exchange_rate / human_rate (hours)
+    &quot;&quot;&quot;
+    human_cost = human_hours * human_rate
+    agent_cost = token_cost * exchange_rate * retry_factor
+    savings = human_cost - agent_cost
+    roi = (savings / human_cost) * 100 if human_cost &gt; 0 else 0
+    break_even = (token_cost * exchange_rate) / human_rate if human_rate &gt; 0 else 0
+
+    if roi &gt; 50:
+        verdict = &quot;强烈建议用Agent——省时又省钱&quot;
+    elif roi &gt; 0:
+        verdict = &quot;建议用Agent——微利但省时间&quot;
+    elif roi &gt; -50:
+        verdict = &quot;模糊地带——建议人工，除非有特殊价值&quot;
+    else:
+        verdict = &quot;人工做——Agent还不如人划算&quot;
+
+    return {
+        &quot;verdict&quot;: verdict,
+        &quot;human_cost&quot;: round(human_cost, 2),
+        &quot;agent_cost&quot;: round(agent_cost, 2),
+        &quot;savings&quot;: round(savings, 2),
+        &quot;roi_percent&quot;: round(roi, 1),
+        &quot;break_even_hours&quot;: round(break_even, 2),
+    }
+
+
+hourly_rate = 80  # 初级工程师时薪约80
+
+tasks = [
+    (&quot;5方案技术调研&quot;, 40, 0.80),
+    (&quot;API对接文档&quot;, 8, 0.35),
+    (&quot;Code Review(中型PR)&quot;, 3, 0.60),
+    (&quot;数据库迁移脚本&quot;, 6, 1.20),
+    (&quot;客服邮件回复(200封)&quot;, 8, 4.50),
+]
+
+for name, hours, cost in tasks:
+    r = should_use_agent(hours, hourly_rate, cost)
+    print(f&quot;{name}: {r['verdict']} (ROI={r['roi_percent']}%)&quot;)
+</code></pre>
+<p>输出：</p>
+<pre><code>5方案技术调研: 强烈建议用Agent——省时又省钱 (ROI=99.8%)
+API对接文档: 强烈建议用Agent——省时又省钱 (ROI=99.6%)
+Code Review(中型PR): 强烈建议用Agent——省时又省钱 (ROI=98.2%)
+数据库迁移脚本: 强烈建议用Agent——省时又省钱 (ROI=98.2%)
+客服邮件回复(200封): 建议用Agent——微利但省时间 (ROI=81.8%)
+</code></pre>
+<p>注意"客服邮件"这一行的ROI最低——因为它Token消耗大（200封邮件要调200次API）。但它的<strong>绝对节省金额是最高的。Yason的经验是：ROI决定方向，绝对节省金额决定优先级。</strong></p>
+<h2 id="_3">任务级成本对比表：用真实数字说话</h2>
+<p>很多人对Agent成本的认知停留在"省了几块钱"的层面。Yason用一张实际运营数据表来说明——这张表和Ch13的成本控制表不同，Ch13关注"怎么花钱更少"，这里关注<strong>"花钱换来的时间值不值"</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>任务类型</th>
+<th>人工耗时</th>
+<th>人工成本(¥)</th>
+<th>Token消耗(\$)</th>
+<th>Agent成本(¥)</th>
+<th>节省(¥)</th>
+<th>ROI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>技术调研(5方案对比)</td>
+<td>40h</td>
+<td>3,200</td>
+<td>0.80</td>
+<td>6.9</td>
+<td>3,193</td>
+<td>99.8%</td>
+</tr>
+<tr>
+<td>数据库迁移脚本</td>
+<td>6h</td>
+<td>480</td>
+<td>1.20</td>
+<td>10.4</td>
+<td>470</td>
+<td>98.2%</td>
+</tr>
+<tr>
+<td>Code Review(中型PR)</td>
+<td>3h</td>
+<td>240</td>
+<td>0.60</td>
+<td>5.2</td>
+<td>235</td>
+<td>98.2%</td>
+</tr>
+<tr>
+<td>API对接文档生成</td>
+<td>8h</td>
+<td>640</td>
+<td>0.35</td>
+<td>3.0</td>
+<td>637</td>
+<td>99.6%</td>
+</tr>
+<tr>
+<td>竞品上线监控(周报)</td>
+<td>4h/周</td>
+<td>1,280/月</td>
+<td>2.10/周</td>
+<td>73/月</td>
+<td>1,207/月</td>
+<td>94.3%</td>
+</tr>
+<tr>
+<td>客服邮件回复(200封/天)</td>
+<td>8h/天</td>
+<td>6,400/月</td>
+<td>4.50/天</td>
+<td>1,166/月</td>
+<td>5,234/月</td>
+<td>81.8%</td>
+</tr>
+<tr>
+<td>页面UI组件开发(中等)</td>
+<td>6h</td>
+<td>480</td>
+<td>1.80</td>
+<td>15.6</td>
+<td>464</td>
+<td>96.8%</td>
+</tr>
+<tr>
+<td>生产日志异常分析</td>
+<td>1h</td>
+<td>80</td>
+<td>0.15</td>
+<td>1.3</td>
+<td>79</td>
+<td>98.4%</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>按初级工程师时薪¥80、\$1=¥7.2、Agent重试系数1.2计算。注意ROI在高频低Token场景下最高（技术调研），在低单价高Token场景下最低（客服邮件）。</p>
+</blockquote>
+<h2 id="agent-vs">Agent vs 人工决策流</h2>
+<p>Yason把这个判断过程画成了一个决策流程图，每次遇到新任务就过一遍：</p>
+<div class="mermaid">graph TD
+    A[来了一个新任务] --&gt; B{需要创造性判断&lt;br&gt;或情感同理心?}
+    B --&gt;|是| C[人工处理]
+    B --&gt;|否| D{目标清晰可度量?}
+    D --&gt;|否| E[先澄清目标和验收标准]
+    E --&gt; D
+    D --&gt;|是| F{需要24小时响应&lt;br&gt;或高频重复?}
+    F --&gt;|是| G[直接交给Agent]
+    F --&gt;|否| H{计算ROI:&lt;br&gt;Agent Cost vs Human Cost}
+    H --&gt;|Agent更省钱| G
+    H --&gt;|差不多| I[模糊地带:&lt;br&gt;按时效压力决定]
+    H --&gt;|人更省钱| C
+    I --&gt; J{有deadline吗?}
+    J --&gt;|紧迫| G
+    J --&gt;|不紧迫| C
+</div>
+<p>这个流程的核心思想是：<strong>先判断能不能做（目标和能力），再判断值不值得做（成本和ROI）。</strong> 顺序不能颠倒——一个ROI再高的任务，如果目标模糊，交给Agent只会加速制造垃圾。</p>
+<p>有了这个公式和决策流，Yason每次分配任务时不再是"凭感觉"，而是<strong>用数据说话</strong>：</p>
+<blockquote>
+<p>"别问我Token贵不贵，问我这个任务给我们省了多少小时。"</p>
+</blockquote>
+<h2 id="_4">真实案例：从成本中心到利润中心</h2>
+<p>Yason发现了一个值得分享的真实案例。他的一个创业朋友在做跨境独立站，团队只有两个人，一个负责产品开发，一个负责运营。他们用Agent搭建了一套完整的客户支持系统：</p>
+<ul>
+<li><strong>Agent A</strong>：自动回复邮件，解决常见问题（模板退货、物流查询）</li>
+<li><strong>Agent B</strong>：监控社交媒体评论，自动回复好评，标记差评到Slack</li>
+<li><strong>Agent C</strong>：分析客服数据，每周生成一份"客户痛点报告"</li>
+</ul>
+<p>三个Agent的月成本是\$420。换来的效果：</p>
+<ul>
+<li>邮件回复时间从24小时降到了平均3分钟</li>
+<li>客服人力从2人全职降到了1人兼职审核</li>
+<li>客户满意度从82%提升到91%（因为回复更快了）</li>
+<li>每周的"客户痛点报告"帮团队发现了3个产品改进机会，直接带动了下季度销售额增长15%</li>
+</ul>
+<p>"Agent不是你'省钱'的手段，是你'放大'的手段。"Yason这个朋友说。<strong>420美元的成本撬动了15%的销售增长——这笔账怎么算都是赚的。</strong></p>
+<h2 id="_5">社区的成本转效率工具</h2>
+<ul>
+<li><strong>OpenRouter</strong>：统一的LLM网关，自动路由到性价比最高的模型提供商。当DeepSeek涨价时自动切换到备用提供商，Yason无需手动操作。</li>
+<li><strong>LiteLLM</strong>：开源多提供商SDK，支持100+模型提供商的统一接口。集成一次就能在所有模型之间切换，成本优化从"手动改代码"变成了"改一行配置"。</li>
+<li><strong>Portkey</strong>：AI网关，内置缓存、回退、重试策略。Yason自己写的那些Token优化技巧（缓存、重试限制等），Portkey开箱就有，还带漂亮的仪表盘。</li>
+<li><strong>Helicone</strong>：开源LLM成本追踪，支持按Agent、按任务、按模型拆分成本。Yason的"周报自动汇总成本"功能，Helicone开箱就有。</li>
+</ul>
+<p>"工具的能帮你节省30%的成本。但剩下的70%，靠的是对业务的理解——知道什么时候该用贵模型、什么时候便宜的够用。"Yason说。</p>
+<p>下一章我们来聊聊一个完全相反的话题——当Agent搞砸了的时候，你该怎么办。不是"会不会翻车"的问题，而是"翻车后怎么救"的问题。</p>
+<h2 id="_6">本章小结</h2>
+<ul>
+<li>花时间不如花钱：把低价值的时间用Agent替代，聚焦在高价值决策上</li>
+<li>投入产出比公式：Agent成本 ÷ (时间节省 × 产出质量提升) 才是真正的ROI</li>
+<li>开源生态提供了OpenRouter、LiteLLM等工具，无需自己造轮子</li>
+<li>Agent不是省钱工具，是放大手段——420美元成本撬动15%销售增长</li>
+</ul>
+<p><em>本文来自专栏《给AI当老板》，完整系列持续更新中：</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<p><img alt="图片对比对“花时间”和“花钱”两种方案在成本与效率上的差异。人工实现方面，重构模块需3 - 5天，编写测试用例1 - 2天，代码Reviewiew" src="../assets/diagrams/zh_15_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

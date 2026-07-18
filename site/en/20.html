@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><h1 id="self-evolution-and-self-repair-agent-teams-that-grow-smarter">Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</h1>
+<p><img alt="Image showing the Agent self-evolution and self-repair flow. From left to right: monitor, diagnose, repair, verify, learn. After an anomaly is detected, the core system is isolated automatically, a fix is generated, and once verification passes it's added to the knowledge base. It also shows data such as 15min average detection time, 3min auto-repair time, 96% auto-repair success rate, 87% recurrence reduction. The bottom note says the highest level of self-repair is not to never err, but to fix errors on your own and not repeat the same mistake next time." src="../assets/diagrams/en_20_1.svg" /></p>
+<h2 id="agents-dont-remember-what-they-did">Agents Don't "Remember" What They Did</h2>
+<p>There's a depressing fact Yason took two months to accept:</p>
+<p><strong>After completing a task, an Agent doesn't learn anything from it.</strong></p>
+<p>Not "learns slowly" — "doesn't learn at all." Kai steps in a rake today, and hits the same rake again tomorrow. Max learns a trick today, and still uses the old method tomorrow.</p>
+<p>This isn't a problem with any particular Agent — it's common to all LLMs: <strong>each conversation is independent; the context is wiped when the conversation ends. Agents have no long-term memory and no mechanism for "experience accumulation."</strong></p>
+<p>Yason's Max once stepped in the same rake 21 times — on the 21st time, Max's log read "I think I've seen this error before," and then still chose the wrong solution.</p>
+<blockquote>
+<p><strong>An Agent team without memory isn't a team — it's an assembly line. No one's experience gets passed on; every day is a new hire's first day.</strong></p>
+</blockquote>
+<h2 id="the-core-mechanism-of-self-evolution">The Core Mechanism of Self-Evolution</h2>
+<p>Yason got tired of "teaching Kai the same thing every week," so he started building an Agent self-evolution mechanism.</p>
+<p>The core of this mechanism is four words: <strong>replay and review.</strong></p>
+<div class="mermaid">flowchart LR
+    A[Execute task] --&gt; B[Full behavior log]
+    B --&gt; C{Idle-time review}
+    C --&gt; D[Extract experience card]
+    D --&gt; E[Store in knowledge base]
+    E --&gt; F[Reuse in next task]
+    F --&gt;|trigger new execution| A
+
+    C -.-&gt; G[Agent self-reflection
+    failure analysis / decision review]
+    D -.-&gt; H[Structure into
+    scenario + lesson format]
+    E -.-&gt; I[Cross-pollination
+    push to matching Agents]
+</div>
+<h3 id="step-1-full-behavior-log">Step 1: Full Behavior Log</h3>
+<p>Every Agent's every task — from receiving the instruction to producing the result — is logged in full to a Git repo.</p>
+<pre><code class="language-bash"># /opt/agents/logs/kai/2025-06/
+├── TASK-001-execution.log       # raw execution log
+├── TASK-001-decisions.json      # decision records
+├── TASK-001-failures.json       # failure records + resolution
+├── TASK-002-execution.log
+└── ...
+</code></pre>
+<p>The key is the "decision records" — every key decision an Agent makes must record "why this approach was chosen" and "were there other approaches that were rejected."</p>
+<pre><code class="language-json">{
+  &quot;task_id&quot;: &quot;TASK-001&quot;,
+  &quot;decisions&quot;: [
+    {
+      &quot;problem&quot;: &quot;DB connection pool size config&quot;,
+      &quot;chosen&quot;: &quot;connection_pool_size=20&quot;,
+      &quot;runner_up&quot;: &quot;connection_pool_size=50&quot;,
+      &quot;reason&quot;: &quot;Current expected load is ~1000 concurrent; 20 is enough. Larger wastes resources.&quot;,
+      &quot;result&quot;: &quot;Correct; peak connections reached only 15&quot;
+    },
+    {
+      &quot;problem&quot;: &quot;Cache strategy&quot;,
+      &quot;chosen&quot;: &quot;Redis + local cache, two layers&quot;,
+      &quot;runner_up&quot;: &quot;Redis only&quot;,
+      &quot;reason&quot;: &quot;High-frequency reads benefit from local cache to cut network IO&quot;,
+      &quot;result&quot;: &quot;Correct; avg response time dropped from 120ms to 45ms&quot;
+    }
+  ]
+}
+</code></pre>
+<h3 id="step-2-idle-time-review">Step 2: Idle-Time Review</h3>
+<p>Yason set up a cron job — every day at 3 AM, when all Agents are low-load, it triggers the review process.</p>
+<pre><code class="language-bash"># crontab - Agent daily review
+0 3 * * * /opt/agents/scripts/review-today.sh
+
+# review-today.sh contents
+for agent in kai max rex; do
+    echo &quot;=== Reviewing $agent ===&quot;
+    # Analyze today's failure records
+    today_fails=$(cat /opt/agents/logs/$agent/$(date +%Y-%m-%d)-failures.json)
+
+    # Let the Agent look at its own failure records
+    $agent --prompt=&quot;These are the failures you hit today. Analyze each one:
+    1. Cause of failure
+    2. Was the resolution correct?
+    3. Is there a better resolution?
+    4. What lesson can be extracted?
+    Output in experience-card format.&quot;
+
+    # Store the extracted experience in the knowledge base
+    $agent --save-experience &gt;&gt; /opt/agents/knowledge/$agent-experience.yaml
+done
+</code></pre>
+<p>The review isn't done by Yason manually — it lets the Agent "reflect" on its own day's work: the Agent reads its own logs, analyzes its own mistakes, and extracts lessons.</p>
+<p>Yason found an interesting pattern: <strong>When reviewing, the Agent analyzes its own day's errors more thoroughly than Yason could.</strong> Because it can see every decision path, while Yason only sees the final result.</p>
+<h3 id="step-3-experience-cards">Step 3: Experience Cards</h3>
+<p>The review results are distilled into "experience cards" — structured knowledge fragments stored in the knowledge base.</p>
+<pre><code class="language-yaml"># /opt/agents/knowledge/kai-experience.yaml
+experiences:
+  - id: EXP-042
+    title: &quot;Lock NPM dependency versions&quot;
+    scenario: &quot;Installing a new dependency without locking the version&quot;
+    consequence: &quot;CI builds produced different results at different times&quot;
+    lesson: &quot;All new dependencies must be version-locked with the --save-exact flag&quot;
+    tags: [&quot;nodejs&quot;, &quot;dependency&quot;, &quot;ci&quot;]
+    discovered: &quot;2025-06-10&quot;
+    applied_count: 7
+
+  - id: EXP-043
+    title: &quot;Don't use JSON for large files&quot;
+    scenario: &quot;Tried to JSON.parse() a 500MB log file&quot;
+    consequence: &quot;OOM, process killed&quot;
+    lesson: &quot;Files over 100MB should be streamed, not loaded all at once&quot;
+    tags: [&quot;performance&quot;, &quot;memory&quot;]
+    discovered: &quot;2025-06-11&quot;
+    applied_count: 4
+</code></pre>
+<p>The core design of experience cards is the "scenario + lesson" structure — not abstract rules, but <strong>what problem was hit in what situation, and what to do.</strong> When an Agent takes a new task, it first queries the knowledge base for matching experience.</p>
+<h3 id="step-4-cross-pollination">Step 4: Cross-Pollination</h3>
+<p>Can Agent A's experience be passed to Agent B? Yason's design: "yes, but not automatically."</p>
+<pre><code>Kai's experience card:
+  EXP-042: &quot;Lock NPM dependency versions&quot;
+
+Will Max hit this problem?
+  ← Max doesn't use NPM → no need
+
+Kai's experience card:
+  EXP-038: &quot;When rate-limited on an API, don't use fixed intervals — use exponential backoff&quot;
+
+Will Rex use APIs?
+  ← Rex also calls external APIs → yes, needed
+
+Rex's knowledge base receives EXP-038:
+  &quot;Experience shared from Kai: use exponential backoff when rate-limited... adopted&quot;
+</code></pre>
+<p>Yason designed an "experience recommendation engine" — every week it auto-scans all knowledge bases, finds cross-Agent-applicable experience, and pushes it to the target Agents' knowledge bases.</p>
+<pre><code class="language-python">def cross_pollinate():
+    all_experiences = load_all_experiences()
+    for agent in agents:
+        current_tags = agent.get_knowledge_tags()
+        for exp in all_experiences:
+            # If the experience tags match the target Agent's capabilities
+            # and the Agent doesn't yet have this experience
+            if exp.tags &amp; agent.capability_tags and exp.id not in agent.knowledge:
+                # Push it
+                agent.knowledge.append(exp)
+                log(f&quot;{agent.name} got experience {exp.id} from {exp.source}&quot;)
+</code></pre>
+<h2 id="the-evolution-of-the-compaction-strategy">The Evolution of the Compaction Strategy</h2>
+<p>Experience cards are only part of Yason's memory system. The bigger challenge: as the Agent's conversation context grows longer, how do you compress it while keeping the core signal?</p>
+<p>Yason's Compaction strategy went through four stages:</p>
+<p><strong>Stage 1: Simple Truncation</strong><br />
+The earliest approach — when context exceeded the limit, just cut off the earliest part.<br />
+Cost: key decision info often got dropped. The Agent forgot what it was doing, then started "hallucinating."</p>
+<p><strong>Stage 2: Structured Summarization</strong><br />
+Summarize the early conversation into a structured summary:</p>
+<pre><code>Raw conversation (5000 tokens) → Summary (200 tokens)
+- Decisions made: 3
+- Pending items: 2 (PR review, DB migration)
+- Current status: waiting for Max's API docs
+</code></pre>
+<p>Improvement: core info is preserved, but the detailed reasoning chain is lost.</p>
+<p><strong>Stage 3: Anchored Iterative Summarization</strong><br />
+Yason improved on Stage 2 — each summary "anchors" key decision nodes, ensuring their complete info isn't compressed. Also, before each summary the Agent asks itself: "Is this info still useful for my later decisions?" and keeps only what's useful.</p>
+<p><strong>Stage 4: ACON (from a Microsoft paper)</strong><br />
+At the end of 2025, Microsoft published a paper on Agent context compression — ACON (Adaptive Context Optimization for Agents). ACON's core idea: instead of a fixed compression strategy, dynamically choose the compression strategy based on the Agent's current task type and state.</p>
+<pre><code>ACON strategy selection:
+
+Code generation task → keep function signatures, existing code snippets, test results
+Doc writing task → keep outline, finalized terms, review comments
+Analysis research task → keep hypotheses, dataset summaries, key findings
+Debug fix task → keep error stack, attempted approaches, failure reasons
+</code></pre>
+<p>At the start of 2026, Yason upgraded his Compaction strategy to a simplified version of ACON — task-type recognition + dynamic compression-strategy selection. Compared to Stage 1 (simple truncation), Stage 4's Compaction preserved about 85% of the signal while using only 30% of the original Token consumption.</p>
+<blockquote>
+<p><strong>Compaction isn't "deleting things" — it's "knowing what can't be deleted." A good Compaction strategy keeps the Agent's context always holding only its most important current task.</strong></p>
+</blockquote>
+<h2 id="the-emergence-of-self-healing-swarm-intelligence">The Emergence of Self-Healing: Swarm Intelligence</h2>
+<p>Yason noticed an interesting phenomenon — once the Agent count crosses a certain threshold (his experience: 5+), a "self-healing" capability emerges spontaneously.</p>
+<p>He didn't design it — it <strong>emerged.</strong></p>
+<p>The concrete behavior: when an Agent shows abnormal behavior (e.g., Kai starts outputting unreasonable code), other Agents notice and react.</p>
+<pre><code>Scenario: Kai's code quality suddenly drops
+
+09:32 Kai: submitted code with an unparameterized SQL query
+09:33 Rex (monitoring Agent): detected SQL injection risk in Kai's commit,
+      auto-created a Blocking PR Review
+09:34 Max: noticed Rex's PR Review, paused tasks depending on Kai's output
+09:35 Yason: received Rex's alert, &quot;Kai's code quality abnormal, recommend check&quot;
+</code></pre>
+<p>Yason wrote no code for "SQL injection detection." Rex could spot the problem because it had accumulated experience in daily monitoring of "what good code should look like" — when Kai's output deviated from that experience baseline, Rex raised the alarm.</p>
+<p>This phenomenon is called <strong>Stigmergy</strong> in swarm intelligence — each Agent leaves "traces" in the environment (code commits, status updates, alerts), and other Agents sense those traces and react autonomously, with no central dispatch needed.</p>
+<p>In Yason's team, this "self-healing" mechanism only started appearing stably in the third month. Preconditions:</p>
+<ol>
+<li>At least 5 Agents (too few, no swarm effect)</li>
+<li>Each Agent has its own monitoring perspective (not all Agents doing the same thing)</li>
+<li>Information-sharing mechanisms in place (status sync, readable logs, subscribable alerts)</li>
+</ol>
+<blockquote>
+<p><strong>Self-healing isn't written — it's grown. When your Agent team has enough individuals, and each individual has a unique perspective, swarm intelligence emerges spontaneously.</strong></p>
+</blockquote>
+<h2 id="the-30-day-evolution-cycle">The 30-Day Evolution Cycle</h2>
+<p>Yason's Agent team evolves on a 30-day cycle:</p>
+<pre><code>Days 1-7: Collection phase
+  Agents log all behavior, build baseline data
+
+Days 8-14: Analysis phase
+  Review tool analyzes logs, extracts reusable experience
+
+Days 15-21: Integration phase
+  Experience cards written to knowledge base, System Prompt updated
+
+Days 22-30: Validation phase
+  Compare against baseline data, evaluate improvement effect
+</code></pre>
+<p><strong>Real data:</strong> In the first cycle (days 1-30), Kai's task failure rate dropped from 22% to 9%; in the second cycle (days 31-60), it dropped further to 5%. By the third month, Kai basically no longer repeated the same mistakes on the same type of task.</p>
+<blockquote>
+<p><strong>The Agent team went from "starting over every time" to "standing on the shoulders of the last time." Every 30 days, the team levels up.</strong></p>
+</blockquote>
+<h2 id="automatic-knowledge-graph-construction">Automatic Knowledge Graph Construction</h2>
+<p>Experience cards are a linear knowledge-storage method, but Yason found that once the card count exceeded 200, retrieval efficiency started dropping — the Agent didn't know which card was more relevant to retrieve.</p>
+<p>His solution was a <strong>knowledge graph</strong>: automatically extract entities and relations from Agent logs to build a structured knowledge network.</p>
+<pre><code class="language-python">def build_knowledge_graph(logs):
+    graph = KnowledgeGraph()
+
+    for log in logs:
+        # Extract entities
+        entities = extract_entities(log.text)
+        # entity: &quot;user-auth module&quot;, type: &quot;module&quot;
+        # entity: &quot;NPM dependency lock&quot;, type: &quot;practice&quot;
+        # entity: &quot;502 error&quot;, type: &quot;incident&quot;
+
+        # Extract relations
+        relations = extract_relations(log.text, entities)
+        # relation: &quot;user-auth module&quot; → &quot;uses&quot; → &quot;NPM dependency lock&quot;
+        # relation: &quot;502 error&quot; → &quot;occurs in&quot; → &quot;user-auth module&quot;
+
+        graph.add_entities(entities)
+        graph.add_relations(relations)
+
+    return graph
+</code></pre>
+<p>This knowledge graph upgrades the Agent's retrieval from "keyword matching" to "path navigation." For example, when Kai handles a "user-auth module" task, it not only sees its own experience card, but can also navigate the graph to "502 error," "DB connection pool," "JWT implementation," and other contextual info linked to "user-auth module."</p>
+<p>Yason found the knowledge graph improved recall by about 40% over pure keyword search, and Agents made fewer context-contradicting decisions.</p>
+<h2 id="versioning-skills">Versioning Skills</h2>
+<p>The biggest pitfall Yason hit in the experience system was <strong>version chaos.</strong></p>
+<p>By the third month, Kai's experience cards had a dozen-plus versions — some added, some modified, some deprecated. But nowhere in the system recorded this change history. Yason often found Kai using a two-month-old version of an experience — because the old version hadn't been replaced yet.</p>
+<p>The lesson: <strong>Skills are also code — they need version control.</strong></p>
+<p>Yason's solution was simple — put the experience-card library under Git management:</p>
+<pre><code class="language-bash"># /opt/agents/knowledge/
+├── README.md
+├── kai/
+│   ├── v1.0-experiences.yaml     # initial version
+│   ├── v1.1-experiences.yaml     # added 5 experiences
+│   ├── v2.0-experiences.yaml     # refactor: reclassified tags
+│   └── current → v2.0-experiences.yaml  # symlink to current version
+├── max/
+│   └── ...
+└── shared/                       # cross-Agent shared knowledge
+    └── v1.0-general.yaml
+</code></pre>
+<p>Every experience update goes through the standard Code Review flow: update the YAML → create PR → Yason or Kai reviews → merge to main → symlink points to the new version. If the new version has issues, rollback is just changing the symlink.</p>
+<p>Yason also built a simple automated test: after merging a PR, it auto-runs a regression task with the new experience cards and compares new vs. old completion quality. If quality drops, CI blocks the merge directly.</p>
+<blockquote>
+<p><strong>Experience is the Agent team's most important asset. The way to treat an asset should be: versioned, auditable, rollbackable. As serious as code.</strong></p>
+</blockquote>
+<h2 id="the-communitys-self-evolution-ecosystem">The Community's Self-Evolution Ecosystem</h2>
+<p>Most of Yason's self-evolution system is self-built, but on key components the community's open-source solutions helped a lot.</p>
+<p><strong>AutoGen's Reflection mechanism:</strong> Microsoft AutoGen has built-in Agent self-reflection — after completing a task, the Agent auto-generates a "reflection report" analyzing its own performance. Yason's review process drew heavily on AutoGen's reflection pattern.</p>
+<pre><code class="language-python"># AutoGen's reflection pattern (simplified)
+from autogen import Agent, ReflectionMixin
+
+class ReflectiveAgent(Agent, ReflectionMixin):
+    async def execute_and_reflect(self, task):
+        result = await self.execute(task)
+        # Auto-reflect
+        reflection = await self.reflect(
+            task=task,
+            result=result,
+            prompt=&quot;Analyze your execution: what went well? what could improve?&quot;
+        )
+        # Save experience and reflection
+        self.store_experience(reflection)
+        return result
+</code></pre>
+<p><strong>LangGraph's Checkpoint/Resume:</strong> LangGraph's persistence turns the Agent's evolution into a traceable process. Every time the Agent reaches a key node, it auto-creates a Checkpoint. If a later Agent finds a decision was wrong, it can roll back to any Checkpoint and redo. Yason uses this heavily in Rex's simulation tasks — a simulation runs 8 hours; if some parameter was set wrong midway, no need to rerun, just roll back to the error point.</p>
+<p><strong>Community-shared Skill libraries:</strong> There are already community-maintained Agent Skill repos on GitHub. Yason's team imported a dozen-plus preset Skills from the community Skill library — "code review spec," "API design guide," "CI/CD config templates." These are community-accumulated best practices, far more efficient than summarizing from scratch.</p>
+<blockquote>
+<p><strong>Don't reinvent the wheel. Experience accumulation isn't "every team groping from scratch" — it's "standing on the community's experience, and adding your own unique layer."</strong></p>
+</blockquote>
+<h2 id="memory-compression-from-logs-to-skills">Memory Compression: From Logs to Skills</h2>
+<p>Logs are raw, detailed, noisy. Experience cards are distilled, structured, actionable. The transformation in between is "memory compression."</p>
+<p>Yason's compression flow:</p>
+<pre><code class="language-python">def compress_logs_to_skill(logs):
+    # 1. Filter noise
+    relevant = [l for l in logs if l.level in [&quot;ERROR&quot;, &quot;WARNING&quot;] or l.type == &quot;decision&quot;]
+
+    # 2. Cluster similar events
+    clusters = cluster_by_similarity(relevant)
+
+    # 3. Extract general patterns
+    skills = []
+    for cluster in clusters:
+        pattern = extract_pattern(cluster)
+        skill = format_experience_card(pattern)
+        skills.append(skill)
+
+    return skills
+</code></pre>
+<p>This process isn't perfect — sometimes it distills overly specific experience ("how to fix this particular bug"), sometimes overly generic lessons ("watch your code quality"). Yason's approach: <strong>distill coarsely first, then let the Agent filter during review.</strong></p>
+<h2 id="the-bottleneck-of-evolution">The Bottleneck of Evolution</h2>
+<p>Self-evolution isn't omnipotent. Yason found three bottlenecks:</p>
+<p><strong>Bottleneck 1: Data quality ceiling.</strong> If the Agent's logs don't record correct decision info, the review can't distill good experience. "Garbage in, garbage out" — so Yason mandates that every Agent log its decision record during task execution.</p>
+<p><strong>Bottleneck 2: Saturation of similar experience.</strong> After three months, Kai's "common code errors" experience library was fairly complete; fewer and fewer new experiences were distilled, marginal benefit diminishing. At this point, the change in experience isn't adding new entries, but optimizing existing ones.</p>
+<p><strong>Bottleneck 3: Hard cross-domain transfer.</strong> Kai's experience in code is hard to directly transfer to Max's ops strategy. The benefit of experience sharing shows more at the "general methodology" level (e.g., "try several approaches before choosing") than at the specific-skill level.</p>
+<blockquote>
+<p><strong>The ultimate form of self-evolution isn't the Agent learning all skills, but the Agent learning "how to learn new skills." Turning "learning to learn" itself into a reusable capability — that's the real value of the experience system.</strong></p>
+</blockquote>
+<h2 id="rl-for-agents-self-play-optimization">RL for Agents: Self-Play Optimization</h2>
+<p>In the final step of the self-evolution system, Yason started exploring a more ambitious direction — using Reinforcement Learning (RL) to optimize the Agent's decision quality.</p>
+<p>The traditional RL idea is "the Agent acts in an environment, adjusts strategy based on a reward signal" — for an Agent team this has a natural mapping: every Agent decision ("choose plan A or plan B") is an action, and whether the task completes smoothly is a reward signal.</p>
+<p>Yason's experiment method:</p>
+<pre><code class="language-python">def rl_optimize(agent, task_pool, episodes=100):
+    for episode in range(episodes):
+        task = random.choice(task_pool)
+
+        # Agent executes the task
+        result = agent.execute(task)
+
+        # Compute reward
+        reward = compute_reward(result)
+        # Short completion time → +reward
+        # High quality → +reward
+        # Low Token consumption → +reward
+        # Error → -reward
+
+        # Update the Agent's decision strategy
+        agent.update_strategy(reward, task, result)
+</code></pre>
+<p>This experiment is still early, but Yason has already observed an interesting pattern: after dozens of RL self-play rounds, the Agent starts favoring "conservative but reliable" plans over "risky but possibly better" ones — the Agent is trading off Tokens against its own success rate.</p>
+<blockquote>
+<p><strong>RL for Agents is still early, but it points to an ultimate direction: Agents can not only learn from past experience, but also proactively explore better strategies through "self-play." This direction may be the key step from Agents as "assistive tools" to "autonomous intelligence."</strong></p>
+</blockquote>
+<h2 id="chapter-summary">Chapter Summary</h2>
+<ul>
+<li>Self-evolution isn't omnipotent — the data quality ceiling, saturation of similar experience, and hard cross-domain transfer are three core bottlenecks</li>
+<li>The Compaction strategy has four evolution stages: truncation → structured summary → anchored iteration → ACON optimization</li>
+<li>Cross-monitoring among multiple Agents can produce emergent self-healing behavior (Stigmergy)</li>
+<li>Skills need version management like code — a full lifecycle of design, implementation, testing, and archival</li>
+<li>RL for Agents is the ultimate direction of self-evolution, but still early</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview:</strong> The future is here — when Agent teams become standard, how will work change? And Yason's last words to those wanting to start building an Agent team.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI'; the full series is continuously updated:</em> <a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<hr />
+<p><img alt="Image showing self-evolution" src="../assets/diagrams/en_20_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>

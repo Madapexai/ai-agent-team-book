@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transparent Management — The Power of Hourly Check-ins · Being the Boss of AI</title>
+<meta name="description" content="A free 21-chapter handbook for building AI Agent teams that actually work.">
+<link rel="stylesheet" href="../style.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({startOnLoad:true});
+</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">📖 Being the Boss of AI</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="00_preface.html">English</a>
+    <a href="../zh/00_preface.html">中文</a>
+    <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub ⭐</a>
+  </nav>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Chapters</div>
+    <ul><li><a href="en/00_preface.html"><span class="ch-num">00</span>Preface</a></li>
+<li><a href="en/01.html"><span class="ch-num">01</span>Why You Need an AI Agent Team</a></li>
+<li><a href="en/02.html"><span class="ch-num">02</span>What Agent Teams Can and Cannot Do</a></li>
+<li><a href="en/03.html"><span class="ch-num">03</span>The Real Cost of Building an Agent Team</a></li>
+<li><a href="en/04.html"><span class="ch-num">04</span>Choosing Your First Agent</a></li>
+<li><a href="en/05.html"><span class="ch-num">05</span>The Art of Writing System Prompts</a></li>
+<li><a href="en/06.html"><span class="ch-num">06</span>The Art of Division — Who Does What</a></li>
+<li><a href="en/07.html"><span class="ch-num">07</span>Memory Systems — Getting Agents to Know Each Other</a></li>
+<li><a href="en/08.html"><span class="ch-num">08</span>Communication Protocols — When Agents Start Speaking Jargon</a></li>
+<li><a href="en/09.html"><span class="ch-num">09</span>Transparent Management — The Power of Hourly Check-ins</a></li>
+<li><a href="en/10.html"><span class="ch-num">10</span>Inspector System — Agents Managing Agents</a></li>
+<li><a href="en/11.html"><span class="ch-num">11</span>Goal-Oriented — From "Waiting for Tasks" to "Proactive Proposals"</a></li>
+<li><a href="en/12.html"><span class="ch-num">12</span>Self-Evolution — How Agents Get Smarter</a></li>
+<li><a href="en/13.html"><span class="ch-num">13</span>Cost Control — Don't Let Your API Bill Explode</a></li>
+<li><a href="en/14.html"><span class="ch-num">14</span>Quality Assurance — Reviews and Feedback Loops</a></li>
+<li><a href="en/15.html"><span class="ch-num">15</span>Cost to Efficiency — Spend Money, Not Time</a></li>
+<li><a href="en/16.html"><span class="ch-num">16</span>Crash Scenes — When Agents Mess Up</a></li>
+<li><a href="en/17.html"><span class="ch-num">17</span>Multi-Agent Collaboration Protocol Stack</a></li>
+<li><a href="en/18.html"><span class="ch-num">18</span>Sub-Agent Architecture — Give Your Agents Subordinates</a></li>
+<li><a href="en/19.html"><span class="ch-num">19</span>External Tools — MCP and Toolchains</a></li>
+<li><a href="en/20.html"><span class="ch-num">20</span>Self-Evolution and Self-Repair — Agent Teams That Grow Smarter</a></li>
+<li><a href="en/21.html"><span class="ch-num">21</span>The Future — When Agent Teams Become Standard</a></li></ul>
+  </aside>
+  <main class="content"><p><img alt="Image showing the Kanban check-in workflow under hourly transparent management. The workflow includes steps like claiming tasks, starting work, updating progress, reporting blockers, and completing delivery, each marked with a different colored circle. On the right is the Kanban statistics panel showing To-be-claimed, In Progress, In Review, Completed (today), and Blocked tasks. Automatically generated image" src="../assets/diagrams/en_09_1.svg" /></p>
+<h2 id="you-have-no-idea-what-your-agent-is-up-to">You have no idea what your Agent is up to</h2>
+<p>Yason once spent three straight hours thinking Kai was working on an urgent bug. Three hours later he asked for a status update, and Kai replied, "What bug? I've been waiting for you to give me the next task."</p>
+<p>Back then there was no transparency mechanism. Whether an Agent was working, what it was doing, and what blockers it had hit — all of that depended on Yason actively asking. And the simple act of "asking" is itself a management cost.</p>
+<p>There's a more insidious problem: <strong>an Agent won't proactively tell you it's idle.</strong> A human colleague who's got nothing to do will look bored, will scroll their phone, will ask "anything I can help with?" An Agent won't. It just sits there quietly, waiting at zero cost, forever. That sounds great — no eating, no drinking, no slacking off. But here's the issue:</p>
+<blockquote>
+<p><strong>An idle Agent isn't "saving you money" — it's "wasting" it. You're already paying for its API quota, so every idle minute is money burning with no output.</strong></p>
+</blockquote>
+<h2 id="kanban-the-single-source-of-truth-for-your-agent-team">Kanban: the single source of truth for your Agent team</h2>
+<p>Yason's fix sounds old-school — a Kanban board.</p>
+<p>But not Trello, not Jira, not Feishu's multi-dimensional tables. Yason's Kanban is a <strong>Markdown file</strong>, sitting in the root of the shared memory library:</p>
+<pre><code class="language-markdown"># /memory/KANBAN.md
+
+## Kai (Dev)
+| Time | TODO | Status | Risk |
+|------|------|--------|------|
+| 09:00 | Review PR #42 | ✅ Done | — |
+| 10:00 | Refactor user module cache layer | ✅ Done | — |
+| 11:00 | Fix login-page blank-screen bug | 🔄 In Progress | ⚠️ Needs Rex to confirm Nginx config |
+| 12:00 | Break | — | — |
+| 13:00 | Fix login-page blank-screen bug | ✅ Done | — |
+| 14:00 | Code review PR #45 | ⏳ Queued | — |
+
+## Rex (Ops)
+| Time | TODO | Status | Risk |
+|------|------|--------|------|
+| 09:00 | Routine server inspection | ✅ Normal | — |
+| 10:00 | Backup database | ✅ Done | — |
+| 11:00 | — | ❌ Idle | 💡 Suggest cleaning up disk logs |
+| ... | ... | ... | ... |
+
+## Max (Ops/Content)
+...
+</code></pre>
+<p>Each Agent updates this file once an hour. Yason opens it whenever he wants, and instantly sees the team's pulse.</p>
+<h2 id="the-hourly-check-in-format">The hourly check-in format</h2>
+<p>Yason requires Agents to check in on the hour, in an extremely simple format:</p>
+<pre><code>[TODO] One sentence describing what you're doing
+[Status] ✅ Done / 🔄 In Progress / ⏳ Queued / ❌ Idle / 🚫 Blocked
+[Risk] ⚠️ If there's any risk, write the specific problem; if none, write —
+</code></pre>
+<p>Three hard rules:</p>
+<ol>
+<li><strong>If the status is "Blocked"</strong> — you must also write the reason for the block and a suggested solution. Just saying "stuck" with no reason is not allowed.</li>
+<li><strong>If the status is "Idle" for more than 2 hours</strong> — you must proactively propose something to do (more on this in the next chapter).</li>
+<li><strong>If the status is "In Progress" for more than 3 hours</strong> — you must break the task into subtasks, because a task running that long means the granularity is too coarse.</li>
+</ol>
+<p>This seems rigid. But Yason found that <strong>format constraints look like limitations, but they're actually an anchor for attention.</strong> When an Agent writes its TODO, it's really telling itself "what should I be doing right now." The format itself is a trigger for task management.</p>
+<h2 id="rexs-automated-inspection-script">Rex's automated inspection script</h2>
+<p>Turning check-ins into automation is one of Rex's (the ops Agent) responsibilities. Yason wrote a simple inspection script:</p>
+<pre><code class="language-bash">#!/bin/bash
+# hourly-kanban-scan.sh
+# Scan KANBAN.md every hour and check the status of all Agents
+# Env vars: KANBAN_PATH, LOG_PATH, FEISHU_CMD, FEISHU_TARGET
+
+KANBAN=&quot;${KANBAN_PATH:-/memory/KANBAN.md}&quot;
+LOG=&quot;${LOG_PATH:-/var/log/agent-kanban-scan.log}&quot;
+FEISHU_CMD=&quot;${FEISHU_CMD:-feishu}&quot;
+FEISHU_TARGET=&quot;${FEISHU_TARGET:-yason}&quot;
+
+echo &quot;=== $(date '+%Y-%m-%d %H:00') KANBAN inspection ===&quot; &gt;&gt; &quot;$LOG&quot;
+
+# Check whether each Agent has a check-in record in the last hour
+AGENTS=&quot;${AGENT_LIST:-kai rex max}&quot;
+for agent in $AGENTS; do
+  last_checkin=$(grep &quot;| $agent&quot; &quot;$KANBAN&quot; | tail -1)
+  checkin_time=$(echo &quot;$last_checkin&quot; | grep -oP '\d{2}:\d{2}')
+  current_hour=$(date '+%H')
+
+  if [ &quot;$checkin_time&quot; != &quot;$current_hour:00&quot; ]; then
+    echo &quot;⚠️ $agent missed check-in&quot; &gt;&gt; &quot;$LOG&quot;
+    $FEISHU_CMD send &quot;⚠️ $agent missed check-in at $current_hour:00, please update KANBAN ASAP&quot; \
+      --target &quot;$FEISHU_TARGET&quot; --priority medium
+  fi
+done
+
+# Check whether any Agent has been in &quot;Blocked&quot; status for over 1 hour
+blocked=$(grep &quot;🚫&quot; &quot;$KANBAN&quot; | tail -5)
+if [ -n &quot;$blocked&quot; ]; then
+  echo &quot;⚠️ Blocked marker detected:&quot; &gt;&gt; &quot;$LOG&quot;
+  echo &quot;$blocked&quot; &gt;&gt; &quot;$LOG&quot;
+  $FEISHU_CMD send &quot;🚫 An Agent is Blocked, please take a look&quot; \
+    --target &quot;$FEISHU_TARGET&quot; --priority high
+fi
+
+# Check whether any Agent has been idle for over 2 hours
+two_hours_ago=$(date -d '-2 hours' '+%H:00')
+idle_count=$(grep &quot;❌ Idle&quot; &quot;$KANBAN&quot; | grep -c &quot;$two_hours_ago&quot;)
+if [ &quot;$idle_count&quot; -ge 2 ]; then
+  echo &quot;⚠️ Agent idle for 2 consecutive hours&quot; &gt;&gt; &quot;$LOG&quot;
+  $FEISHU_CMD send &quot;⏰ An Agent has been idle for over 2 hours, consider assigning a task or reviewing proactive proposals&quot; \
+    --target &quot;$FEISHU_TARGET&quot; --priority low
+fi
+</code></pre>
+<p>This script runs once an hour and automatically scans the KANBAN file. If any Agent misses a check-in, stays blocked too long, or sits idle too long, Rex automatically sends Yason a Feishu message.</p>
+<p>Yason doesn't have to go check. Anomalies get pushed to him.</p>
+<h3 id="cross-platform-alternative-a-python-kanban-scanner">Cross-platform alternative: a Python KANBAN scanner</h3>
+<p>If you're not on Linux/macOS (or just don't want to depend on bash), this Python script does the same thing and works cross-platform:</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;hourly_kanban_scan.py - cross-platform KANBAN inspection script
+
+Environment variables:
+  KANBAN_PATH   - path to KANBAN.md (default: /memory/KANBAN.md)
+  LOG_PATH      - log file path (default: /var/log/agent-kanban-scan.log)
+  AGENT_LIST    - space-separated list of Agent names (default: kai rex max)
+  DRY_RUN       - set to 1 to only print, not send notifications
+
+Usage:
+  export KANBAN_PATH=&quot;./KANBAN.md&quot;
+  python hourly_kanban_scan.py
+&quot;&quot;&quot;
+
+import os
+import re
+import sys
+import logging
+from datetime import datetime, timedelta
+from pathlib import Path
+
+KANBAN = Path(os.getenv(&quot;KANBAN_PATH&quot;, &quot;/memory/KANBAN.md&quot;))
+LOG = Path(os.getenv(&quot;LOG_PATH&quot;, &quot;/var/log/agent-kanban-scan.log&quot;))
+AGENTS = os.getenv(&quot;AGENT_LIST&quot;, &quot;kai rex max&quot;).split()
+DRY_RUN = os.getenv(&quot;DRY_RUN&quot;, &quot;0&quot;) == &quot;1&quot;
+
+logging.basicConfig(
+    level=logging.INFO,
+    format=&quot;%(asctime)s %(message)s&quot;,
+    handlers=[logging.FileHandler(LOG), logging.StreamHandler()]
+)
+
+def send_alert(message: str, priority: str = &quot;medium&quot;):
+    if DRY_RUN:
+        logging.info(f&quot;[DRY_RUN] Send notification [{priority}]: {message}&quot;)
+        return
+    cmd = f'feishu send &quot;{message}&quot; --target yason --priority {priority}'
+    os.system(cmd)
+
+def parse_checkin_time(line: str) -&gt; str | None:
+    match = re.search(r'\| (\d{2}:\d{2}) \|', line)
+    return match.group(1) if match else None
+
+def scan():
+    if not KANBAN.exists():
+        logging.warning(f&quot;KANBAN file not found: {KANBAN}&quot;)
+        return
+
+    content = KANBAN.read_text(encoding=&quot;utf-8&quot;)
+    now = datetime.now()
+    current_hour = now.strftime(&quot;%H:00&quot;)
+
+    for agent in AGENTS:
+        agent_lines = [l for l in content.split(&quot;\n&quot;) if f&quot;| {agent}&quot; in l]
+        if not agent_lines:
+            send_alert(f&quot;⚠️ {agent} has no check-in record&quot;, &quot;medium&quot;)
+            continue
+
+        last_line = agent_lines[-1]
+        checkin_time = parse_checkin_time(last_line)
+
+        if checkin_time != current_hour:
+            send_alert(f&quot;⚠️ {agent} missed check-in at {current_hour}&quot;, &quot;medium&quot;)
+
+    if &quot;🚫&quot; in content:
+        blocked_lines = [l for l in content.split(&quot;\n&quot;) if &quot;🚫&quot; in l]
+        send_alert(f&quot;🚫 An Agent is Blocked:\n&quot; + &quot;\n&quot;.join(blocked_lines[-3:]), &quot;high&quot;)
+
+    two_hours_ago = (now - timedelta(hours=2)).strftime(&quot;%H:00&quot;)
+    idle_count = sum(1 for l in content.split(&quot;\n&quot;) if &quot;❌ Idle&quot; in l and two_hours_ago in l)
+    if idle_count &gt;= 2:
+        send_alert(&quot;⏰ An Agent has been idle for over 2 hours&quot;, &quot;low&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    scan()
+</code></pre>
+<p>This Python version is functionally identical to the bash version above, but runs natively on Windows, Linux, and macOS. You only need the Python standard library — no extra dependencies to install.</p>
+<h2 id="from-check-ins-to-observability">From check-ins to observability</h2>
+<p>Hourly check-ins solve the "is the Agent actually working?" question, but they can't answer another one — <strong>how well is the Agent doing the work?</strong></p>
+<p>How many tokens did each LLM call cost? How long did each tool call take? Was there any latency on each memory read/write? Check-ins don't record any of that. But these are the key metrics for diagnosing problems and optimizing performance.</p>
+<p>Yason later adopted the <strong>OpenTelemetry GenAI semantic conventions</strong>. This is a standard defined by the OpenTelemetry community, purpose-built for tracing the call chains of LLM applications:</p>
+<pre><code>LLM Call Trace: /memory/query
+  ├── Span: Memory Search (245ms, 0 error)
+  │   ├── embedding: text-embedding-3-small (32 tokens, 8ms)
+  │   └── vector_search: qdrant (220ms, 0 results → fell back to BM25)
+  ├── Span: LLM Call (1.2s, success)
+  │   ├── model: deepseek-v4-flash
+  │   ├── input_tokens: 2,847
+  │   └── output_tokens: 342
+  └── Span: Tool Execution: feishu_send (180ms, success)
+</code></pre>
+<p>With this tracing data, Yason can now answer questions he couldn't before:</p>
+<ul>
+<li>"Why is Agent A slower than Agent B?" → Because A does a vector search every time, while B has a cache.</li>
+<li>"Why is today's token consumption 30% higher than yesterday's?" → Because an Agent fell into a retry loop.</li>
+<li>"Why is the memory query getting slower and slower?" → Because the number of documents in the vector store doubled.</li>
+</ul>
+<p>The industry already has several open-source tools that support this kind of observability. Braintrust provides end-to-end LLM call tracing and experiment management; LangFuse focuses on open-source LLM observability (with self-hosting); LangSmith is the tracing platform. All three implement the OpenTelemetry GenAI semantic conventions and can plug straight into your Agent team.</p>
+<p>Yason chose LangFuse — because it's open-source, self-hostable, and Yason deployed it on the internal network so none of the Agents' LLM call data ever leaves the wall.</p>
+<h3 id="practice-how-to-collect-genai-telemetry-with-opentelemetry">Practice: how to collect GenAI telemetry with OpenTelemetry</h3>
+<p>Wiring OpenTelemetry GenAI telemetry into your own Agent takes just three steps:</p>
+<p><strong>Step 1: Install the OpenTelemetry SDK and GenAI extension</strong></p>
+<pre><code class="language-bash">pip install opentelemetry-sdk opentelemetry-exporter-otlp opentelemetry-instrumentation-openai
+</code></pre>
+<p><strong>Step 2: Initialize the Tracer in your Agent code</strong></p>
+<pre><code class="language-python">from opentelemetry import trace
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
+provider = TracerProvider()
+exporter = OTLPSpanExporter(endpoint=&quot;http://localhost:4318/v1/traces&quot;)
+provider.add_span_processor(BatchSpanProcessor(exporter))
+trace.set_tracer_provider(provider)
+tracer = trace.get_tracer(&quot;agent-team&quot;)
+</code></pre>
+<p><strong>Step 3: Add a Span around your LLM call</strong></p>
+<pre><code class="language-python">with tracer.start_as_current_span(&quot;llm_call&quot;) as span:
+    span.set_attribute(&quot;gen_ai.system&quot;, &quot;openai&quot;)
+    span.set_attribute(&quot;gen_ai.request.model&quot;, &quot;gpt-4&quot;)
+    span.set_attribute(&quot;gen_ai.request.max_tokens&quot;, 1024)
+
+    response = client.chat.completions.create(model=&quot;gpt-4&quot;, ...)
+
+    span.set_attribute(&quot;gen_ai.response.id&quot;, response.id)
+    span.set_attribute(&quot;gen_ai.response.usage.input_tokens&quot;, response.usage.prompt_tokens)
+    span.set_attribute(&quot;gen_ai.response.usage.output_tokens&quot;, response.usage.completion_tokens)
+</code></pre>
+<p>Every tool call, memory query, and LLM inference your Agent makes gets recorded as a Span tree. LangFuse or Braintrust will automatically pull this data from the OTLP endpoint and visualize it. Your Agent team now has the same observability as a microservices architecture.</p>
+<h3 id="efficiency-metrics">Efficiency metrics</h3>
+<p>The higher dimension of transparency is quantifying throughput. Yason defined a few key efficiency metrics, auto-summarized every week:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Definition</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task completion rate</td>
+<td>Tasks completed / tasks assigned (same day)</td>
+<td>&gt; 85%</td>
+</tr>
+<tr>
+<td>Average task duration</td>
+<td>Time from assignment to completion</td>
+<td>&lt; 2 hours</td>
+</tr>
+<tr>
+<td>Token output ratio</td>
+<td>Output tokens / consumed tokens</td>
+<td>&gt; 3:1</td>
+</tr>
+<tr>
+<td>Self-repair rate</td>
+<td>Errors caught by the Agent itself / total errors</td>
+<td>&gt; 40%</td>
+</tr>
+<tr>
+<td>Idle time share</td>
+<td>Idle time / total online time</td>
+<td>&lt; 25%</td>
+</tr>
+</tbody>
+</table>
+<p>"When an Agent's idle time climbs for three weeks straight, it means task allocation is uneven — you should give it more to do."</p>
+<h3 id="open-source-monitoring-tools-from-the-community">Open-source monitoring tools from the community</h3>
+<p>Yason later realized the community already had plenty of mature Agent monitoring tools ready to use, so you don't have to write your own scripts:</p>
+<ul>
+<li><strong>LangFuse</strong> (langfuse.com): open-source LLM observability platform supporting traces, evaluation, and cost tracking. The self-hosted version is free and shows you the cost and latency of every Agent's every conversation round.</li>
+<li><strong>Braintrust</strong> (braintrust.dev): experiment management and evaluation platform supporting end-to-end tracing of AI-native apps. Especially good for comparing the effects of different models and prompts.</li>
+<li><strong>AgentOps</strong> (agentops.ai): monitoring tool purpose-built for Agent Runtimes, tracking every step of an Agent's decisions, tool calls, and execution results.</li>
+<li><strong>OpsPilot</strong>: open-source AI ops assistant that can serve as infrastructure for your Agent team's observability.</li>
+<li><strong>Helicone</strong> (helicone.ai): LLM cost monitoring and log analysis, supporting a unified billing view across multiple model providers.</li>
+</ul>
+<p>Yason's reflection: "If I'd known about LangFuse, I wouldn't have had to write that check-in script myself — but combining these tools is ten times stronger than what I wrote."</p>
+<h2 id="the-2-strikes-rule">The "2 Strikes" rule</h2>
+<p>Is there a consequence for missing check-ins? Yes.</p>
+<p>Yason set up a "2 Strikes" rule:</p>
+<blockquote>
+<p><strong>2 missed check-ins in a row → Rex auto-sends a Feishu reminder</strong>
+<strong>3 missed check-ins in a row → Rex suspends that Agent's API Key</strong>
+<strong>5 missed check-ins in a row → Rex notifies Yason for manual intervention</strong></p>
+</blockquote>
+<p>This rule sounds harsh, but it sends a signal: <strong>checking in isn't optional — it's part of the workflow.</strong></p>
+<p>In a traditional remote team, check-ins exist for "supervision." In an Agent team, check-ins aren't about supervision — <strong>they're so Yason's brain doesn't have to track every thread at once.</strong> The Kanban's real-time status is his "external memory" — he doesn't have to remember what each Agent is doing; he just glances at the file.</p>
+<p>The diagram below shows the full hourly check-in workflow and escalation path:</p>
+<div class="mermaid">flowchart TD
+    A[On the hour: Agent updates KANBAN] --&gt; B{Missed check-in?}
+    B --&gt;|No| C{Status normal?}
+    B --&gt;|Yes| D[Rex logs the miss]
+
+    C --&gt;|✅ Done / 🔄 In Progress| E[Proceed normally]
+    C --&gt;|🚫 Blocked| F[Rex checks block duration]
+    C --&gt;|❌ Idle| G[Rex checks idle duration]
+
+    F --&gt;|Over 1 hour| H[Rex sends Feishu alert]
+    G --&gt;|Over 2 hours| I[Rex sends Feishu suggestion]
+
+    D --&gt; J{Miss count}
+    J --&gt;|2| K[Rex sends Feishu reminder]
+    J --&gt;|3| L[Suspend Agent's API Key]
+    J --&gt;|5| M[Notify Yason for manual intervention]
+
+    H --&gt; N[Yason reviews KANBAN]
+    I --&gt; N
+    K --&gt; N
+    L --&gt; N
+    M --&gt; N
+
+    N --&gt; O[Yason assigns task / makes decision]
+    O --&gt; A
+    E --&gt; A
+</div>
+<p>Every check-in is a tiny checkpoint. Anomalies escalate level by level — from auto-reminder to API suspension to manual intervention — and Yason only has to lift a finger at the final line of defense.</p>
+<h2 id="yasons-ten-minute-standup">Yason's ten-minute standup</h2>
+<p>Every morning at ten, Yason does one thing: opens the KANBAN file and spends ten minutes reviewing all the Agents' check-in records from the day before.</p>
+<p>He looks at three things:</p>
+<ol>
+<li><strong>Completion</strong> — Did yesterday's TODOs get done? If not, why not?</li>
+<li><strong>Blockers</strong> — Any persistent blockers? What decision does he need to make?</li>
+<li><strong>Idle time</strong> — Which Agent was idle the most? Is its workload under-filled?</li>
+</ol>
+<p>After reviewing, Yason writes out today's task assignments, writing them directly into the KANBAN's TODO column. The Agents see them at their next check-in.</p>
+<blockquote>
+<p><strong>Ten minutes isn't a management cost — it's an information-sync cost. Without those ten minutes, Yason might spend two hours chasing people down asking "what did you do yesterday?"</strong></p>
+</blockquote>
+<h2 id="the-real-payoff-of-transparency">The real payoff of transparency</h2>
+<p>Two months after introducing hourly check-ins, Yason found three unexpected gains:</p>
+<ol>
+<li><strong>Task granularity shrank naturally</strong> — To write a TODO every hour, Agents automatically broke big tasks into small steps. This "top-down decomposition" lifted the team's task completion rate by about 30%.</li>
+<li><strong>Agents started managing themselves</strong> — One Agent, seeing three days of check-in records all saying "fixing the same bug," proactively proposed a refactor plan. It spotted the problem in its own data.</li>
+<li><strong>Yason's anxiety index dropped straight down</strong> — Before, he'd wonder "what are they doing" every hour; now he glances at the KANBAN and knows everything.</li>
+</ol>
+<p>The third point might be the biggest gain. A team that doesn't make you "chase after them" is the most luxurious thing a human manager can have.</p>
+<h2 id="chapter-summary">Chapter summary</h2>
+<ul>
+<li>Agents won't proactively report being idle — a transparent Kanban makes status obvious at a glance</li>
+<li>A single Markdown file is the best Kanban; put it in the shared memory library for auto-sync</li>
+<li>Check-in format: TODO / Status / Risk — all three elements are mandatory</li>
+<li>An automated inspection script auto-checks for missed check-ins, blockers, and idle time, pushing anomalies directly</li>
+<li>The "2 Strikes" rule keeps check-ins serious</li>
+<li>Ten minutes of daily review replaces two hours of chasing</li>
+</ul>
+<blockquote>
+<p><strong>Next chapter preview:</strong> If you only rely on "feeling around" to check whether your Agents are working properly, you'll never keep up. Next chapter: Yason's Inspector — an Agent whose whole job is watching the other Agents.</p>
+</blockquote>
+<p><em>This article is from the column 'Being the Boss of AI', the full series is continuously updated:</em><a href="https://github.com/VokoForge/ai-prism"><em>GitHub - VokoForge/ai-prism</em></a></p>
+<hr />
+<p><img alt="Image showing the Kanban check-in workflow under hourly transparent management. On the left is the check-in flow, including steps like claiming tasks, starting work, updating progress, reporting blockers, and completing delivery, each with a corresponding color marker. On the right is the Kanban statistics panel showing the count of Agents in states like To-be-claimed, In Progress, In Review, Completed (today), and Blocked, along with data such as average completion time, on-time completion rate, and active Agent count. The bottom note says hourly check-ins aren't micro-management — they let everyone (humans included) know the project's progress at any moment." src="../assets/diagrams/en_09_2.svg" /></p></main>
+</div>
+<footer class="site-footer">
+  <span>By Yason · MindApex · VokoForge</span>
+  <a href="https://github.com/Madapexai/ai-agent-team-book" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://blogs.yason.click/" target="_blank" rel="noopener">Blog</a>
+  <a href="https://www.madapexai.com/" target="_blank" rel="noopener">madapexai.com</a>
+</footer>
+</body>
+</html>
