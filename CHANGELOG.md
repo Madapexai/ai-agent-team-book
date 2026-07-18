@@ -1,5 +1,11 @@
 # Changelog
 
+## [v1.1.1] - 2026-07-18
+
+### Fixed
+- Removed all 80 Feishu internal image links (`internal-api-drive-stream.feishu.cn`) from `zh/*.md` and `en/*.md` — they required auth and expired, so they rendered as broken images on GitHub
+- Converted `assets/banner.png` (was actually JPEG bytes in a `.png` file) to a valid PNG so the hero banner renders correctly on GitHub
+
 ## [v1.1.0] - 2026-07-18
 
 ### Added
