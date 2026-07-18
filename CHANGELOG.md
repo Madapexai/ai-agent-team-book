@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.1.0] - 2026-07-18
+
+### Added
+- **Full English version (`en/`)** — all 21 chapters + preface translated, attracting an international audience
+- Revamped bilingual README (`README.md` English / `README_zh.md` Chinese) with hero banner, maturity-roadmap, bilingual chapter index, star CTA, and contributing section
+- Two-language chapter table linking every chapter to both `zh/` and `en/` versions
+
+### Changed
+- Rewrote both README files for clarity and appeal (why / what you'll learn / who it's for / 21-day L0→L3 path)
+
 ## [v1.0.0] - 2026-07-12
 
 ### Added
