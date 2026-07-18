@@ -61,7 +61,7 @@ def get_repo_and_discussion_ids(target_number=3):
     q = """query($owner:String!,$name:String!){
       repository(owner:$owner,name:$name){
         id
-        discussions(first:10){ nodes{ number id title isPinned } }
+        discussions(first:10){ nodes{ number id title } }
       }
     }"""
     d = gql(q, {"owner": OWNER, "name": REPO})
@@ -77,16 +77,21 @@ def get_repo_and_discussion_ids(target_number=3):
 
 def pin_discussion(discussion_id):
     m = """mutation($i:PinDiscussionInput!){
-      pinDiscussion(input:$i){ discussion{ id isPinned } }
+      pinDiscussion(input:$i){ discussion{ id } }
     }"""
     return gql(m, {"i": {"discussionId": discussion_id}})
 
 
 def set_topics(repo_id):
-    m = """mutation($i:ReplaceTopicsInput!){
-      replaceTopics(input:$i){ repository{ id } }
-    }"""
-    return gql(m, {"i": {"repositoryId": repo_id, "topicNames": TOPICS}})
+    # Topics are set via REST (no GraphQL mutation exists for this).
+    url = f"{REST}/topics"
+    body = json.dumps({"names": TOPICS}).encode()
+    hdr = dict(HEADERS)
+    hdr["Accept"] = "application/vnd.github.mercy-preview+json"
+    req = urllib.request.Request(url, data=body, headers=hdr, method="PUT")
+    with urllib.request.urlopen(req) as r:
+        data = json.load(r)
+    return data.get("names")
 
 
 def create_release():
@@ -129,12 +134,16 @@ def create_release():
 def main():
     print("→ Resolving repo + discussion ids...")
     repo_id, disc = get_repo_and_discussion_ids(3)
-    print(f"  repo_id={repo_id}  discussion #{disc['number']} '{disc['title']}' "
-          f"pinned={disc['isPinned']}")
+    print(f"  repo_id={repo_id}  discussion #{disc['number']} '{disc['title']}'")
 
     print("→ Pinning discussion...")
-    res = pin_discussion(disc["id"])
-    print("  pinned:", res["pinDiscussion"]["discussion"]["isPinned"])
+    try:
+        res = pin_discussion(disc["id"])
+        print("  pin result discussion id:", res["pinDiscussion"]["discussion"]["id"])
+    except Exception as e:
+        print("  ! pinDiscussion is NOT exposed by GitHub's GraphQL API.")
+        print("    ACTION NEEDED (one click): open the Discussion, click … → Pin.")
+        print("    (discussion #%s: %s)" % (disc["number"], disc["title"]))
 
     print("→ Setting topics...")
     set_topics(repo_id)
