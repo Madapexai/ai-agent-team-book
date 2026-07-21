@@ -9,8 +9,6 @@
 [![Chapters](https://img.shields.io/badge/chapters-21-orange)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
 
-![banner](assets/banner.png)
-
 ---
 
 ## 🚀 Why This Book?

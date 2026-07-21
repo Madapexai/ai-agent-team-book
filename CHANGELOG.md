@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.1.5] - 2026-07-18
+
+### Changed
+- Removed the local `assets/banner.png` image reference from `README.md` (kept the shields.io status badges). README now renders without the banner asset.
+
 ## [v1.1.4] - 2026-07-18
 
 ### Added (English-edition launch kit)
